@@ -361,6 +361,9 @@ http://www.CellML.org/
         <variable name="d5" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="a5" public_interface="in" units="second_order_rate_constant_units"/>
         <variable cmeta:id="va_e2_eq31.r" name="e_2" units="micromolar"/>
+        <!--*-->
+        <variable name="mek" units="micromolar"/>
+        <!--*-->
         <!-- #3-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -372,9 +375,6 @@ http://www.CellML.org/
                     <ci>mosstare2</ci>
                 </apply>
             </apply>
-        </math>
-        <variable name="mek" units="micromolar"/>
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
                 <ci>mek</ci>
@@ -708,6 +708,7 @@ http://www.CellML.org/
         <variable name="a5" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mosstar" public_interface="in" units="micromolar"/>
         <variable cmeta:id="va_mekpase_eq33.r" name="mekpase" units="micromolar"/>
+        <!--*-->
         <!-- #7-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -889,6 +890,7 @@ http://www.CellML.org/
         <variable name="k9" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="a9" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mapk" units="micromolar"/>
+        <!--*-->
         <!-- #10-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -1209,7 +1211,7 @@ http://www.CellML.org/
         <variable name="mapkstarmekstarstar" public_interface="in" units="micromolar"/>
         <variable name="k10" public_interface="in" units="first_order_rate_constant_units"/>
         <variable cmeta:id="va_mapkpase_eq35.r" name="mapkpase" units="micromolar"/>
-        <!-- It is being solved in Python-->
+        <!--*-->
         <!-- #14-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>

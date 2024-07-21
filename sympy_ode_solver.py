@@ -6,6 +6,7 @@ import scipy.integrate
 import matplotlib.pyplot as plt
 import sys
 from colorama import Fore, Back, Style, init
+import signal
 
 # importing internal packages
 from compound_element_sorter import variable_name_mapper, initial_value_finder
@@ -45,7 +46,9 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
 
     x = symbols( 'x:' + str(number_of_variables) )                                                           # Creation of the number of Sympy variables that I need
 
-    chebi_to_CellML, chebi_initial_values = initial_value_finder( components, general_equations )
+    chebi_initial_values = initial_value_finder( components, general_equations )
+
+    chebi_to_CellML = variable_name_mapper( components )
 
 
 
@@ -101,8 +104,8 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
 
                 except ValueError as KE:
 
-                    print("Initial Value is not defined for \"{v}\" and the ODEs cannot be solved without having initial values for all variables".format( v = key ))
-                    sys.exit("Exiting due to an error\nModify CellML file and check to see if you have defined the inital value for this variable")
+                    print(Style.BRIGHT + Fore.RED + "Initial Value is not defined for \"{v}\" and the ODEs cannot be solved without having initial values for all variables".format( v = key ))
+                    sys.exit(Style.BRIGHT + Fore.MAGENTA +"Exiting due to an error\nModify CellML file and check to see if you have defined the inital value for this variable")
         
         variable = symbols('x'+str(i))
 
@@ -127,11 +130,41 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
 
     t_eval = np.linspace( 0, t_max, n )
 
-    solution = scipy.integrate.solve_ivp( f, (0, t_max), initial_values, t_eval = t_eval )
+    # Timeout handler
+    def timeout_handler():
+        raise TimeoutError("Execution time exceeded")
+    
+    # Set the timeout duration (in seconds)
+    timeout_duration = 15
 
-    y = solution.y
+    # Register the timeout handler
+    signal.signal(signal.SIGALRM, timeout_handler)
+    signal.alarm(timeout_duration)
 
-    return y, t_eval, x, sympy_to_CellML
+    try:
+
+        print(Style.BRIGHT + Fore.YELLOW + "Solving ODEs ...")
+
+        solution = scipy.integrate.solve_ivp( f, (0, t_max), initial_values, t_eval = t_eval )
+
+        # Cancel the alarm if the execution completes within the timeout duration
+        signal.alarm(0)
+
+        print(Style.BRIGHT + Fore.YELLOW + "ODEs Solved")
+    
+        y = solution.y
+
+        return y, t_eval, x, sympy_to_CellML
+    
+    except TimeoutError:
+
+        print(Style.BRIGHT + Fore.RED + "\nTimeout, {te} seconds, exceeded and solution didn't converge!".format( te = timeout_duration ))
+        exit(Style.BRIGHT + Fore.MAGENTA + "\nModify boundary conditions and run the code again!\n")
+
+    except Exception:
+
+        print(Style.BRIGHT + Fore.RED + "\nTimeout, {te} seconds, exceeded and solution didn't converge!".format( te = timeout_duration ))
+        exit(Style.BRIGHT + Fore.MAGENTA + "\nModify boundary conditions and run the code again!\n")
 
 
 
@@ -142,8 +175,6 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
 
 def plotter( solutions, time, variables_to_plot, x, sympy_to_CellML, show_legends = 'on' ):
 
-    import matplotlib.pyplot as plt
-
     if not variables_to_plot:
 
         legends = []
@@ -153,14 +184,23 @@ def plotter( solutions, time, variables_to_plot, x, sympy_to_CellML, show_legend
 
             legends.append( sympy_to_CellML[variable] )
 
-        plt.plot( time, solutions.T )
-        plt.title( 'Chemical Kinetics' )
-        if show_legends == 'on' or show_legends == 'On' or show_legends == 'ON':
-            plt.legend( legends, shadow = True )
-        plt.xlabel('time')
-        plt.ylabel('concentration')
+        try:
 
-        plt.show()
+
+            plt.plot( time, solutions.T )
+            plt.title( 'Chemical Kinetics' )
+            if show_legends == 'on' or show_legends == 'On' or show_legends == 'ON':
+                plt.legend( legends, shadow = True )
+            plt.xlabel('time')
+            plt.ylabel('concentration')
+            plt.grid(True)
+
+            plt.show()
+
+        except:
+
+            print("Solution has failed and cannot be plotted")
+            exit()
 
     else:
 
@@ -184,7 +224,14 @@ def plotter( solutions, time, variables_to_plot, x, sympy_to_CellML, show_legend
             
             if flag == True:
 
-                plt.plot(time, solutions[int(digits)])
+                try:
+
+                    plt.plot(time, solutions[int(digits)])
+
+                except:
+
+                    print("Solution has failed and cannot be plotted.")
+                    exit()
 
             else:
 

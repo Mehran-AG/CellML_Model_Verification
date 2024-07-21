@@ -7,7 +7,7 @@ from colorama import Fore, Back, Style, init
 import compound_element_sorter as ces
 import chebi_fetch as chf
 
-def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rate_equations_dict, general_equations, components, printing = 'off' ):
+def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rate_equations_dict, general_equations, components, imported_bc_equations, printing = 'off' ):
 
     """
     This function creates the concentration rate equations from the stoichiometric matrix that is constructed from the variables in CellML file
@@ -15,11 +15,13 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
     And the function returns the concentration rate equations
     """
 
-    _ , _ , reaction_rates, _ , boundary_conditions, equation_variables = ces.variable_sorter( components )
+    _ , _ , _ , reaction_rates, _ , boundary_conditions, equation_variables = ces.variable_sorter( components )
 
     concentration_rate_equations = {}                                                           # This dictionary will map the compound name to the corresponding equation for it
 
-    chebi_to_CellML, chebi_initial_values = ces.initial_value_finder( components, general_equations )
+    chebi_initial_values = ces.initial_value_finder( components, general_equations )
+
+    chebi_to_CellML = ces.variable_name_mapper( components )
 
     ev_variables = []
 
@@ -84,11 +86,37 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
                     # If it matches with the compound, then it will be added to the equation
                     if bc_compound == compound:
 
+                        bc_name = bc.name()
+
                         rate_symbol = symbols( bc.name() )
 
                         rhs = rhs + rate_symbol                                                     # Here I need to multiply the stoichiometric coefficient element with the reaction name to construct its rate consumption equation
 
-                        rhs = rhs.subs( rate_symbol, float( bc.initialValue() ) )
+                        if not bc.initialValue():
+
+                            bc_value = None
+
+                            try:
+
+                                imported_bc_equations
+
+                                for eq in imported_bc_equations:
+
+                                    if str(eq.lhs) == bc_name:
+
+                                        bc_value = eq.rhs
+                                        break
+
+                            except:
+
+                                print("There is no initial value for boundary condition {bc_condition}, and no imported equation is found for it.".format( bc_condition = bc_name ))
+                                exit()
+
+                        else:
+
+                            bc_value = bc.initialValue()                            # The value of the boundary condition is stored in a variable
+
+                        rhs = rhs.subs( rate_symbol, bc_value )
 
             # Since there are rows for boundary conditions in the stoichionetric matrix, the concentration rate equation for these species will be zero, so we try not to write these equations
             if rhs != 0:

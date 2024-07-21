@@ -27,7 +27,10 @@
         <variable cmeta:id="rc_f_1" initial_value="0.42" name="k_f" units="per_sec_per_M2"/>
         <variable cmeta:id="rc_r_1" initial_value="0.17" name="k_r" units="per_sec_per_M"/>
         <variable cmeta:id="ra_1" name="v_1" units="M"/>
-        <variable cmeta:id="bc_36889" initial_value="0.05" name="bc_1" units="M_per_sec"/>
+        <variable cmeta:id="bc_36889_1" initial_value="0.05" name="bc_1" units="M_per_sec"/>
+        <variable cmeta:id="bc_36889_2" name="bc_2" units="M_per_sec"/>
+        <variable cmeta:id="bc_36889_3" name="bc_3" units="M_per_sec"/>
+        <variable cmeta:id="bv_36889_3" initial_value="2" name="k4" units="M_per_sec"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>

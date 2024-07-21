@@ -55,7 +55,7 @@ def cellml_compound_element_sorter ( components ):
 
     bcvirtual_compound_coefficients = {}        # This is a dictionary to store the compound names for boundary conditions and a value showing if the compound is an external or internal one.
 
-    variables, coefficients, _ , _ , boundary_conditions, _ = variable_sorter( components )
+    variables, coefficients, _ , _ , _ , boundary_conditions, _ = variable_sorter( components )
 
     # Going through all variables: 1-to get their chemical composition (Or any name assigned to it in ID) 2-Assign indices to the compounds to assign a row in stoichiometric matrix by the index or a column in the elemental matrix
 
@@ -227,6 +227,8 @@ def variable_sorter( components, all_vars = 'Y' ):
 
     coefficients = []
 
+    enzymes = []
+
     rate_constants = []
 
     rates = []
@@ -251,6 +253,7 @@ def variable_sorter( components, all_vars = 'Y' ):
 
                     if identifier == 'va': variables.append( component.variable(v) )    # Since we have two different types of parameters in CellML, I put them in different lists
                     elif identifier == 'co': coefficients.append( component.variable(v) )
+                    elif identifier == 'en': enzymes.append( component.variable(v) )
                     elif identifier == 'rc': rate_constants.append( component.variable(v) )
                     elif identifier == 'ra': rates.append( component.variable(v) )
                     elif identifier == 'bc': boundary_conditions.append( component.variable(v) )
@@ -272,7 +275,7 @@ def variable_sorter( components, all_vars = 'Y' ):
 
     if ( all_vars == "Y" or all_vars == "y" ): 
 
-        return variables, coefficients, rates, rate_constants, boundary_conditions, equation_variables
+        return variables, coefficients, enzymes, rates, rate_constants, boundary_conditions, equation_variables
     
     else:
 
@@ -310,18 +313,14 @@ def variable_name_mapper( components ):
 
             compound = chebi_code.split('-')[0]
 
-        chebi_initialvalues[compound] = initial_value
-
         chebi_to_CellML[compound] = name
 
-    return chebi_to_CellML, chebi_initialvalues
+    return chebi_to_CellML
 
 
 def initial_value_finder( components, general_equations ):
 
     chebi_initialvalues = {}
-
-    chebi_to_CellML = {}
 
     variables, _ = variable_sorter( components , 'n')
 
@@ -370,6 +369,5 @@ def initial_value_finder( components, general_equations ):
 
 
         chebi_initialvalues[compound] = initial_value
-        chebi_to_CellML[compound] = name
 
-    return chebi_to_CellML, chebi_initialvalues
+    return chebi_initialvalues

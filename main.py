@@ -30,21 +30,43 @@ import compound_element_sorter as ces
 import equation_builder as eb
 import matrix_equation_builder as meb
 import sympy_ode_solver as sos
+import equations_from_text as eft
 
 command = 'cls' if os.name == 'nt' else 'clear'
 os.system(command)
 
-
-
-cellml_file_dir = './docs/huang_ferrell_1996.cellml'
-cellml_file = './docs/huang_ferrell_1996.cellml'
+#file_path = './docs/aguda_b_1999.cellml'
+#file_path = './docs/huang_ferrell_1996.cellml'
+file_path ='./docs/NitrosylBromide.cellml'
+cellml_file_dir = file_path
+cellml_file = file_path
 cellml_strict_mode = False
+
+#bc_file_path = None
+bc_file_path = './docs/equations1.txt'
+
+solve_equations = True
+
 
 components = cmlr.CellML_reader( cellml_file, cellml_file_dir, cellml_strict_mode )
 
-variables, coefficients, reaction_rates, rate_constants, boundary_conditions, equation_variables = ces.variable_sorter( components )
+variables, coefficients, enzymes, reaction_rates, rate_constants, boundary_conditions, equation_variables = ces.variable_sorter( components )
 
-reaction_rate_equations_dict, bc_equations_dict, general_equations = eb.equation_builder( components, 'on' ) #print
+try:
+    
+    bc_file_path
+
+    imported_bc_equations = eft.read_equations_from_file( bc_file_path )
+
+except:
+
+    imported_bc_equations = None
+
+#reaction_rate_equations_dict, bc_equations_dict, general_equations = eb.equation_builder( components, imported_bc_equations,  'on' ) #print
+
+if solve_equations == True:
+
+    reaction_rate_equations_dict, bc_equations_dict, general_equations = eb.equation_builder( components, imported_bc_equations, 'on' ) #print
 
 element_indices, compound_indices, reaction_indices, symbols_list, compound_to_composition, bcvirtual_compound_coefficients = ces.cellml_compound_element_sorter ( components )
 
@@ -52,18 +74,22 @@ element_matrix = emb.elemental_matrix_builder( compound_indices, element_indices
 
 stoichiometric_matrix = smb.stoichiometric_matrix_builder( reaction_indices, compound_indices, coefficients, bcvirtual_compound_coefficients )
 
-concentration_rate_equations = meb.matrix_equation_builder ( stoichiometric_matrix, compound_indices, reaction_indices, reaction_rate_equations_dict, general_equations, components, 'on' ) #print
+if solve_equations == True:
+
+    concentration_rate_equations = meb.matrix_equation_builder ( stoichiometric_matrix, compound_indices, reaction_indices, reaction_rate_equations_dict, general_equations, components, imported_bc_equations, 'on' ) #print
 
 rate_matrix = rmb.rate_matrix_builder ( symbols_list )
 
 # Calling the function
 vf.verification( stoichiometric_matrix, element_matrix, element_indices, compound_indices, reaction_indices, rate_matrix )
 
-solution, time, x, sympy_to_CellML = sos.sympy_ode_solver( components, concentration_rate_equations, general_equations, 15, 0.001 )
+if solve_equations == True:
 
-variables_to_plot = []
+    solution, time, x, sympy_to_CellML = sos.sympy_ode_solver( components, concentration_rate_equations, general_equations, 40, 0.001 )
 
-sos.plotter(  solution, time, variables_to_plot, x, sympy_to_CellML, 'off' )
+    variables_to_plot = []
+
+    sos.plotter(  solution, time, variables_to_plot, x, sympy_to_CellML, 'off' )
 
 
 

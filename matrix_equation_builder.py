@@ -15,7 +15,7 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
     And the function returns the concentration rate equations
     """
 
-    _ , _ , _ , reaction_rates, _ , boundary_conditions, equation_variables = ces.variable_sorter( components )
+    _ , _ , _ , reaction_rates, _ , boundary_conditions, equation_variables, _ = ces.variable_sorter( components )
 
     concentration_rate_equations = {}                                                           # This dictionary will map the compound name to the corresponding equation for it
 
@@ -52,26 +52,89 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
                 if element != 0:                                                                    # If the element value is not zero, then it participates in this reaction. We have to get the reaction name here.
 
                     reaction_name = next( ( key for key, value in columns.items() if value == column_number ), None )
+                    
                     temporary_reactions[reaction_name] = element
 
             rhs = 0                                                                                 # Here, I construct an empty right hand side for the equation
 
+            already_added_BC = []
+
             for reaction in temporary_reactions.keys():                                             # I nned to look for the reaction in the reactions list to find its name since I only have ids of the reaction which might be different with its variable name in CellML
 
-                for reaction_rate in reaction_rates:
+                # if reaction == '9.1-9.2-9.3':
+                #     print('Here')
 
-                    if reaction == reaction_rate.id().split('_')[1]:                                # Here I find the CellML reaction component and retrieve its variable name
-                        
-                        rate_symbol = symbols(reaction_rate.name())
-                        
-                        rhs = rhs + temporary_reactions[reaction] * rate_symbol                     # Here I need to multiply the stoichiometric coefficient element with the reaction name to construct its rate consumption equation
+                reaction_and_parts = reaction.split('-')
 
-                        rhs = rhs.subs( rate_symbol, reaction_rate_equations_dict[reaction_rate.name()] )
+                previous_reactions_to_check = []
+
+                for reaction_and_part in reaction_and_parts:
+
+                    should_continue = False
+
+                    if len( reaction_and_part.split('.') ) > 1:
+
+                        reaction_to_check = reaction_and_part.split('.')[0]
+
+                        for previous_reaction_to_check in previous_reactions_to_check:
+
+                            if previous_reaction_to_check == reaction_to_check:
+
+                                should_continue = True
+
+                                break
+
+                        if should_continue:
+                            continue
+
+                        for reaction_rate in reaction_rates:
+
+                            if reaction_to_check == reaction_rate.id().split('_')[1]:                                # Here I find the CellML reaction component and retrieve its variable name
+                                
+                                rate_symbol = symbols(reaction_rate.name())
+                                
+                                rhs = rhs + temporary_reactions[reaction] * rate_symbol                     # Here I need to multiply the stoichiometric coefficient element with the reaction name to construct its rate consumption equation
+
+                                previous_reactions_to_check.append( reaction_to_check )
+
+                                try:
+
+                                    rhs = rhs.subs( rate_symbol, reaction_rate_equations_dict[reaction_rate.name()] )
+
+                                except:
+
+                                    rhs = rhs.subs( rate_symbol, 0 )
+
+                    else:
+                        
+                        reaction_to_check = reaction_and_part
+
+                        for reaction_rate in reaction_rates:
+
+                            if reaction_to_check == reaction_rate.id().split('_')[1]:                                # Here I find the CellML reaction component and retrieve its variable name
+                                
+                                rate_symbol = symbols(reaction_rate.name())
+                                
+                                rhs = rhs + temporary_reactions[reaction] * rate_symbol                     # Here I need to multiply the stoichiometric coefficient element with the reaction name to construct its rate consumption equation
+
+                                try:
+
+                                    rhs = rhs.subs( rate_symbol, reaction_rate_equations_dict[reaction_rate.name()] )
+
+                                except:
+
+                                    rhs = rhs.subs( rate_symbol, 0 )
 
                 # ----------- << We will go through all boundary conditions to see which one belongs to this compound that the concentration rate equation being written
                 for bc in boundary_conditions:
 
                     chebi_code = bc.id().split('_')[1]                                              # Chebi code stored in the boundaru condition's id
+
+                    bc_id = None
+                    
+                    if len( bc.id().split('_') ) > 2:
+
+                        bc_id = bc.id().split('_')[1] + bc.id().split('_')[2]
 
                     # Getting the compound name for the boundary condition since the stoichionetric is built upon the compound names
                     if ces.all_digits( chebi_code ):
@@ -84,7 +147,9 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
 
                     # Checking to see if it matches with the compound that its rate is being written
                     # If it matches with the compound, then it will be added to the equation
-                    if bc_compound == compound:
+                    if bc_compound == compound and bc_id not in already_added_BC:
+
+                        already_added_BC.append( bc_id )
 
                         bc_name = bc.name()
 

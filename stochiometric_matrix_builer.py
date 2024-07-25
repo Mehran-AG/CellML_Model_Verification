@@ -31,31 +31,43 @@ def stoichiometric_matrix_builder( reaction_indices, compound_indices, coefficie
 
         chebi_code = coefficient.id().split('_')[1]                                 # At first we get the compound chebi code which this coeffcient belongs to
 
-        reaction_number = coefficient.id().split('_')[2]                            # Then we get the reaction which this coeffcient is applied for this compound
+        reaction_parts = coefficient.id().split('_')[2].split('-')                            # Then we get the reaction which this coeffcient is applied for this compound
         
-        # We construct the stoichiometric matrix based on the chemical formulas of the compounds not the variable name that the user has given to it
-        if ces.all_digits( chebi_code ):
+        already_added = []
 
-            formula = chf.chebi_formula( chebi_code )                               # If the chebi code part is all digits, it is considered as chebi code, otherwise it is the name of the compound
+        for reaction_part in reaction_parts:
 
-        else:
+            reaction_number = reaction_part.split('.')[0]
 
-            formula = chebi_code
+            if reaction_number in already_added:
 
-        # Now we will try getting the row index for this compound. We have stored indices for the compounds as we were reading all of them from the CellML file
-        try:
+                continue
+            
+            already_added.append( reaction_number )
 
-            row = compound_indices[formula]
+            # We construct the stoichiometric matrix based on the chemical formulas of the compounds not the variable name that the user has given to it
+            if ces.all_digits( chebi_code ):
 
-        except KeyError as KE:
+                formula = chf.chebi_formula( chebi_code )                               # If the chebi code part is all digits, it is considered as chebi code, otherwise it is the name of the compound
 
-            print("The stoichiometric coefficient for compound {v} cannot be found in your coefficients of CellML".format( v = KE ))
-            sys.exit("Exiting due to an error\nModify CellML file and check to see if you have this compound or errors in a ChEBI code in reaction {r}".format( r = reaction_number))
+            else:
+
+                formula = chebi_code
+
+            # Now we will try getting the row index for this compound. We have stored indices for the compounds as we were reading all of them from the CellML file
+            try:
+
+                row = compound_indices[formula]
+
+            except KeyError as KE:
+
+                print("TThere is not a variable for compound {v} in CellMl while there is a stoichiometric coefficient defined for it.".format( v = KE ))
+                sys.exit("Exiting due to an error\nModify CellML file and check to see if you have this compound or errors in a ChEBI code in reaction {r}".format( r = reaction_number))
 
 
-        column = reaction_indices[reaction_number]                                  # Now we try to get the column for this compound which is the reaction in which this compound participates with this coefficient
+            column = reaction_indices[reaction_number]                                  # Now we try to get the column for this compound which is the reaction in which this compound participates with this coefficient
 
-        stoichiometric_matrix[ row, column ] = coefficient.initialValue()           # Then we store the value of the coefficient in the stoichiometric matrix
+            stoichiometric_matrix[ row, column ] = coefficient.initialValue()           # Then we store the value of the coefficient in the stoichiometric matrix
 
 
 
@@ -73,7 +85,7 @@ def stoichiometric_matrix_builder( reaction_indices, compound_indices, coefficie
 
         except KeyError as KE:
 
-            print("The stoichiometric coefficient for compound {v} cannot be found in your coefficients of CellML".format( v = KE ))
+            print("There is not a variable for compound {v} in CellMl while there is a boundary condition defined for it.".format( v = KE ))
             sys.exit("Exiting due to an error\nModify CellML file and check to see if you have this compound or errors in a ChEBI code in reaction {r}".format( r = reaction_number))
 
         # here we get the column number for this virtual reaction

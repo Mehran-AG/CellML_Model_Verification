@@ -1,6 +1,6 @@
 
 # importing external or built-in packages
-from sympy import symbols, lambdify
+from sympy import symbols, lambdify, Symbol
 import numpy as np
 import scipy.integrate
 import matplotlib.pyplot as plt
@@ -9,10 +9,11 @@ from colorama import Fore, Back, Style, init
 import signal
 
 # importing internal packages
-from compound_element_sorter import variable_name_mapper, initial_value_finder
+from compound_element_sorter import variable_name_mapper, initial_value_finder, variable_sorter
+from matrix_equation_builder import printer
 
 
-def sympy_ode_solver( components, concentration_rate_equations, general_equations, t_max = 10, delta_t = 0.001 ):
+def sympy_ode_solver( components, concentration_rate_equations, general_equations, t_max = 10, delta_t = 0.001, printing = 'off' ):
 
     """
     This function solves a set of Ordinary Differential Equations (ODEs) by Sympy internal solver which is Runge Kutta 4th order.
@@ -23,17 +24,68 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
 
     all_symbols = set().union( *[eq.free_symbols for eq in concentration_rate_equations.values()] )     # I need to know all variables that I have in these equations. This is why I should have replaced all variables that have values and are not meant ot be solved for
 
-    number_of_variables = len(all_symbols)                                                              # I need to count the number of variables that I have so I can create the list of sympy variables as 'x' shown below
+    number_of_variables = len( all_symbols )                                                              # I need to count the number of variables that I have so I can create the list of sympy variables as 'x' shown below
 
     number_of_equations = len( concentration_rate_equations )
 
+    chebi_to_CellML = variable_name_mapper( components )
+
+    # ------------ << Calling sorter function to sort the variables into their corresponding lists >> --------------
+    _ , _ , _ , _ , reaction_rate_constants, boundary_conditions, _ , boundary_values = variable_sorter( components )
+
+    # Initialize colorama
+    init( autoreset=True )
+
     if number_of_variables != number_of_equations:
 
-        # Initialize colorama
-        init(autoreset=True)
+        if number_of_equations > number_of_variables:
 
-        print( Style.BRIGHT + Fore.RED + "The number of equations, {e}, does not match the number of variables, {v}.".format( e = number_of_equations, v = number_of_variables ) )
-        sys.exit("Exiting due to an error\nModify CellML file and check to see if you have defined the equations correctly\n\n")
+            print( Style.BRIGHT + Fore.RED + "The number of equations, {e}, does not match the number of variables, {v}.".format( e = number_of_equations, v = number_of_variables ) )
+            sys.exit("Exiting due to an error\nModify CellML file and check to see if you have defined the equations correctly\n\n")
+
+        elif number_of_equations < number_of_variables:
+
+            compounds_of_equations = [symbols(chebi_to_CellML[key]) for key in concentration_rate_equations.keys()]
+
+            not_state_variables = list( all_symbols - set( compounds_of_equations ) )
+
+            for variable_to_find in not_state_variables:
+                
+                for key, equation_to_check in concentration_rate_equations.items():
+
+                    if variable_to_find in equation_to_check.free_symbols:
+
+                        for variable_with_value in reaction_rate_constants:
+
+                            if variable_with_value.name() == str( variable_to_find ):
+
+                                initial_value = variable_with_value.initialValue()
+
+                                concentration_rate_equations[key] = equation_to_check.subs( variable_to_find, initial_value )
+
+                        for variable_with_value in boundary_values:
+
+                            if variable_with_value.name() == str( variable_to_find ):
+
+                                initial_value = variable_with_value.initialValue()
+
+                                concentration_rate_equations[key] = equation_to_check.subs( variable_to_find, initial_value )
+
+            # After replacing the variables which are not state variables and were unknown at first, We need to find the variables again
+            all_symbols = set().union( *[eq.free_symbols for eq in concentration_rate_equations.values()] )
+
+            number_of_variables = len( all_symbols )
+
+            if number_of_variables != number_of_equations:
+
+                print( Style.BRIGHT + Fore.RED + "The number of equations, {e}, does not match the number of variables, {v}.".format( e = number_of_equations, v = number_of_variables ) )
+                print( "Your variables are:\n{var}".format( var = all_symbols ) )
+                sys.exit("Exiting due to an error\nModify CellML file and check to see if you have defined the equations correctly\n\n")
+
+            if printing == 'on' or printing =='On' or printing == 'ON':
+        
+                printer( concentration_rate_equations, 'Concentration rate equations generated by Stoichiometric Matrix after substitution of constants:' )
+
 
     sympy_to_CellML = {}                                                                                # I need to map sympy variables to CellML variables written by user. This is because I have ChEBI code and variable name for the variables that I have
                                                                                                         # For construction of the stoichiometric matrix, I used ChEBI codes and here I need variable names
@@ -47,10 +99,6 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
     x = symbols( 'x:' + str(number_of_variables) )                                                           # Creation of the number of Sympy variables that I need
 
     chebi_initial_values = initial_value_finder( components, general_equations )
-
-    chebi_to_CellML = variable_name_mapper( components )
-
-
 
     # I need to replace the CellML variables I have used to write the equations with the Sympy variables which are like 'x0', 'x1', 'x3', ...
 

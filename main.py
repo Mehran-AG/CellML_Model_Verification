@@ -35,22 +35,22 @@ import equations_from_text as eft
 command = 'cls' if os.name == 'nt' else 'clear'
 os.system(command)
 
-#file_path = './docs/aguda_b_1999.cellml'
+file_path = './docs/aguda_b_1999.cellml'
 #file_path = './docs/huang_ferrell_1996.cellml'
-file_path ='./docs/NitrosylBromide.cellml'
+#file_path ='./docs/NitrosylBromide.cellml'
 cellml_file_dir = file_path
 cellml_file = file_path
 cellml_strict_mode = False
 
 #bc_file_path = None
-bc_file_path = './docs/equations1.txt'
+bc_file_path = './docs/equations.txt'
 
 solve_equations = True
 
 
 components = cmlr.CellML_reader( cellml_file, cellml_file_dir, cellml_strict_mode )
 
-variables, coefficients, enzymes, reaction_rates, rate_constants, boundary_conditions, equation_variables = ces.variable_sorter( components )
+variables, coefficients, enzymes, reaction_rates, rate_constants, boundary_conditions, equation_variables, boundary_values = ces.variable_sorter( components )
 
 try:
     
@@ -85,7 +85,7 @@ vf.verification( stoichiometric_matrix, element_matrix, element_indices, compoun
 
 if solve_equations == True:
 
-    solution, time, x, sympy_to_CellML = sos.sympy_ode_solver( components, concentration_rate_equations, general_equations, 40, 0.001 )
+    solution, time, x, sympy_to_CellML = sos.sympy_ode_solver( components, concentration_rate_equations, general_equations, 40, 0.001, 'on' )
 
     variables_to_plot = []
 

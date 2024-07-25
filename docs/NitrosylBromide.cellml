@@ -31,6 +31,7 @@
         <variable cmeta:id="bc_36889_2" name="bc_2" units="M_per_sec"/>
         <variable cmeta:id="bc_36889_3" name="bc_3" units="M_per_sec"/>
         <variable cmeta:id="bv_36889_3" initial_value="2" name="k4" units="M_per_sec"/>
+        <variable cmeta:id="bc_36889_4" name="bc_4" units="M_per_sec"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>

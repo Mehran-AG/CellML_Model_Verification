@@ -37,7 +37,7 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
     equations_display = []                  # The equations to be displayed on the screen
 
     # ------------ << Calling sorter function to sort the variables into their corresponding lists >> --------------
-    variables, coefficients, enzymes, reaction_rates, reaction_rate_constants, boundary_conditions, equation_variables = ces.variable_sorter( components )
+    variables, coefficients, enzymes, reaction_rates, reaction_rate_constants, boundary_conditions, equation_variables, boundary_values = ces.variable_sorter( components )
 
     # variables => This list contains the concentration variables of compounds in cellml file [In CellML file]
     # coefficients => The difference between variables and coefficients is identified by the first part of their id which is like "va_12345_r1", first part indicates that this parameter is a variable
@@ -88,7 +88,7 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
 
             except IndexError:
 
-                print( "There are not 3 sections split by '_' for variable {v} in its ID!".format( v = c_variable.name() ) )
+                print( "While there is not an initial value for variable {v}, no related equation is stated in its ID!".format( v = c_variable.name() ) )
                 exit( "Check the ID and modify it!" )
 
 
@@ -672,8 +672,13 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
 
                     rhs = rhs - eq_term
 
-        reaction_rate_equations_dict[reaction_rate.name()] = rhs
-        reaction_rate_equations.append( Eq(rate,rhs) )
+        if rhs == 0 or rhs is None:
+            print( "Right hand side of equation for {equ} is zero".format( equ = reaction_rate.name() ) )
+
+        else:
+
+            reaction_rate_equations_dict[reaction_rate.name()] = rhs
+            reaction_rate_equations.append( Eq(rate,rhs) )
 
 
     # ------- << Since sometimes I don't want to print out the equations, I have defined a printing function to control the output >> -------------
@@ -699,9 +704,9 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
 
             compound = bc_chebi.split('-')[0]
 
-        if not bc.initialValue():
+        bc_value = None
 
-            bc_value = None
+        if not bc.initialValue():
 
             try:
 
@@ -723,7 +728,6 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
 
             bc_value = bc.initialValue()                            # The value of the boundary condition is stored in a variable
 
-            
 
         bc_display_name = 'v_' + compound                       # The name of the boundary condition to be displayed is composed of 'V' showing flow and the compound's name
 
@@ -731,9 +735,7 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
 
         lhs = symbols( bc_name )
 
-        try:
-            
-            bc_value
+        if bc_value is not None:
 
             try:
 
@@ -743,10 +745,13 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
 
                 rhs = bc_value
 
-        except:
+        else:
 
             print("There is no value or equation defined for the boundary condition named {bc_condition}".format( bc_condition = bc_name ) )
             exit("Modify the equations and define a value or an equation for {bc_condition}".format( bc_condition = bc_name ) )
+
+        if rhs == 0 or rhs is None:
+            print( "Right hand side of {equ} is zero".format( equ = lhs_display ) )
 
         bc_equations_display.append( Eq(lhs_display,rhs) )
 
@@ -790,24 +795,30 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
 
             if c_chebi == ChEBI:                                # ChEBI is the compound's chebi code while c_chebi is the coefficient's chebi code. So we match both to wee if the coefficient belongs to this compound
 
-                reaction_no = c_id.split('_')[2]                # If the coeffcient is for this compound, then we need to find the reaction in which this coeffcient is multiplied to this compound since a compound can participate in different reactions
+                id_reactions_segment = c_id.split('_')[2].split('-')               # If the coeffcient is for this compound, then we need to find the reaction in which this coeffcient is multiplied to this compound since a compound can participate in different reactions
 
-                reaction_rate_coefficient = c_item.name()       # The coefficent has a name in CellML, so we try to get that name
+                for rate_constant_term in id_reactions_segment:
 
-                r_symbols[ reaction_rate_coefficient ] = symbols( reaction_rate_coefficient )
+                    reaction_name_part =  rate_constant_term.split('.')
 
-                # --> { To construct the rate of concentration for a compound, stoichiometric coeffcients will be multiplied to the reaction rates in which the compound participates }
-                for r_item in reaction_rates:
+                    reaction_no = reaction_name_part[0]
 
-                    if r_item.id().split('_')[1] == reaction_no:
+                    reaction_rate_coefficient = c_item.name()       # The coefficent has a name in CellML, so we try to get that name
 
-                        reaction_rate = r_item.name()
+                    r_symbols[ reaction_rate_coefficient ] = symbols( reaction_rate_coefficient )
 
-                        r_symbols[ reaction_rate ] = symbols( reaction_rate )
+                    # --> { To construct the rate of concentration for a compound, stoichiometric coeffcients will be multiplied to the reaction rates in which the compound participates }
+                    for r_item in reaction_rates:
 
-                        break
+                        if r_item.id().split('_')[1] == reaction_no:
 
-                constituents[reaction_rate] = reaction_rate_coefficient
+                            reaction_rate = r_item.name()
+
+                            r_symbols[ reaction_rate ] = symbols( reaction_rate )
+
+                            break
+
+                    constituents[reaction_rate] = reaction_rate_coefficient
 
 
         # ********************************************************************************************************************************************
@@ -896,6 +907,12 @@ def printer( equations, description ):
 
                 print( Style.BRIGHT + Fore.RED + "{c}".format( c = equation.lhs ), end='')
                 print( Style.BRIGHT + " = ", end='')
-                print( Style.BRIGHT + Fore.MAGENTA + "{rh}".format( rh = equation.rhs ).rstrip('0') )
+
+                number_str = str(equation.rhs)
+
+                if '.' in number_str:
+                    number_str = number_str.rstrip('0')
+
+                print( Style.BRIGHT + Fore.MAGENTA + number_str )
 
         print("**********************************************************************")

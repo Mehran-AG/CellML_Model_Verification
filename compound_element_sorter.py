@@ -55,7 +55,7 @@ def cellml_compound_element_sorter ( components ):
 
     bcvirtual_compound_coefficients = {}        # This is a dictionary to store the compound names for boundary conditions and a value showing if the compound is an external or internal one.
 
-    variables, coefficients, _ , _ , _ , boundary_conditions, _ = variable_sorter( components )
+    variables, coefficients, _ , _ , _ , boundary_conditions, _ , _ = variable_sorter( components )
 
     # Going through all variables: 1-to get their chemical composition (Or any name assigned to it in ID) 2-Assign indices to the compounds to assign a row in stoichiometric matrix by the index or a column in the elemental matrix
 
@@ -237,6 +237,8 @@ def variable_sorter( components, all_vars = 'Y' ):
 
     equation_variables = []
 
+    boundary_values = []
+
     for component in components:
 
         number_of_variables = component.variableCount()
@@ -258,6 +260,7 @@ def variable_sorter( components, all_vars = 'Y' ):
                     elif identifier == 'ra': rates.append( component.variable(v) )
                     elif identifier == 'bc': boundary_conditions.append( component.variable(v) )
                     elif identifier == 'ev': equation_variables.append( component.variable(v) )
+                    elif identifier == 'bv': boundary_values.append( component.variable(v) )
 
         else:
                     
@@ -275,7 +278,7 @@ def variable_sorter( components, all_vars = 'Y' ):
 
     if ( all_vars == "Y" or all_vars == "y" ): 
 
-        return variables, coefficients, enzymes, rates, rate_constants, boundary_conditions, equation_variables
+        return variables, coefficients, enzymes, rates, rate_constants, boundary_conditions, equation_variables, boundary_values
     
     else:
 

@@ -142,8 +142,8 @@ http://www.CellML.org/
     </component>
     <component name="Rad3">
         <variable cmeta:id="va_Rad3" initial_value="0" name="Rad3" public_interface="out" units="dimensionless"/>
-        <variable cmeta:id="bc_Rad3.1" name="V_4" public_interface="in" units="first_order_rate_constant"/>
-        <variable cmeta:id="bc_Rad3.2" name="V_5" public_interface="in" units="first_order_rate_constant"/>
+        <variable cmeta:id="bc_Rad3_1" name="V_4" public_interface="in" units="first_order_rate_constant"/>
+        <variable cmeta:id="bc_Rad3_2" name="V_5" public_interface="in" units="first_order_rate_constant"/>
         <variable name="time" public_interface="in" units="minute"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>

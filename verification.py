@@ -14,6 +14,8 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
 
     init( autoreset=True )
 
+    #np.set_printoptions(threshold=np.inf)
+
     print( Fore.RED + "\nElemental matrix is:\n", elemental_array )
     print( Fore.YELLOW + "\nStoichiometric matrix is:\n", stoichiometric_array )
 

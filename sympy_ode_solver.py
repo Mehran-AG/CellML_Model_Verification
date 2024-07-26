@@ -41,7 +41,8 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
         if number_of_equations > number_of_variables:
 
             print( Style.BRIGHT + Fore.RED + "The number of equations, {e}, does not match the number of variables, {v}.".format( e = number_of_equations, v = number_of_variables ) )
-            sys.exit("Exiting due to an error\nModify CellML file and check to see if you have defined the equations correctly\n\n")
+            print( Fore.BLUE + "\nYour variables are:\n{var}".format( var = all_symbols ) )
+            sys.exit( Fore.YELLOW + "\nExiting due to an error" + Style.BRIGHT + Fore.GREEN + "\nModify CellML file and check to see if you have defined the equations correctly\n\n")
 
         elif number_of_equations < number_of_variables:
 
@@ -79,8 +80,8 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
             if number_of_variables != number_of_equations:
 
                 print( Style.BRIGHT + Fore.RED + "The number of equations, {e}, does not match the number of variables, {v}.".format( e = number_of_equations, v = number_of_variables ) )
-                print( "Your variables are:\n{var}".format( var = all_symbols ) )
-                sys.exit("Exiting due to an error\nModify CellML file and check to see if you have defined the equations correctly\n\n")
+                print( Fore.BLUE + "\nYour variables are:\n{var}".format( var = all_symbols ) )
+                sys.exit( Fore.YELLOW + "\nExiting due to an error" + Style.BRIGHT + Fore.GREEN + "\nModify CellML file and check to see if you have defined the equations correctly\n\n")
 
             if printing == 'on' or printing =='On' or printing == 'ON':
         
@@ -191,14 +192,14 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
 
     try:
 
-        print(Style.BRIGHT + Fore.YELLOW + "Solving ODEs ...")
+        print(Style.BRIGHT + Fore.YELLOW + "\nSolving ODEs ...")
 
         solution = scipy.integrate.solve_ivp( f, (0, t_max), initial_values, t_eval = t_eval )
 
         # Cancel the alarm if the execution completes within the timeout duration
         signal.alarm(0)
 
-        print(Style.BRIGHT + Fore.YELLOW + "ODEs Solved")
+        print(Style.BRIGHT + Fore.YELLOW + "\nODEs Solved")
     
         y = solution.y
 
@@ -222,6 +223,9 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
 # This function plots the solution
 
 def plotter( solutions, time, variables_to_plot, x, sympy_to_CellML, show_legends = 'on' ):
+
+    # Initialize colorama
+    init( autoreset=True )
 
     if not variables_to_plot:
 
@@ -247,8 +251,8 @@ def plotter( solutions, time, variables_to_plot, x, sympy_to_CellML, show_legend
 
         except:
 
-            print("Solution has failed and cannot be plotted")
-            exit()
+            print( Style.BRIGHT + Fore.RED + "\nSolution has failed and cannot be plotted")
+            exit("\n")
 
     else:
 
@@ -278,8 +282,8 @@ def plotter( solutions, time, variables_to_plot, x, sympy_to_CellML, show_legend
 
                 except:
 
-                    print("Solution has failed and cannot be plotted.")
-                    exit()
+                    print( Style.BRIGHT + Fore.RED + "\nSolution has failed and cannot be plotted." )
+                    exit("\n")
 
             else:
 

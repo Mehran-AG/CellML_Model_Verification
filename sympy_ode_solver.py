@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import sys
 from colorama import Fore, Back, Style, init
 import signal
+import time
 
 # importing internal packages
 from compound_element_sorter import variable_name_mapper, initial_value_finder, variable_sorter
@@ -77,11 +78,37 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
 
             number_of_variables = len( all_symbols )
 
-            if number_of_variables != number_of_equations:
+            if number_of_variables < number_of_equations:
 
-                print( Style.BRIGHT + Fore.RED + "The number of equations, {e}, does not match the number of variables, {v}.".format( e = number_of_equations, v = number_of_variables ) )
+                print( Fore.RED + "The number of equations, {e}, does not match the number of variables, {v}.".format( e = number_of_equations, v = number_of_variables ) )
                 print( Fore.BLUE + "\nYour variables are:\n{var}".format( var = all_symbols ) )
-                sys.exit( Fore.YELLOW + "\nExiting due to an error" + Style.BRIGHT + Fore.GREEN + "\nModify CellML file and check to see if you have defined the equations correctly\n\n")
+                
+                print( Style.BRIGHT + Fore.MAGENTA + "\n" + "*"*50 )
+                print( Style.BRIGHT + Fore.MAGENTA + "*"*50 )
+                print( Back.WHITE + Fore.BLACK + "\nIMPORTANT: User input required." )
+
+                condition = True
+
+                while condition:
+                    response = input( Style.BRIGHT + Fore.CYAN + "\nDo you want to continue running the code? (yes/no): ").strip().lower()
+
+                    if response == 'no':
+            
+                        sys.exit( Fore.YELLOW + "\nExiting due to an error" + Style.BRIGHT + Fore.GREEN + "\nModify CellML file and check to see if you have defined the equations correctly\n\n")
+
+                    elif response == 'yes':
+                        
+                        print("\nContinuing the code...")
+                        break
+
+                    else:
+
+                        print( Style.BRIGHT + Fore.RED + "Invalid response. Please enter 'yes' or 'no'.")
+
+                    print("*"*20 + "\n")
+
+                time.sleep(2)
+                print("\nCode continues running...")
 
             if printing == 'on' or printing =='On' or printing == 'ON':
         
@@ -199,7 +226,7 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
         # Cancel the alarm if the execution completes within the timeout duration
         signal.alarm(0)
 
-        print(Style.BRIGHT + Fore.YELLOW + "\nODEs Solved")
+        print(Style.BRIGHT + Fore.GREEN + "\n**** ODEs Solved ****\n\n")
     
         y = solution.y
 

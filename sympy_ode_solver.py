@@ -122,6 +122,8 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
 
     initial_values = []                                                                                 # Initial values should be stored in the same order as variables in 'x'
 
+    display_variables = {}
+
     xdot = []                                                                                           # Sympy needs the equations in the set as a list containing all the equations
 
     x = symbols( 'x:' + str(number_of_variables) )                                                           # Creation of the number of Sympy variables that I need
@@ -175,6 +177,7 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
                 try:
 
                     value_to_replace = chebi_initial_values[key]
+                    display_variables[key] = float( value_to_replace )
                     initial_values.append( float(value_to_replace) )
                     break
 
@@ -193,7 +196,10 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
                 xdot.append(sympy_equations[key])
                 break
 
+    # for key, value in display_variables.items():
 
+    #     print( "\nThe initial value for {vv} is {iv}".format( vv = key, iv = value ) )
+    
     #################################################################
     #################################################################
 
@@ -207,11 +213,11 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
     t_eval = np.linspace( 0, t_max, n )
 
     # Timeout handler
-    def timeout_handler():
+    def timeout_handler(signum, frame):
         raise TimeoutError("Execution time exceeded")
     
     # Set the timeout duration (in seconds)
-    timeout_duration = 15
+    timeout_duration = 200
 
     # Register the timeout handler
     signal.signal(signal.SIGALRM, timeout_handler)
@@ -235,12 +241,38 @@ def sympy_ode_solver( components, concentration_rate_equations, general_equation
     except TimeoutError:
 
         print(Style.BRIGHT + Fore.RED + "\nTimeout, {te} seconds, exceeded and solution didn't converge!".format( te = timeout_duration ))
-        exit(Style.BRIGHT + Fore.MAGENTA + "\nModify boundary conditions and run the code again!\n")
+        
+
+        user_input = input("Do you want to continue? (yes/no): ").strip().lower()
+
+        if user_input == 'yes':
+
+            print("Continuing the operation...")
+
+            solution = scipy.integrate.solve_ivp( f, (0, t_max), initial_values, t_eval = t_eval )
+
+            # Cancel the alarm if the execution completes within the timeout duration
+            signal.alarm(0)
+
+            print(Style.BRIGHT + Fore.GREEN + "\n**** ODEs Solved ****\n\n")
+        
+            y = solution.y
+
+            return y, t_eval, x, sympy_to_CellML
+        
+        else:
+
+            print("Operation stopped.")
+
+            exit(Style.BRIGHT + Fore.MAGENTA + "\nModify boundary conditions and run the code again!\n")
 
     except Exception:
 
-        print(Style.BRIGHT + Fore.RED + "\nTimeout, {te} seconds, exceeded and solution didn't converge!".format( te = timeout_duration ))
-        exit(Style.BRIGHT + Fore.MAGENTA + "\nModify boundary conditions and run the code again!\n")
+        print( Style.BRIGHT + Fore.RED + "\nThere is something wrong with your equations!!".format( te = timeout_duration ))
+
+        print("\nOperation stopped.")
+
+        exit( Style.BRIGHT + Fore.MAGENTA + "\nModify boundary conditions and run the code again!\n" )
 
 
 

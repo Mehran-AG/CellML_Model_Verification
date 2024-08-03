@@ -130,11 +130,13 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
 
                     chebi_code = bc.id().split('_')[1]                                              # Chebi code stored in the boundaru condition's id
 
-                    bc_id = None
+                    bc_id = bc.id()
+
+                    fake_bc_id = None
                     
                     if len( bc.id().split('_') ) > 2:
 
-                        bc_id = bc.id().split('_')[1] + bc.id().split('_')[2]
+                        fake_bc_id = bc.id().split('_')[1] + bc.id().split('_')[2]
 
                     # Getting the compound name for the boundary condition since the stoichionetric is built upon the compound names
                     if ces.all_digits( chebi_code ):
@@ -147,15 +149,28 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
 
                     # Checking to see if it matches with the compound that its rate is being written
                     # If it matches with the compound, then it will be added to the equation
-                    if bc_compound == compound and bc_id not in already_added_BC:
+                    if bc_compound == compound and fake_bc_id not in already_added_BC:
 
-                        already_added_BC.append( bc_id )
+                        already_added_BC.append( fake_bc_id )
 
                         bc_name = bc.name()
 
                         rate_symbol = symbols( bc.name() )
 
-                        rhs = rhs + rate_symbol                                                     # Here I need to multiply the stoichiometric coefficient element with the reaction name to construct its rate consumption equation
+                        bc_in_out_sign = bc_id.split('_')[2].split('.')[0]
+
+                        if bc_in_out_sign == 'i':
+
+                            rhs = rhs + ( 1 * rate_symbol )     # Here I need to multiply the stoichiometric coefficient element with the reaction name to construct its rate consumption equation
+
+                        elif bc_in_out_sign == 'o':
+
+                            rhs = rhs - ( 1 * rate_symbol )
+
+                        else:
+
+                            print("There is no identifier of whether the flow is in or out for boundary condition {bc_condition}".format( bc_condition = bc_name ) )
+                            exit()                                       
 
                         if not bc.initialValue():
 
@@ -188,11 +203,13 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
 
                 concentration_rate_equations[compound] = rhs
 
+    temporary_bc_verifier = []
+
     for i, boundary_condition in enumerate( boundary_conditions ):
 
         bc_id = boundary_condition.id()
 
-        bc_chebi = bc_id.split('_')[1]
+        bc_chebi = bc_id.split('_')[1].split('.')[0]
 
         if ces.all_digits( bc_chebi ):                          # if the chebi code aprt of the id is all digits, so it is considered as the chebi code, otherwise it shold be the compound name and composition given by the user
 
@@ -202,13 +219,29 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
 
             compound = bc_chebi.split('-')[0]
 
-        if compound not in concentration_rate_equations.keys():
+        if compound not in concentration_rate_equations.keys() or compound in temporary_bc_verifier:
+
+            temporary_bc_verifier.append( compound )
 
             boundary_condition_name = boundary_condition.name()
 
             boundary_condition_symbol = symbols( boundary_condition_name )
 
-            rhs = boundary_condition_symbol
+            bc_in_out_sign = bc_id.split('_')[2].split('.')[0]
+
+            if bc_in_out_sign == 'i':
+
+                rhs = +1 * boundary_condition_symbol
+
+            elif bc_in_out_sign == 'o':
+
+                rhs = -1 * boundary_condition_symbol
+
+            else:
+
+                print("There is no identifier of whether the flow is in or out for boundary condition {bc_condition}".format( bc_condition = bc_name ) )
+                exit()
+            
 
             bc_value = None
 
@@ -232,7 +265,7 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
 
             else:
 
-                bc_value = boundary_condition.initialValue()                            # The value of the boundary condition is stored in a variable
+                bc_value = abs( boundary_condition.initialValue() )                            # The value of the boundary condition is stored in a variable
 
             rhs = rhs.subs( boundary_condition_symbol, bc_value )
 

@@ -1,0 +1,16 @@
+V_4 = k4
+V_5 = k5 * Rad3
+V_6 = k6 * p53
+V_10 = k10
+V_11 = k11 * p53
+V_12 = k12 * protein1433
+V_13 = k13
+V_14 = k14 / ( 1 + k14_ * p53 )
+V_15 = k15 * MPF ** 2
+V_16 = k16
+V_17 = k17 * Wee1P
+V_20 = k20 * p53
+V_21 = k21
+V_22 = k22 * p21
+V_ex = kex*iCdc25Ps216protein1433
+V_in = 0.00001

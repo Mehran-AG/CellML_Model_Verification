@@ -42,8 +42,11 @@ cellml_file_dir = file_path
 cellml_file = file_path
 cellml_strict_mode = False
 
+read_eqs_from_file = False
+
 #bc_file_path = None
-bc_file_path = './docs/equations.txt'
+bc_file_path = './docs/boundary_conditions.txt'
+eq_file_path = './docs/equations.txt'
 
 solve_equations = True
 
@@ -62,11 +65,18 @@ except:
 
     imported_bc_equations = None
 
-#reaction_rate_equations_dict, bc_equations_dict, general_equations = eb.equation_builder( components, imported_bc_equations,  'on' ) #print
 
 if solve_equations == True:
 
-    reaction_rate_equations_dict, bc_equations_dict, general_equations = eb.equation_builder( components, imported_bc_equations, 'on' ) #print
+    if read_eqs_from_file:
+
+        reaction_rate_equations_dict, bc_equations_dict, general_equations = eb.equation_reader( components, eq_file_path, imported_bc_equations, 'on' ) #print
+
+    else:
+
+        reaction_rate_equations_dict, bc_equations_dict, general_equations = eb.equation_builder( components, imported_bc_equations, 'on' ) #print
+
+
 
 element_indices, compound_indices, reaction_indices, symbols_list, compound_to_composition, bcvirtual_compound_coefficients = ces.cellml_compound_element_sorter ( components )
 
@@ -85,11 +95,11 @@ vf.verification( stoichiometric_matrix, element_matrix, element_indices, compoun
 
 if solve_equations == True:
 
-    solution, time, x, sympy_to_CellML = sos.sympy_ode_solver( components, concentration_rate_equations, general_equations, 40, 0.001, 'on' )
+    solution, time, x, sympy_to_CellML = sos.sympy_ode_solver( components, concentration_rate_equations, general_equations, 4000, 0.01, 'on' )
 
-    variables_to_plot = []
+    variables_to_plot = ['Wee1', 'aCdc25', 'MPF']
 
-    sos.plotter(  solution, time, variables_to_plot, x, sympy_to_CellML, 'off' )
+    sos.plotter(  solution, time, variables_to_plot, x, sympy_to_CellML, show_legends = 'on' ) # Show Legends
 
 
 

@@ -27,16 +27,16 @@
         <variable cmeta:id="rc_f_1" initial_value="0.42" name="k_f" units="per_sec_per_M2"/>
         <variable cmeta:id="rc_r_1" initial_value="0.17" name="k_r" units="per_sec_per_M"/>
         <variable cmeta:id="ra_1" name="v_1" units="M"/>
-        <variable cmeta:id="bc_36889_1" initial_value="0.05" name="bc_1" units="M_per_sec"/>
-        <variable cmeta:id="bc_36889_2" name="bc_2" units="M_per_sec"/>
-        <variable cmeta:id="bc_36889_3" name="bc_3" units="M_per_sec"/>
+        <!--var{bc_36889_i.1} bc_1: M_per_sec {init: 0.05};-->
+        <variable cmeta:id="bc_36889_i.2" name="bc_2" units="M_per_sec"/>
+        <!--var{bc_36889_o.3} bc_3: M_per_sec;-->
         <variable cmeta:id="bv_36889_3" initial_value="2" name="k4" units="M_per_sec"/>
-        <variable cmeta:id="bc_36889_4" name="bc_4" units="M_per_sec"/>
+        <variable cmeta:id="bc_36889_i.4" name="bc_4" units="M_per_sec"/>
         <variable cmeta:id="en_Rad3_1" initial_value="-1" name="Rad3_en1" units="dimensionless"/>
-        <variable cmeta:id="va_Rad3" initial_value="0" name="Rad3" units="dimensionless"/>
-        <variable cmeta:id="bc_Rad3_1" name="V_2" units="M"/>
-        <variable cmeta:id="bc_Rad3_2" name="V_3" units="M"/>
-        <variable cmeta:id="bv_Rad3_1" initial_value="-1" name="k2" units="M"/>
+        <!--var{va_Rad3} Rad3: dimensionless {init: 0};
+var{bc_Rad3_o.1} V_2: M;
+var{bc_Rad3_i.2} V_3: M;-->
+        <variable cmeta:id="bv_Rad3_1" initial_value="1" name="k2" units="M"/>
         <variable cmeta:id="bv_Rad3_2" initial_value="2" name="k3" units="M"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>

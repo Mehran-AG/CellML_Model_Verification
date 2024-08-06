@@ -168,37 +168,49 @@ def cellml_compound_element_sorter ( components ):
             except KeyError:
                 print(f"The species '{chebi_code}' does not match any available species.")
                 sys.exit("\nModify the equations and run the simulations again to see the figures")
+        
+        # Now, we will create the virtual external species for the compound
+        compound_bc = compound + '_e'
 
-        # Now, we will create the virtual internal and external species for the compound
-        for suffix in ['_e', '_i']:
+        # Storing compound and its corresponding composition in a dictionary
+        if compound_bc not in compound_to_composition:
+                
+            compound_to_composition[compound_bc] = composition
 
-            compound_bc = compound + suffix
+        # Assigning an index to the compound
+        if compound_bc not in compound_indices:
+                
+            compound_indices[compound_bc] = compound_index
+            compound_index += 1
 
-            # Storing compound and its corresponding composition in a dictionary
-            if compound_bc not in compound_to_composition:
-                    
-                compound_to_composition[compound_bc] = composition
+        if compound_bc not in symbols_list:
 
-            # Assigning an index to the compound
-            if compound_bc not in compound_indices:
-                    
-                compound_indices[compound_bc] = compound_index
-                compound_index += 1
+            symbols_list.append( compound_bc )
 
-            if compound_bc not in symbols_list:
+        # Since we can have more than one boundary condition for a species, we need to assign the virtual species to the correct boundary condtion reaction
+        encoded_coefficient_name = compound_bc + '-' + reaction_number
 
-                symbols_list.append( compound_bc )
+        bcvirtual_compound_coefficients[ encoded_coefficient_name ] = -1
 
-            # Since we can have more than one boundary condition for a species, we need to assign the virtual species to the correct boundary condtion reaction
-            encoded_coefficient_name = compound_bc + '-' + reaction_number
+        # We also need to assign the existing variable as the internal compound for the reaction which represents the flow of the compound through the boundary 
+        compound_bc = compound
 
-            if suffix == '_e':
+        # Storing compound and its corresponding composition in a dictionary
+        if compound_bc not in compound_to_composition:
+                
+            compound_to_composition[compound_bc] = composition
 
-                bcvirtual_compound_coefficients[ encoded_coefficient_name ] = -1
+        # Assigning an index to the compound
+        if compound_bc not in compound_indices:
+                
+            compound_indices[compound_bc] = compound_index
+            compound_index += 1
 
-            elif suffix == '_i':
+        # Since we can have more than one boundary condition for a species, we need to assign the virtual species to the correct boundary condtion reaction
+        encoded_coefficient_name = compound_bc + '-' + reaction_number
 
-                bcvirtual_compound_coefficients[ encoded_coefficient_name ] = +1
+        bcvirtual_compound_coefficients[ encoded_coefficient_name ] = +1
+        
 
     return element_indices, compound_indices, reaction_indices, symbols_list, compound_to_composition, bcvirtual_compound_coefficients
 

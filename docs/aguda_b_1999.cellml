@@ -314,6 +314,7 @@ http://www.CellML.org/
         <variable cmeta:id="ra_7" name="V_7" public_interface="in" units="first_order_rate_constant"/>
         <variable name="V_2_" public_interface="in" units="first_order_rate_constant"/>
         <variable cmeta:id="bc_iCdc25_i.1" name="V_in" public_interface="in" units="first_order_rate_constant"/>
+        <!--var V_in: first_order_rate_constant {pub: in};-->
         <variable name="time" public_interface="in" units="minute"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>

@@ -46,7 +46,10 @@ read_eqs_from_file = False
 
 #bc_file_path = None
 bc_file_path = './docs/boundary_conditions.txt'
+#bc_file_path = './docs/boundary_conditions_NB.txt'
+
 eq_file_path = './docs/equations.txt'
+#eq_file_path = None
 
 solve_equations = True
 
@@ -97,7 +100,7 @@ if solve_equations == True:
 
     solution, time, x, sympy_to_CellML = sos.sympy_ode_solver( components, concentration_rate_equations, general_equations, 4000, 0.01, 'on' )
 
-    variables_to_plot = ['Wee1', 'aCdc25', 'MPF']
+    variables_to_plot = ['Wee1', 'MPF', 'aCdc25']
 
     sos.plotter(  solution, time, variables_to_plot, x, sympy_to_CellML, show_legends = 'on' ) # Show Legends
 

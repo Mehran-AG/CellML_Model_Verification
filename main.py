@@ -31,27 +31,35 @@ import equation_builder as eb
 import matrix_equation_builder as meb
 import sympy_ode_solver as sos
 import equations_from_text as eft
+import external_concentrations as ec
+import conservation_check as cc
+
 
 command = 'cls' if os.name == 'nt' else 'clear'
 os.system(command)
 
-file_path = './docs/aguda_b_1999.cellml'
+file_path = './docs/aguda_tang_1999.cellml'
+#file_path = './docs/aguda_b_1999.cellml'
 #file_path = './docs/huang_ferrell_1996.cellml'
 #file_path ='./docs/NitrosylBromide.cellml'
 cellml_file_dir = file_path
 cellml_file = file_path
 cellml_strict_mode = False
 
-read_eqs_from_file = False
+
 
 #bc_file_path = None
-bc_file_path = './docs/boundary_conditions.txt'
+#bc_file_path = './docs/boundary_conditions.txt'
+bc_file_path = './docs/boundary_conditions_AT.txt'
 #bc_file_path = './docs/boundary_conditions_NB.txt'
 
-eq_file_path = './docs/equations.txt'
-#eq_file_path = None
+#eq_file_path = './docs/equations.txt'
+eq_file_path = None
 
+read_eqs_from_file = False
 solve_equations = True
+delta_t = 0.1
+t_f = 500
 
 
 components = cmlr.CellML_reader( cellml_file, cellml_file_dir, cellml_strict_mode )
@@ -80,7 +88,6 @@ if solve_equations == True:
         reaction_rate_equations_dict, bc_equations_dict, general_equations = eb.equation_builder( components, imported_bc_equations, 'on' ) #print
 
 
-
 element_indices, compound_indices, reaction_indices, symbols_list, compound_to_composition, bcvirtual_compound_coefficients = ces.cellml_compound_element_sorter ( components )
 
 element_matrix = emb.elemental_matrix_builder( compound_indices, element_indices, compound_to_composition )
@@ -94,13 +101,13 @@ if solve_equations == True:
 rate_matrix = rmb.rate_matrix_builder ( symbols_list )
 
 # Calling the function
-vf.verification( stoichiometric_matrix, element_matrix, element_indices, compound_indices, reaction_indices, rate_matrix )
+equations_array = vf.verification( stoichiometric_matrix, element_matrix, element_indices, compound_indices, reaction_indices, rate_matrix )
 
 if solve_equations == True:
 
-    solution, time, x, sympy_to_CellML = sos.sympy_ode_solver( components, concentration_rate_equations, general_equations, 4000, 0.01, 'on' )
+    solution, time, x, sympy_to_CellML = sos.sympy_ode_solver( components, concentration_rate_equations, general_equations, t_f, delta_t, 'on' )
 
-    variables_to_plot = ['Wee1', 'MPF', 'aCdc25']
+    variables_to_plot = [ 'E2F', 'p27', 'a_CyclinE_Cdk2' ]
 
     sos.plotter(  solution, time, variables_to_plot, x, sympy_to_CellML, show_legends = 'on' ) # Show Legends
 

@@ -121,11 +121,15 @@ def cellml_compound_element_sorter ( components ):
             
         chebi_code = coefficient.id().split('_')[1]
 
-        reaction_number = coefficient.id().split('_')[2]
+        reaction_number_parts = coefficient.id().split('_')[2]
 
-        if reaction_number not in reaction_indices:
-            reaction_indices[reaction_number] = reaction_index
-            reaction_index += 1
+        for reaction_number_part in reaction_number_parts.split('-'):
+
+            reaction_number = reaction_number_part.split('.')[0]
+
+            if reaction_number not in reaction_indices:
+                reaction_indices[reaction_number] = reaction_index
+                reaction_index += 1
 
 
 
@@ -138,78 +142,83 @@ def cellml_compound_element_sorter ( components ):
         # The reaction name should be the same as id
         reaction_number = bc.id()
 
+        # if bc.id() == 'bc_p16.CycDCdk4_o.17':
+        #     print( bc.id() )
+
         # I assign an index to the reaction if it is not assigned previously
         if reaction_number not in reaction_indices:
             reaction_indices[reaction_number] = reaction_index
             reaction_index += 1
 
         # The boundary condition id is "bc_12345.1" where "bc" means it is a boundary condition variable, "12345" is the chebi code or it can be compound's name, and "1" is the enumeration number for multiple boundary conditons for a species
-        chebi_code =  bc.id().split('_')[1].split('.')[0]
+        chebi_codes =  bc.id().split('_')[1].split('.')
 
-        # If the species has a chebi code, so we need to find its name and check if it exists in the compounds dictionary
-        if all_digits( chebi_code ):
+        for chebi_code in chebi_codes:
 
-            compound, composition = chf.chebi_comp_parser( chebi_code )
+            # If the species has a chebi code, so we need to find its name and check if it exists in the compounds dictionary
+            if all_digits( chebi_code ):
 
-            # Here I check to see if it already exists in the compounds dictionary, if it exists, then it's OK, if not, so there is something wrong in the user's input
-            try:
-                compound_to_composition[compound]
+                compound, composition = chf.chebi_comp_parser( chebi_code )
 
-            except KeyError:
-                print(f"\nThe species '{compound}' with the chebi code '{chebi_code}' does not match any available species.")
-                sys.exit("\nModify the equations and run the simulations again to see the figures\n")    
+                # Here I check to see if it already exists in the compounds dictionary, if it exists, then it's OK, if not, so there is something wrong in the user's input
+                try:
+                    compound_to_composition[compound]
 
-        else:
+                except KeyError:
+                    print(f"\nThe species '{compound}' with the chebi code '{chebi_code}' does not match any available species.")
+                    sys.exit("\nModify the equations and run the simulations again to see the figures\n")    
+
+            else:
+                
+                try:
+                    compound = chebi_code
+                    composition = compound_to_composition[compound]
+
+                except KeyError:
+                    print(f"The species '{chebi_code}' does not match any available species.")
+                    sys.exit("\nModify the equations and run the simulations again to see the figures")
             
-            try:
-                compound = chebi_code
-                composition = compound_to_composition[compound]
+            # Now, we will create the virtual external species for the compound
+            compound_bc = compound + '_e'
 
-            except KeyError:
-                print(f"The species '{chebi_code}' does not match any available species.")
-                sys.exit("\nModify the equations and run the simulations again to see the figures")
-        
-        # Now, we will create the virtual external species for the compound
-        compound_bc = compound + '_e'
+            # Storing compound and its corresponding composition in a dictionary
+            if compound_bc not in compound_to_composition:
+                    
+                compound_to_composition[compound_bc] = composition
 
-        # Storing compound and its corresponding composition in a dictionary
-        if compound_bc not in compound_to_composition:
-                
-            compound_to_composition[compound_bc] = composition
+            # Assigning an index to the compound
+            if compound_bc not in compound_indices:
+                    
+                compound_indices[compound_bc] = compound_index
+                compound_index += 1
 
-        # Assigning an index to the compound
-        if compound_bc not in compound_indices:
-                
-            compound_indices[compound_bc] = compound_index
-            compound_index += 1
+            if compound_bc not in symbols_list:
 
-        if compound_bc not in symbols_list:
+                symbols_list.append( compound_bc )
 
-            symbols_list.append( compound_bc )
+            # Since we can have more than one boundary condition for a species, we need to assign the virtual species to the correct boundary condtion reaction
+            encoded_coefficient_name = compound_bc + '-' + reaction_number
 
-        # Since we can have more than one boundary condition for a species, we need to assign the virtual species to the correct boundary condtion reaction
-        encoded_coefficient_name = compound_bc + '-' + reaction_number
+            bcvirtual_compound_coefficients[ encoded_coefficient_name ] = -1
 
-        bcvirtual_compound_coefficients[ encoded_coefficient_name ] = -1
+            # We also need to assign the existing variable as the internal compound for the reaction which represents the flow of the compound through the boundary 
+            compound_bc = compound
 
-        # We also need to assign the existing variable as the internal compound for the reaction which represents the flow of the compound through the boundary 
-        compound_bc = compound
+            # Storing compound and its corresponding composition in a dictionary
+            if compound_bc not in compound_to_composition:
+                    
+                compound_to_composition[compound_bc] = composition
 
-        # Storing compound and its corresponding composition in a dictionary
-        if compound_bc not in compound_to_composition:
-                
-            compound_to_composition[compound_bc] = composition
+            # Assigning an index to the compound
+            if compound_bc not in compound_indices:
+                    
+                compound_indices[compound_bc] = compound_index
+                compound_index += 1
 
-        # Assigning an index to the compound
-        if compound_bc not in compound_indices:
-                
-            compound_indices[compound_bc] = compound_index
-            compound_index += 1
+            # Since we can have more than one boundary condition for a species, we need to assign the virtual species to the correct boundary condtion reaction
+            encoded_coefficient_name = compound_bc + '-' + reaction_number
 
-        # Since we can have more than one boundary condition for a species, we need to assign the virtual species to the correct boundary condtion reaction
-        encoded_coefficient_name = compound_bc + '-' + reaction_number
-
-        bcvirtual_compound_coefficients[ encoded_coefficient_name ] = +1
+            bcvirtual_compound_coefficients[ encoded_coefficient_name ] = +1
         
 
     return element_indices, compound_indices, reaction_indices, symbols_list, compound_to_composition, bcvirtual_compound_coefficients

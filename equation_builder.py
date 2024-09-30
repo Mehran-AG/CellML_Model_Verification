@@ -219,78 +219,112 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
     for reaction_rate in reaction_rates:                    # Now we will go through each reaction to write the reaction rate equation for it
         
         rate = symbols( reaction_rate.name() )              # In CellML, a variable name is the name that the user has given to it like V, K and so on. So, we need to have them to write the similar equation as the user's one
-            
-        reaction_no = reaction_rate.id().split('_')[1]      # A sample id: "ra_r1", splitted by '_', first part shows the type of the variable and second part shows the reaction name
-
-        forward_rates = {}
-
-        reverse_rates = {}
-
-        forward_rate_values = {}
-
-        reverse_rate_values = {}
-
-        rhs_f = {}
-
-        rhs_r = {}
-
-        # --------- << At first, we need the reaction rate coefficients >> ------------
-        # ------ { Now that we have the reaction number, we need to find the reaction rate constant for this reaction. Therefore, we will go through all reaction rate constants and find the ones for this reaction } ------------
-        for rate_constant in reaction_rate_constants:
-
-            id = rate_constant.id()                         # Rate constant id sample: "rc_f_r1": splitted by '_', first part shows this a rate constant, second part is 'f' or 'r' which shows forward or reverse, respectively, the third part is the reaction which this rate constant belongs to
-
-            id_reactions_segment = id.split('_')[2].split('-')      # Some reaction rate equations have different reaction rate constants, so there is an addition in the reaction rate equation
-                                                                    # Like: V_1 = k1 * [A] + k2 * [B]; V_2 = k3 * [A]
-                                                                    # So, I encoded these variables and the compound coefficients in CellML as: k1: rc_f_1.1, A: co_12345_1.1-2.1
-                                                                    # 1.1 in k1's ID shows that it is a rate constant for reaction 1 and it is in the first term of the equation
-                                                                    # 1.1 and 2.1 in A's ID show that compound is in first part of equation for reaction 1 and also first part of equation for reaction 2
-
-            for rate_constant_term in id_reactions_segment:
-
-                reaction_name_part =  rate_constant_term.split('.')
-
-                
-                if len( reaction_name_part ) == 1:
-
-                    reaction_name = reaction_name_part[0]
-
-                    if reaction_name == reaction_no:
-
-                        if id.split('_')[1] == 'f':
-                            
-                            forward_rates['1'] = symbols( rate_constant.name() )
-                            forward_rate_values['1'] = rate_constant.initialValue()
-                            
-                        elif id.split('_')[1] == 'r':
-
-                            reverse_rates['1'] = symbols( rate_constant.name() )
-                            reverse_rate_values['1'] = rate_constant.initialValue()
-
-                elif len( reaction_name_part ) == 2:
-
-                    reaction_name = reaction_name_part[0]
-
-                    term_of_constant = reaction_name_part[1]
-
-                    if reaction_name == reaction_no:
-
-                        if id.split('_')[1] == 'f':
-                            
-                            forward_rates[term_of_constant] = symbols( rate_constant.name() )
-                            forward_rate_values[term_of_constant] = rate_constant.initialValue()
-                            
-                        elif id.split('_')[1] == 'r':
-
-                            reverse_rates[term_of_constant] = symbols( rate_constant.name() )
-                            reverse_rate_values[term_of_constant] = rate_constant.initialValue()
-            
         
-        if not reverse_rates:                                                     # At first, I check to see if there is a reverse rate for the reaction, if not the error can be catched and handled
+        if len( reaction_rate.id().split('_') ) == 3:
 
-            if not forward_rates:
+            if reaction_rate.id().split('_')[2] == 'nma':
+
+                try:
+
+                    imported_bc_equations
+
+                    for eq in imported_bc_equations:
+
+                        if eq.lhs == rate:
+
+                            rhs = eq.rhs
+                            break
+
+                except:
+
+                    print("There is no initial value for boundary condition {bc_condition}, and no imported equation is found for it.".format( bc_condition = bc_name ))
+                    exit()
+
+                reaction_rate_equations_dict[reaction_rate.name()] = rhs
+                reaction_rate_equations.append( Eq(rate,rhs) )
+
+        else:
+
+            reaction_no = reaction_rate.id().split('_')[1]      # A sample id: "ra_r1", splitted by '_', first part shows the type of the variable and second part shows the reaction name
+
+            forward_rates = {}
+
+            reverse_rates = {}
+
+            forward_rate_values = {}
+
+            reverse_rate_values = {}
+
+            rhs_f = {}
+
+            rhs_r = {}
+
+            # --------- << At first, we need the reaction rate coefficients >> ------------
+            # ------ { Now that we have the reaction number, we need to find the reaction rate constant for this reaction. Therefore, we will go through all reaction rate constants and find the ones for this reaction } ------------
+            for rate_constant in reaction_rate_constants:
+
+                id = rate_constant.id()                         # Rate constant id sample: "rc_f_r1": splitted by '_', first part shows this a rate constant, second part is 'f' or 'r' which shows forward or reverse, respectively, the third part is the reaction which this rate constant belongs to
+
+                id_reactions_segment = id.split('_')[2].split('-')      # Some reaction rate equations have different reaction rate constants, so there is an addition in the reaction rate equation
+                                                                        # Like: V_1 = k1 * [A] + k2 * [B]; V_2 = k3 * [A]
+                                                                        # So, I encoded these variables and the compound coefficients in CellML as: k1: rc_f_1.1, A: co_12345_1.1-2.1
+                                                                        # 1.1 in k1's ID shows that it is a rate constant for reaction 1 and it is in the first term of the equation
+                                                                        # 1.1 and 2.1 in A's ID show that compound is in first part of equation for reaction 1 and also first part of equation for reaction 2
+
+                for rate_constant_term in id_reactions_segment:
+
+                    reaction_name_part =  rate_constant_term.split('.')
+
+                    
+                    if len( reaction_name_part ) == 1:
+
+                        reaction_name = reaction_name_part[0]
+
+                        if reaction_name == reaction_no:
+
+                            if id.split('_')[1] == 'f':
+                                
+                                forward_rates['1'] = symbols( rate_constant.name() )
+                                forward_rate_values['1'] = rate_constant.initialValue()
+                                
+                            elif id.split('_')[1] == 'r':
+
+                                reverse_rates['1'] = symbols( rate_constant.name() )
+                                reverse_rate_values['1'] = rate_constant.initialValue()
+
+                    elif len( reaction_name_part ) == 2:
+
+                        reaction_name = reaction_name_part[0]
+
+                        term_of_constant = reaction_name_part[1]
+
+                        if reaction_name == reaction_no:
+
+                            if id.split('_')[1] == 'f':
+                                
+                                forward_rates[term_of_constant] = symbols( rate_constant.name() )
+                                forward_rate_values[term_of_constant] = rate_constant.initialValue()
+                                
+                            elif id.split('_')[1] == 'r':
+
+                                reverse_rates[term_of_constant] = symbols( rate_constant.name() )
+                                reverse_rate_values[term_of_constant] = rate_constant.initialValue()
                 
-                print( "There is not any reaction rate constants defined for reaction {r} in your variables".format( r = reaction_no ) )
+            
+            if not reverse_rates:                                                     # At first, I check to see if there is a reverse rate for the reaction, if not the error can be catched and handled
+
+                if not forward_rates:
+                    
+                    print( "There is not any reaction rate constants defined for reaction {r} in your variables".format( r = reaction_no ) )
+
+                else:
+
+                    for reaction_term, forward_rate in forward_rates.items():
+
+                        rhs_f[reaction_term] = forward_rate
+                        rhs_f[reaction_term] = rhs_f[reaction_term].subs( forward_rate, forward_rate_values[reaction_term] )  # Since we need the values for the known variables to solve the equation, we replace the values
+
+                    del forward_rates, forward_rate_values
 
             else:
 
@@ -299,386 +333,377 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
                     rhs_f[reaction_term] = forward_rate
                     rhs_f[reaction_term] = rhs_f[reaction_term].subs( forward_rate, forward_rate_values[reaction_term] )  # Since we need the values for the known variables to solve the equation, we replace the values
 
-                del forward_rates, forward_rate_values
+                for reaction_term, reverse_rate in reverse_rates.items():
 
-        else:
+                    rhs_r[reaction_term] = reverse_rate
+                    rhs_r[reaction_term] = rhs_r[reaction_term].subs( reverse_rate, reverse_rate_values[reaction_term] )
 
-            for reaction_term, forward_rate in forward_rates.items():
+                del forward_rates, reverse_rates, forward_rate_values, reverse_rate_values
 
-                rhs_f[reaction_term] = forward_rate
-                rhs_f[reaction_term] = rhs_f[reaction_term].subs( forward_rate, forward_rate_values[reaction_term] )  # Since we need the values for the known variables to solve the equation, we replace the values
+            
+            
+            
+            rhs_existence = False                          # Sometimes, there is no equation for a reaction because there is no compound for it. In this case left hand side is shown in results while there is no right hand side for it
+            # ------------- << Now, we need the participants with their stoichiometric coefficients. Hence, we look for the stoichiometric coefficients which have the value, the participant that this coefficient belongs nad the reaction >> ----------------
+            for c_item in coefficients:
 
-            for reaction_term, reverse_rate in reverse_rates.items():
+                c_id = c_item.id()                        # id is like this: 'co_12345_1' => first characters show that it is coefficient, second shows which participant this coefficient belongd, the thirs shows the reaction this participant participates by this coefficient
 
-                rhs_r[reaction_term] = reverse_rate
-                rhs_r[reaction_term] = rhs_r[reaction_term].subs( reverse_rate, reverse_rate_values[reaction_term] )
+                c_id_reactions_segment = c_id.split('_')[2].split('-')
 
-            del forward_rates, reverse_rates, forward_rate_values, reverse_rate_values
+                for reaction_segment in c_id_reactions_segment:
 
-        
-        
-        
-        rhs_existence = False                          # Sometimes, there is no equation for a reaction because there is no compound for it. In this case left hand side is shown in results while there is no right hand side for it
-        # ------------- << Now, we need the participants with their stoichiometric coefficients. Hence, we look for the stoichiometric coefficients which have the value, the participant that this coefficient belongs nad the reaction >> ----------------
-        for c_item in coefficients:
+                    reaction_name_part = reaction_segment.split('.')
 
-            c_id = c_item.id()                        # id is like this: 'co_12345_1' => first characters show that it is coefficient, second shows which participant this coefficient belongd, the thirs shows the reaction this participant participates by this coefficient
+                    if len( reaction_name_part ) == 1:
 
-            c_id_reactions_segment = c_id.split('_')[2].split('-')
+                        reaction_name = reaction_name_part[0]
 
-            for reaction_segment in c_id_reactions_segment:
+                        if reaction_name == reaction_no:
 
-                reaction_name_part = reaction_segment.split('.')
+                            ChEBI = c_id.split('_')[1]
 
-                if len( reaction_name_part ) == 1:
+                            coefficient = c_item.name()
 
-                    reaction_name = reaction_name_part[0]
+                            value = c_item.initialValue()
 
-                    if reaction_name == reaction_no:
+                            for v_item in variables:            # Now, we look for the variable correspondant to this stoichiometric coefficient and we get its name
+                        
+                                if v_item.id().split('_')[1].split('-')[0] == ChEBI:
 
-                        ChEBI = c_id.split('_')[1]
+                                    variable = v_item.name()    # This is the name user has given to the variable
+                                    break
 
-                        coefficient = c_item.name()
+                            try:
 
-                        value = c_item.initialValue()
+                                sv = v_item.id().split('_')[3]      # I think this shows if the variable is a state variable
 
-                        for v_item in variables:            # Now, we look for the variable correspondant to this stoichiometric coefficient and we get its name
-                    
-                            if v_item.id().split('_')[1].split('-')[0] == ChEBI:
+                            except:
 
-                                variable = v_item.name()    # This is the name user has given to the variable
-                                break
+                                sv = ''
 
-                        try:
+                            if not rhs_r:
 
-                            sv = v_item.id().split('_')[3]      # I think this shows if the variable is a state variable
+                                if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
 
-                        except:
-
-                            sv = ''
-
-                        if not rhs_r:
-
-                            if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
-
-                                rhs_existence = True
-                                
-                                if (not v_item.initialValue()) and (sv != 'sv'):
-
-                                    rhs_f['1'] = rhs_f['1'] * ( ( general_equations[variable] ) ** abs( int(value) )  )
-
-                                else:
+                                    rhs_existence = True
                                     
-                                    rhs_f['1'] = rhs_f['1'] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+                                    if (not v_item.initialValue()) and (sv != 'sv'):
 
-                            elif int(value) == 0:
-                                print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
-                                exit()
+                                        rhs_f['1'] = rhs_f['1'] * ( ( general_equations[variable] ) ** abs( int(value) )  )
 
-                        else:
+                                    else:
+                                        
+                                        rhs_f['1'] = rhs_f['1'] * ( ( symbols( variable ) ) ** abs( int(value) ) )
 
-                            if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
+                                elif int(value) == 0:
+                                    print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
+                                    exit()
 
-                                rhs_existence = True
+                            else:
 
-                                if (not v_item.initialValue()) and (sv != 'sv'):
+                                if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
 
-                                    rhs_f['1'] = rhs_f['1'] * ( ( general_equations[variable] ) ** abs( int(value) )  )
+                                    rhs_existence = True
 
-                                else:
+                                    if (not v_item.initialValue()) and (sv != 'sv'):
+
+                                        rhs_f['1'] = rhs_f['1'] * ( ( general_equations[variable] ) ** abs( int(value) )  )
+
+                                    else:
+                                        
+                                        rhs_f['1'] = rhs_f['1'] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+
+                                elif int(value) > 0:                # When the value for the stoichiometric coefficient is positive, it is considered as a product
                                     
-                                    rhs_f['1'] = rhs_f['1'] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+                                    rhs_existence = True
 
-                            elif int(value) > 0:                # When the value for the stoichiometric coefficient is positive, it is considered as a product
-                                
-                                rhs_existence = True
+                                    if (not v_item.initialValue()) and (sv != 'sv'):
+                                        
+                                        rhs_r['1'] = rhs_r['1'] * ( ( general_equations[variable] ) ** abs( int(value) )  )
 
-                                if (not v_item.initialValue()) and (sv != 'sv'):
+                                    else:
+                                        
+                                        rhs_r['1'] = rhs_r['1'] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+
+                                elif int(value) == 0:
+                                    print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
+                                    exit()
+
+                    elif len( reaction_name_part ) == 2:
+
+                        reaction_name = reaction_name_part[0]
+
+                        term_of_constant = reaction_name_part[1]
+
+                        if reaction_name == reaction_no:
+
+                            ChEBI = c_id.split('_')[1]
+
+                            coefficient = c_item.name()
+
+                            value = c_item.initialValue()
+
+                            for v_item in variables:            # Now, we look for the variable correspondant to this stoichiometric coefficient and we get its name
+                        
+                                if v_item.id().split('_')[1].split('-')[0] == ChEBI:
+
+                                    variable = v_item.name()    # This is the name user has given to the variable
+                                    break
+
+                            try:
+
+                                sv = v_item.id().split('_')[3]      # I think this shows if the variable is a state variable
+
+                            except:
+
+                                sv = ''
+
+                            if not rhs_r:
+
+                                if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
+
+                                    rhs_existence = True
                                     
-                                    rhs_r['1'] = rhs_r['1'] * ( ( general_equations[variable] ) ** abs( int(value) )  )
+                                    if (not v_item.initialValue()) and (sv != 'sv'):
 
-                                else:
+                                        rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( general_equations[variable] ) ** abs( int(value) )  )
+
+                                    else:
+                                        
+                                        rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+
+                                elif int(value) == 0:
+                                    print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
+                                    exit()
+
+                            else:
+
+                                if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
+
+                                    rhs_existence = True
+
+                                    if (not v_item.initialValue()) and (sv != 'sv'):
+
+                                        rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( general_equations[variable] ) ** abs( int(value) )  )
+
+                                    else:
+                                        
+                                        rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+
+                                elif int(value) > 0:                # When the value for the stoichiometric coefficient is positive, it is considered as a product
                                     
-                                    rhs_r['1'] = rhs_r['1'] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+                                    rhs_existence = True
 
-                            elif int(value) == 0:
-                                print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
-                                exit()
+                                    if (not v_item.initialValue()) and (sv != 'sv'):
+                                        
+                                        rhs_r[term_of_constant] = rhs_r[term_of_constant] * ( ( general_equations[variable] ) ** abs( int(value) )  )
 
-                elif len( reaction_name_part ) == 2:
+                                    else:
+                                        
+                                        rhs_r[term_of_constant] = rhs_r[term_of_constant] * ( ( symbols( variable ) ) ** abs( int(value) ) )
 
-                    reaction_name = reaction_name_part[0]
+                                elif int(value) == 0:
+                                    print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
+                                    exit()
 
-                    term_of_constant = reaction_name_part[1]
 
-                    if reaction_name == reaction_no:
+            # In reactions, we have enzymes which are part of the reaction rate equation while being absent in ODEs. So we use these only in equations not in Stoichiometric matrix.
+            # Therefore, it is better to define them under enzymes category.
+            for e_item in enzymes:
 
-                        ChEBI = c_id.split('_')[1]
+                e_id = e_item.id()                        # id is like this: 'co_12345_1' => first characters show that it is coefficient, second shows which participant this coefficient belongd, the thirs shows the reaction this participant participates by this coefficient
 
-                        coefficient = c_item.name()
+                e_id_reactions_segment = e_id.split('_')[2].split('-')
 
-                        value = c_item.initialValue()
+                for reaction_segment in e_id_reactions_segment:
 
-                        for v_item in variables:            # Now, we look for the variable correspondant to this stoichiometric coefficient and we get its name
-                    
-                            if v_item.id().split('_')[1].split('-')[0] == ChEBI:
+                    reaction_name_part = reaction_segment.split('.')
 
-                                variable = v_item.name()    # This is the name user has given to the variable
-                                break
+                    if len( reaction_name_part ) == 1:
 
-                        try:
+                        reaction_name = reaction_name_part[0]
 
-                            sv = v_item.id().split('_')[3]      # I think this shows if the variable is a state variable
+                        if reaction_name == reaction_no:
 
-                        except:
+                            ChEBI = e_id.split('_')[1]
 
-                            sv = ''
+                            enzyme = e_item.name()
 
-                        if not rhs_r:
+                            value = e_item.initialValue()
 
-                            if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
+                            for v_item in variables:            # Now, we look for the variable correspondant to this stoichiometric coefficient and we get its name
+                        
+                                if v_item.id().split('_')[1].split('-')[0] == ChEBI:
 
-                                rhs_existence = True
-                                
-                                if (not v_item.initialValue()) and (sv != 'sv'):
+                                    variable = v_item.name()    # This is the name user has given to the variable
+                                    break
 
-                                    rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( general_equations[variable] ) ** abs( int(value) )  )
+                            try:
 
-                                else:
+                                sv = v_item.id().split('_')[3]      # I think this shows if the variable is a state variable
+
+                            except:
+
+                                sv = ''
+
+                            if not rhs_r:
+
+                                if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
+
+                                    rhs_existence = True
                                     
-                                    rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+                                    if (not v_item.initialValue()) and (sv != 'sv'):
 
-                            elif int(value) == 0:
-                                print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
-                                exit()
+                                        rhs_f['1'] = rhs_f['1'] * ( ( general_equations[variable] ) ** abs( int(value) )  )
 
-                        else:
+                                    else:
+                                        
+                                        rhs_f['1'] = rhs_f['1'] * ( ( symbols( variable ) ) ** abs( int(value) ) )
 
-                            if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
+                                elif int(value) == 0:
+                                    print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
+                                    exit()
 
-                                rhs_existence = True
+                            else:
 
-                                if (not v_item.initialValue()) and (sv != 'sv'):
+                                if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
 
-                                    rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( general_equations[variable] ) ** abs( int(value) )  )
+                                    rhs_existence = True
 
-                                else:
+                                    if (not v_item.initialValue()) and (sv != 'sv'):
+
+                                        rhs_f['1'] = rhs_f['1'] * ( ( general_equations[variable] ) ** abs( int(value) )  )
+
+                                    else:
+                                        
+                                        rhs_f['1'] = rhs_f['1'] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+
+                                elif int(value) > 0:                # When the value for the stoichiometric coefficient is positive, it is considered as a product
                                     
-                                    rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+                                    rhs_existence = True
 
-                            elif int(value) > 0:                # When the value for the stoichiometric coefficient is positive, it is considered as a product
-                                
-                                rhs_existence = True
+                                    if (not v_item.initialValue()) and (sv != 'sv'):
+                                        
+                                        rhs_r['1'] = rhs_r['1'] * ( ( general_equations[variable] ) ** abs( int(value) )  )
 
-                                if (not v_item.initialValue()) and (sv != 'sv'):
+                                    else:
+                                        
+                                        rhs_r['1'] = rhs_r['1'] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+
+                                elif int(value) == 0:
+                                    print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
+                                    exit()
+
+                    elif len( reaction_name_part ) == 2:
+
+                        reaction_name = reaction_name_part[0]
+
+                        term_of_constant = reaction_name_part[1]
+
+                        if reaction_name == reaction_no:
+
+                            ChEBI = e_id.split('_')[1]
+
+                            enzyme = e_item.name()
+
+                            value = e_item.initialValue()
+
+                            for v_item in variables:            # Now, we look for the variable correspondant to this stoichiometric coefficient and we get its name
+                        
+                                if v_item.id().split('_')[1].split('-')[0] == ChEBI:
+
+                                    variable = v_item.name()    # This is the name user has given to the variable
+                                    break
+
+                            try:
+
+                                sv = v_item.id().split('_')[3]      # I think this shows if the variable is a state variable
+
+                            except:
+
+                                sv = ''
+
+                            if not rhs_r:
+
+                                if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
+
+                                    rhs_existence = True
                                     
-                                    rhs_r[term_of_constant] = rhs_r[term_of_constant] * ( ( general_equations[variable] ) ** abs( int(value) )  )
+                                    if (not v_item.initialValue()) and (sv != 'sv'):
 
-                                else:
+                                        rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( general_equations[variable] ) ** abs( int(value) )  )
+
+                                    else:
+                                        
+                                        rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+
+                                elif int(value) == 0:
+                                    print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
+                                    exit()
+
+                            else:
+
+                                if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
+
+                                    rhs_existence = True
+
+                                    if (not v_item.initialValue()) and (sv != 'sv'):
+
+                                        rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( general_equations[variable] ) ** abs( int(value) )  )
+
+                                    else:
+                                        
+                                        rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+
+                                elif int(value) > 0:                # When the value for the stoichiometric coefficient is positive, it is considered as a product
                                     
-                                    rhs_r[term_of_constant] = rhs_r[term_of_constant] * ( ( symbols( variable ) ) ** abs( int(value) ) )
+                                    rhs_existence = True
 
-                            elif int(value) == 0:
-                                print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
-                                exit()
+                                    if (not v_item.initialValue()) and (sv != 'sv'):
+                                        
+                                        rhs_r[term_of_constant] = rhs_r[term_of_constant] * ( ( general_equations[variable] ) ** abs( int(value) )  )
 
+                                    else:
+                                        
+                                        rhs_r[term_of_constant] = rhs_r[term_of_constant] * ( ( symbols( variable ) ) ** abs( int(value) ) )
 
-        # In reactions, we have enzymes which are part of the reaction rate equation while being absent in ODEs. So we use these only in equations not in Stoichiometric matrix.
-        # Therefore, it is better to define them under enzymes category.
-        for e_item in enzymes:
+                                elif int(value) == 0:
+                                    print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
+                                    exit()
 
-            e_id = e_item.id()                        # id is like this: 'co_12345_1' => first characters show that it is coefficient, second shows which participant this coefficient belongd, the thirs shows the reaction this participant participates by this coefficient
 
-            e_id_reactions_segment = e_id.split('_')[2].split('-')
+            if rhs_existence == False:
 
-            for reaction_segment in e_id_reactions_segment:
-
-                reaction_name_part = reaction_segment.split('.')
-
-                if len( reaction_name_part ) == 1:
-
-                    reaction_name = reaction_name_part[0]
-
-                    if reaction_name == reaction_no:
-
-                        ChEBI = e_id.split('_')[1]
-
-                        enzyme = e_item.name()
-
-                        value = e_item.initialValue()
-
-                        for v_item in variables:            # Now, we look for the variable correspondant to this stoichiometric coefficient and we get its name
-                    
-                            if v_item.id().split('_')[1].split('-')[0] == ChEBI:
-
-                                variable = v_item.name()    # This is the name user has given to the variable
-                                break
-
-                        try:
-
-                            sv = v_item.id().split('_')[3]      # I think this shows if the variable is a state variable
-
-                        except:
-
-                            sv = ''
-
-                        if not rhs_r:
-
-                            if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
-
-                                rhs_existence = True
-                                
-                                if (not v_item.initialValue()) and (sv != 'sv'):
-
-                                    rhs_f['1'] = rhs_f['1'] * ( ( general_equations[variable] ) ** abs( int(value) )  )
-
-                                else:
-                                    
-                                    rhs_f['1'] = rhs_f['1'] * ( ( symbols( variable ) ) ** abs( int(value) ) )
-
-                            elif int(value) == 0:
-                                print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
-                                exit()
-
-                        else:
-
-                            if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
-
-                                rhs_existence = True
-
-                                if (not v_item.initialValue()) and (sv != 'sv'):
-
-                                    rhs_f['1'] = rhs_f['1'] * ( ( general_equations[variable] ) ** abs( int(value) )  )
-
-                                else:
-                                    
-                                    rhs_f['1'] = rhs_f['1'] * ( ( symbols( variable ) ) ** abs( int(value) ) )
-
-                            elif int(value) > 0:                # When the value for the stoichiometric coefficient is positive, it is considered as a product
-                                
-                                rhs_existence = True
-
-                                if (not v_item.initialValue()) and (sv != 'sv'):
-                                    
-                                    rhs_r['1'] = rhs_r['1'] * ( ( general_equations[variable] ) ** abs( int(value) )  )
-
-                                else:
-                                    
-                                    rhs_r['1'] = rhs_r['1'] * ( ( symbols( variable ) ) ** abs( int(value) ) )
-
-                            elif int(value) == 0:
-                                print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
-                                exit()
-
-                elif len( reaction_name_part ) == 2:
-
-                    reaction_name = reaction_name_part[0]
-
-                    term_of_constant = reaction_name_part[1]
-
-                    if reaction_name == reaction_no:
-
-                        ChEBI = e_id.split('_')[1]
-
-                        enzyme = e_item.name()
-
-                        value = e_item.initialValue()
-
-                        for v_item in variables:            # Now, we look for the variable correspondant to this stoichiometric coefficient and we get its name
-                    
-                            if v_item.id().split('_')[1].split('-')[0] == ChEBI:
-
-                                variable = v_item.name()    # This is the name user has given to the variable
-                                break
-
-                        try:
-
-                            sv = v_item.id().split('_')[3]      # I think this shows if the variable is a state variable
-
-                        except:
-
-                            sv = ''
-
-                        if not rhs_r:
-
-                            if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
-
-                                rhs_existence = True
-                                
-                                if (not v_item.initialValue()) and (sv != 'sv'):
-
-                                    rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( general_equations[variable] ) ** abs( int(value) )  )
-
-                                else:
-                                    
-                                    rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( symbols( variable ) ) ** abs( int(value) ) )
-
-                            elif int(value) == 0:
-                                print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
-                                exit()
-
-                        else:
-
-                            if int(value) < 0:                  # When the value for the stoichiometric coefficient is negative, it is considered as a reactant
-
-                                rhs_existence = True
-
-                                if (not v_item.initialValue()) and (sv != 'sv'):
-
-                                    rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( general_equations[variable] ) ** abs( int(value) )  )
-
-                                else:
-                                    
-                                    rhs_f[term_of_constant] = rhs_f[term_of_constant] * ( ( symbols( variable ) ) ** abs( int(value) ) )
-
-                            elif int(value) > 0:                # When the value for the stoichiometric coefficient is positive, it is considered as a product
-                                
-                                rhs_existence = True
-
-                                if (not v_item.initialValue()) and (sv != 'sv'):
-                                    
-                                    rhs_r[term_of_constant] = rhs_r[term_of_constant] * ( ( general_equations[variable] ) ** abs( int(value) )  )
-
-                                else:
-                                    
-                                    rhs_r[term_of_constant] = rhs_r[term_of_constant] * ( ( symbols( variable ) ) ** abs( int(value) ) )
-
-                            elif int(value) == 0:
-                                print("The stoichiometric coefficient for {c} is set to zero which is wrong".format( c = coefficient ))
-                                exit()
-
-
-        if rhs_existence == False:
-
-            rhs = 0
-
-        else:
-
-            rhs = 0
-
-            if not rhs_r:
-
-                for eq_term in rhs_f.values():
-
-                    rhs = rhs + eq_term
+                rhs = 0
 
             else:
 
-                for eq_term in rhs_f.values():
+                rhs = 0
 
-                    rhs = rhs + eq_term
+                if not rhs_r:
 
-                for eq_term in rhs_r.values():
+                    for eq_term in rhs_f.values():
 
-                    rhs = rhs - eq_term
+                        rhs = rhs + eq_term
 
-        if rhs == 0 or rhs is None:
-            print( "Right hand side of equation for {equ} is zero".format( equ = reaction_rate.name() ) )
+                else:
 
-        else:
+                    for eq_term in rhs_f.values():
 
-            reaction_rate_equations_dict[reaction_rate.name()] = rhs
-            reaction_rate_equations.append( Eq(rate,rhs) )
+                        rhs = rhs + eq_term
+
+                    for eq_term in rhs_r.values():
+
+                        rhs = rhs - eq_term
+
+            if rhs == 0 or rhs is None:
+                print( "Right hand side of equation for {equ} is zero".format( equ = reaction_rate.name() ) )
+
+            else:
+
+                reaction_rate_equations_dict[reaction_rate.name()] = rhs
+                reaction_rate_equations.append( Eq(rate,rhs) )
 
 
     # ------- << Since sometimes I don't want to print out the equations, I have defined a printing function to control the output >> -------------
@@ -693,69 +718,71 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
 
         bc_name = bc.name()                                     # For each boundary condition, I will assign a name to distinguish from each other
 
-        bc_chebi = bc.id().split('_')[1].split('.')[0]
+        bc_chebis = bc.id().split('_')[1].split('.')
 
-        # --------- { Now I want to get the name of the compound, it can be a } --------
-        if ces.all_digits( bc_chebi ):                          # if the chebi code aprt of the id is all digits, so it is considered as the chebi code, otherwise it shold be the compound name and composition given by the user
+        for bc_chebi in bc_chebis:
 
-            compound, _ = chf.chebi_comp_parser( bc_chebi )
+            # --------- { Now I want to get the name of the compound, it can be a } --------
+            if ces.all_digits( bc_chebi ):                          # if the chebi code aprt of the id is all digits, so it is considered as the chebi code, otherwise it shold be the compound name and composition given by the user
 
-        else:
+                compound, _ = chf.chebi_comp_parser( bc_chebi )
 
-            compound = bc_chebi.split('-')[0]
+            else:
 
-        bc_value = None
+                compound = bc_chebi.split('-')[0]
 
-        if not bc.initialValue():
+            bc_value = None
 
-            try:
+            if not bc.initialValue():
 
-                imported_bc_equations
+                try:
 
-                for eq in imported_bc_equations:
+                    imported_bc_equations
 
-                    if str(eq.lhs) == bc_name:
+                    for eq in imported_bc_equations:
 
-                        bc_value = eq.rhs
-                        break
+                        if str(eq.lhs) == bc_name:
 
-            except:
+                            bc_value = eq.rhs
+                            break
 
-                print("There is no initial value for boundary condition {bc_condition}, and no imported equation is found for it.".format( bc_condition = bc_name ))
-                exit()
+                except:
 
-        else:
+                    print("There is no initial value for boundary condition {bc_condition}, and no imported equation is found for it.".format( bc_condition = bc_name ))
+                    exit()
 
-            bc_value = bc.initialValue()                            # The value of the boundary condition is stored in a variable
+            else:
+
+                bc_value = bc.initialValue()                            # The value of the boundary condition is stored in a variable
 
 
-        bc_display_name = 'v_' + compound                       # The name of the boundary condition to be displayed is composed of 'V' showing flow and the compound's name
+            bc_display_name = 'v_' + compound                       # The name of the boundary condition to be displayed is composed of 'V' showing flow and the compound's name
 
-        lhs_display = symbols( bc_display_name )
+            lhs_display = symbols( bc_display_name )
 
-        lhs = symbols( bc_name )
+            lhs = symbols( bc_name )
 
-        if bc_value is not None:
+            if bc_value is not None:
 
-            try:
+                try:
 
-                rhs = float( bc_value )
+                    rhs = float( bc_value )
 
-            except:
+                except:
 
-                rhs = bc_value
+                    rhs = bc_value
 
-        else:
+            else:
 
-            print("There is no value or equation defined for the boundary condition named {bc_condition}".format( bc_condition = bc_name ) )
-            exit("Modify the equations and define a value or an equation for {bc_condition}".format( bc_condition = bc_name ) )
+                print("There is no value or equation defined for the boundary condition named {bc_condition}".format( bc_condition = bc_name ) )
+                exit("Modify the equations and define a value or an equation for {bc_condition}".format( bc_condition = bc_name ) )
 
-        if rhs == 0 or rhs is None:
-            print( "Right hand side of {equ} is zero".format( equ = lhs_display ) )
+            if rhs == 0 or rhs is None:
+                print( "Right hand side of {equ} is zero".format( equ = lhs_display ) )
 
-        bc_equations_display.append( Eq(lhs_display,rhs) )
+            bc_equations_display.append( Eq(lhs_display,rhs) )
 
-        bc_equations[bc_name] = rhs
+            bc_equations[bc_name] = rhs
 
     if printing == 'on' or printing == 'On' or printing == 'ON':
 
@@ -816,9 +843,9 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
 
                             r_symbols[ reaction_rate ] = symbols( reaction_rate )
 
-                            break
+                            constituents[reaction_rate] = reaction_rate_coefficient
 
-                    constituents[reaction_rate] = reaction_rate_coefficient
+                            break
 
 
         # ********************************************************************************************************************************************
@@ -830,11 +857,13 @@ def equation_builder( components, imported_bc_equations = None,  printing = 'off
 
             bc_id = bc.id()                                     # In the list of boundary conditions, I will check to see if there is any boundary condition for this compound. So I need id of the boundary conditions
 
-            compound = bc_id.split('_')[1].split('.')[0]        # Here I get the compound name or chebi code
+            compounds = bc_id.split('_')[1].split('.')        # Here I get the compound name or chebi code
 
-            if compound == ChEBI:                               # As defined previously, ChEBI is the chebi code for the compound under investigation and compound is the chebi code or name for the ones in boundary conditions list
+            for compound in compounds:
 
-                bc_list.append( symbols( bc.name() ) )
+                if compound == ChEBI:                               # As defined previously, ChEBI is the chebi code for the compound under investigation and compound is the chebi code or name for the ones in boundary conditions list
+
+                    bc_list.append( symbols( bc.name() ) )
 
 
 

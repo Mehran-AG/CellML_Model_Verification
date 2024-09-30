@@ -61,9 +61,6 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
 
             for reaction in temporary_reactions.keys():                                             # I nned to look for the reaction in the reactions list to find its name since I only have ids of the reaction which might be different with its variable name in CellML
 
-                # if reaction == '9.1-9.2-9.3':
-                #     print('Here')
-
                 reaction_and_parts = reaction.split('-')
 
                 previous_reactions_to_check = []
@@ -128,75 +125,79 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
                 # ----------- << We will go through all boundary conditions to see which one belongs to this compound that the concentration rate equation being written
                 for bc in boundary_conditions:
 
-                    chebi_code = bc.id().split('_')[1]                                              # Chebi code stored in the boundaru condition's id
+                    chebi_codes = bc.id().split('_')[1].split('.')                                              # Chebi code stored in the boundary condition's id
 
-                    bc_id = bc.id()
+                    for chebi_code in chebi_codes:
 
-                    fake_bc_id = None
-                    
-                    if len( bc.id().split('_') ) > 2:
+                        bc_id = bc.id()
 
-                        fake_bc_id = bc.id().split('_')[1] + bc.id().split('_')[2]
+                        fake_bc_id = None
+                        
+                        if len( bc_id.split('_') ) > 2:
 
-                    # Getting the compound name for the boundary condition since the stoichionetric is built upon the compound names
-                    if ces.all_digits( chebi_code ):
+                            fake_bc_id = chebi_code + bc.id().split('_')[2]
 
-                        bc_compound, _ = chf.chebi_comp_parser( chebi_code )
+                        # Getting the compound name for the boundary condition since the stoichionetric is built upon the compound names
+                        if ces.all_digits( chebi_code ):
 
-                    else:
-
-                        bc_compound = chebi_code.split('-')[0]
-
-                    # Checking to see if it matches with the compound that its rate is being written
-                    # If it matches with the compound, then it will be added to the equation
-                    if bc_compound == compound and fake_bc_id not in already_added_BC:
-
-                        already_added_BC.append( fake_bc_id )
-
-                        bc_name = bc.name()
-
-                        rate_symbol = symbols( bc.name() )
-
-                        bc_in_out_sign = bc_id.split('_')[2].split('.')[0]
-
-                        if bc_in_out_sign == 'i':
-
-                            rhs = rhs + ( 1 * rate_symbol )     # Here I need to multiply the stoichiometric coefficient element with the reaction name to construct its rate consumption equation
-
-                        elif bc_in_out_sign == 'o':
-
-                            rhs = rhs - ( 1 * rate_symbol )
+                            bc_compound, _ = chf.chebi_comp_parser( chebi_code )
 
                         else:
 
-                            print("There is no identifier of whether the flow is in or out for boundary condition {bc_condition}".format( bc_condition = bc_name ) )
-                            exit()                                       
+                            bc_compound = chebi_code
 
-                        if not bc.initialValue():
+                        # Checking to see if it matches with the compound that its rate is being written
+                        # If it matches with the compound, then it will be added to the equation
+                        if bc_compound == compound and fake_bc_id not in already_added_BC:
 
-                            bc_value = None
+                            already_added_BC.append( fake_bc_id )
 
-                            try:
+                            bc_name = bc.name()
 
-                                imported_bc_equations
+                            rate_symbol = symbols( bc.name() )
 
-                                for eq in imported_bc_equations:
+                            bc_in_out_sign = bc_id.split('_')[2].split('.')[0]
 
-                                    if str(eq.lhs) == bc_name:
+                            if bc_in_out_sign == 'i':
 
-                                        bc_value = eq.rhs
-                                        break
+                                rhs = rhs + ( 1 * rate_symbol )     # Here I need to multiply the stoichiometric coefficient element with the reaction name to construct its rate consumption equation
 
-                            except:
+                            elif bc_in_out_sign == 'o':
 
-                                print("There is no initial value for boundary condition {bc_condition}, and no imported equation is found for it.".format( bc_condition = bc_name ))
+                                rhs = rhs - ( 1 * rate_symbol )
+
+                            else:
+
+                                print("There is no identifier of whether the flow is in or out for boundary condition {bc_condition}".format( bc_condition = bc_name ) )
                                 exit()
+                            
+                            #rhs += rate_symbol                           
 
-                        else:
+                            if not bc.initialValue():
 
-                            bc_value = bc.initialValue()                            # The value of the boundary condition is stored in a variable
+                                bc_value = None
 
-                        rhs = rhs.subs( rate_symbol, bc_value )
+                                try:
+
+                                    imported_bc_equations
+
+                                    for eq in imported_bc_equations:
+
+                                        if str(eq.lhs) == bc_name:
+
+                                            bc_value = eq.rhs
+                                            break
+
+                                except:
+
+                                    print("There is no initial value for boundary condition {bc_condition}, and no imported equation is found for it.".format( bc_condition = bc_name ))
+                                    exit()
+
+                            else:
+
+                                bc_value = bc.initialValue()                            # The value of the boundary condition is stored in a variable
+
+                            rhs = rhs.subs( rate_symbol, bc_value )
 
             # Since there are rows for boundary conditions in the stoichionetric matrix, the concentration rate equation for these species will be zero, so we try not to write these equations
             if rhs != 0:
@@ -209,118 +210,122 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
 
         bc_id = boundary_condition.id()
 
-        bc_chebi = bc_id.split('_')[1].split('.')[0]
+        bc_chebis = bc_id.split('_')[1].split('.')
 
-        if ces.all_digits( bc_chebi ):                          # if the chebi code aprt of the id is all digits, so it is considered as the chebi code, otherwise it shold be the compound name and composition given by the user
+        for bc_chebi in bc_chebis:
 
-            compound, _ = chf.chebi_comp_parser( bc_chebi )
+            if ces.all_digits( bc_chebi ):                          # if the chebi code aprt of the id is all digits, so it is considered as the chebi code, otherwise it shold be the compound name and composition given by the user
 
-        else:
-
-            compound = bc_chebi.split('-')[0]
-
-        if compound not in concentration_rate_equations.keys() or compound in temporary_bc_verifier:
-
-            temporary_bc_verifier.append( compound )
-
-            boundary_condition_name = boundary_condition.name()
-
-            boundary_condition_symbol = symbols( boundary_condition_name )
-
-            bc_in_out_sign = bc_id.split('_')[2].split('.')[0]
-
-            if bc_in_out_sign == 'i':
-
-                rhs = +1 * boundary_condition_symbol
-
-            elif bc_in_out_sign == 'o':
-
-                rhs = -1 * boundary_condition_symbol
+                compound, _ = chf.chebi_comp_parser( bc_chebi )
 
             else:
 
-                print("There is no identifier of whether the flow is in or out for boundary condition {bc_condition}".format( bc_condition = bc_name ) )
-                exit()
-            
+                compound = bc_chebi
 
-            bc_value = None
+            if compound not in concentration_rate_equations.keys() or compound in temporary_bc_verifier:
 
-            if not boundary_condition.initialValue():
+                temporary_bc_verifier.append( compound )
 
-                try:
+                boundary_condition_name = boundary_condition.name()
 
-                    imported_bc_equations
+                boundary_condition_symbol = symbols( boundary_condition_name )
 
-                    for eq in imported_bc_equations:
+                #rhs = boundary_condition_symbol
 
-                        if str(eq.lhs) == boundary_condition_name:
+                bc_in_out_sign = bc_id.split('_')[2].split('.')[0]
 
-                            bc_value = eq.rhs
-                            break
+                if bc_in_out_sign == 'i':
 
-                except:
+                    rhs = +1 * boundary_condition_symbol
 
-                    print("There is no initial value for boundary condition {bc_condition}, and no imported equation is found for it.".format( bc_condition = bc_name ))
-                    exit()
+                elif bc_in_out_sign == 'o':
 
-            else:
-
-                bc_value = abs( boundary_condition.initialValue() )                            # The value of the boundary condition is stored in a variable
-
-            rhs = rhs.subs( boundary_condition_symbol, bc_value )
-
-            for j, another_boundary_condition in enumerate( boundary_conditions ):
-
-                another_bc_id = another_boundary_condition.id()
-
-                another_bc_chebi = another_bc_id.split('_')[1]
-
-                if ces.all_digits( another_bc_chebi ):                          # if the chebi code aprt of the id is all digits, so it is considered as the chebi code, otherwise it shold be the compound name and composition given by the user
-
-                    another_compound, _ = chf.chebi_comp_parser( another_bc_chebi )
+                    rhs = -1 * boundary_condition_symbol
 
                 else:
 
-                    another_compound = another_bc_chebi.split('-')[0]
+                    print("There is no identifier of whether the flow is in or out for boundary condition {bc_condition}".format( bc_condition = bc_name ) )
+                    exit()
+                
 
-                if j != i and another_compound == compound:
+                bc_value = None
 
-                    another_boundary_condition_name = another_boundary_condition.name()
+                if not boundary_condition.initialValue():
 
-                    another_boundary_condition_symbol = symbols( another_boundary_condition_name )
+                    try:
 
-                    rhs += another_boundary_condition_symbol
+                        imported_bc_equations
 
-                    bc_value = None
+                        for eq in imported_bc_equations:
 
-                    if not another_boundary_condition.initialValue():
+                            if str(eq.lhs) == boundary_condition_name:
 
-                        try:
+                                bc_value = eq.rhs
+                                break
 
-                            imported_bc_equations
+                    except:
 
-                            for eq in imported_bc_equations:
+                        print("There is no initial value for boundary condition {bc_condition}, and no imported equation is found for it.".format( bc_condition = bc_name ))
+                        exit()
 
-                                if str(eq.lhs) == another_boundary_condition_name:
+                else:
 
-                                    bc_value = eq.rhs
-                                    break
+                    bc_value = abs( boundary_condition.initialValue() )                            # The value of the boundary condition is stored in a variable
 
-                        except:
+                rhs = rhs.subs( boundary_condition_symbol, bc_value )
 
-                            print("There is no initial value for boundary condition {bc_condition}, and no imported equation is found for it.".format( bc_condition = bc_name ))
-                            exit()
+                for j, another_boundary_condition in enumerate( boundary_conditions ):
+
+                    another_bc_id = another_boundary_condition.id()
+
+                    another_bc_chebi = another_bc_id.split('_')[1]
+
+                    if ces.all_digits( another_bc_chebi ):                          # if the chebi code aprt of the id is all digits, so it is considered as the chebi code, otherwise it shold be the compound name and composition given by the user
+
+                        another_compound, _ = chf.chebi_comp_parser( another_bc_chebi )
 
                     else:
 
-                        bc_value = another_boundary_condition.initialValue()                            # The value of the boundary condition is stored in a variable
+                        another_compound = another_bc_chebi.split('-')[0]
 
-                    rhs = rhs.subs( another_boundary_condition_symbol, bc_value )
+                    if j != i and another_compound == compound:
+
+                        another_boundary_condition_name = another_boundary_condition.name()
+
+                        another_boundary_condition_symbol = symbols( another_boundary_condition_name )
+
+                        rhs += another_boundary_condition_symbol
+
+                        bc_value = None
+
+                        if not another_boundary_condition.initialValue():
+
+                            try:
+
+                                imported_bc_equations
+
+                                for eq in imported_bc_equations:
+
+                                    if str(eq.lhs) == another_boundary_condition_name:
+
+                                        bc_value = eq.rhs
+                                        break
+
+                            except:
+
+                                print("There is no initial value for boundary condition {bc_condition}, and no imported equation is found for it.".format( bc_condition = bc_name ))
+                                exit()
+
+                        else:
+
+                            bc_value = another_boundary_condition.initialValue()                            # The value of the boundary condition is stored in a variable
+
+                        rhs = rhs.subs( another_boundary_condition_symbol, bc_value )
 
 
 
 
-            concentration_rate_equations[compound] = rhs
+                concentration_rate_equations[compound] = rhs
 
                 
 

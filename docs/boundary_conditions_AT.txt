@@ -1,0 +1,15 @@
+V_26 = k26 / ( 1 + k26_ * p16 )
+V_25 = k25 / ( 1 + k25_ * pRB )
+V_n1 = kn1
+V_3 = k3*E2F+k3_
+V_n4 = kn4*E2F
+V_n6 = kn6*CycD_Cdk4
+V_5 = k5*i_CyclinE_Cdk2
+V_8 = k8*p27*a_CyclinE_Cdk2
+V_17 = k17*p16*CycD_Cdk4
+V_21 = k21*a_CyclinE_Cdk2**2
+V_22 = k22*p27
+V_24 = k24*p16
+V_28 = k28*pRB
+V_29 = k29*pRB_P
+V_18 = k18*E2F

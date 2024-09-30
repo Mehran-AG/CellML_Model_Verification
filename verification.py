@@ -4,6 +4,7 @@ import numpy as np
 import sympy as sp
 import sys
 from colorama import Fore, Back, Style, init
+from pprint import pprint
 
 def verification( stoichiometric_array, elemental_array, element_indices, compound_indices, reaction_indices, rate_array = 0 ):
 
@@ -15,7 +16,7 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
     init( autoreset=True )
 
     #np.set_printoptions(threshold=np.inf)
-
+    np.set_printoptions(threshold=np.inf)
     print( Fore.RED + "\nElemental matrix is:\n", elemental_array )
     print( Fore.YELLOW + "\nStoichiometric matrix is:\n", stoichiometric_array )
 
@@ -42,7 +43,7 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
                 conservation_equations_array = nullspace * rate_array
                 print( Style.BRIGHT + Fore.GREEN + "\nCONGRATULATIONS!!! >>>> Your model passed the mass conservation verification test <<<<")
                 print('\nConservation equations are:\n', conservation_equations_array[0], ' = 0\n', conservation_equations_array[1], ' = 0\n' )
-                return nullspace
+                return conservation_equations_array
             else:
                 n_t = np.array(nullspace_transposed[0])
                 counter = 1
@@ -60,7 +61,7 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
                     print( conservation_equations_array[count], ' = 0')
                     count += 1
                 print("\n\n")
-                return nullspace
+                return conservation_equations_array
 
         else:
             print( Style.BRIGHT + Fore.RED + "\nConservation of Mass is violated" )
@@ -141,7 +142,8 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
             elif l == 1:
                 nullspace = np.transpose(np.array(nullspace_transposed[0]))
                 print('\nThe Left Null Sapce is:\n', nullspace)
-                return nullspace
+                conservation_equations_array = nullspace * rate_array
+                return conservation_equations_array
             else:
                 n_t = np.array(nullspace_transposed[0])
                 counter = 1
@@ -151,6 +153,8 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
                 nullspace = np.transpose(n_t)
                 print('\nThe Left Null Space is:\n', nullspace)
                 conservation_equations_array = nullspace * rate_array
+
+                return conservation_equations_array
 
         else:
             print('Conservation of Mass is violated\n')

@@ -127,7 +127,9 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
 
                     chebi_codes = bc.id().split('_')[1].split('.')                                              # Chebi code stored in the boundary condition's id
 
-                    for chebi_code in chebi_codes:
+                    statuses = bc.id().split('_')[2].split('-')
+
+                    for chebi_code, status in zip(chebi_codes, statuses):
 
                         bc_id = bc.id()
 
@@ -156,7 +158,7 @@ def matrix_equation_builder ( stoichiometric_matrix, rows, columns, reaction_rat
 
                             rate_symbol = symbols( bc.name() )
 
-                            bc_in_out_sign = bc_id.split('_')[2].split('.')[0]
+                            bc_in_out_sign = status.split('.')[0]
 
                             if bc_in_out_sign == 'i':
 

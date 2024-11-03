@@ -617,7 +617,7 @@
         </math>
     </component>
     <component name="V_17">
-        <variable cmeta:id="bc_p16.CycDCdk4_o.17" name="V_17" public_interface="out" units="first_order_rate_constant"/>
+        <variable cmeta:id="bc_p16.CycDCdk4_o.17-o.17" name="V_17" public_interface="out" units="first_order_rate_constant"/>
         <variable name="k17" public_interface="in" units="first_order_rate_constant"/>
         <variable name="p16" public_interface="in" units="dimensionless"/>
         <variable name="CycD_Cdk4" public_interface="in" units="dimensionless"/>

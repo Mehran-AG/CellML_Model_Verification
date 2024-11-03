@@ -76,7 +76,16 @@ def stoichiometric_matrix_builder( reaction_indices, compound_indices, coefficie
         
         compound = bc_coefficient.split('-')[0]                                      # bc_coefficient is like 'NO_e-bc_12345.1' and we split it in two by '-' and the one we get is virtual compound name: such as 'NO_e', 'No_i'
 
-        reaction_number = bc_coefficient.split('-')[1]                               # Second part after being split is considered as the reaction's specific name
+        splitted_encryption = bc_coefficient.split('-')
+
+        if len(splitted_encryption) == 2:
+
+            reaction_number = splitted_encryption[1]                                # Second part after being split is considered as the reaction's specific name
+
+        elif len(splitted_encryption) == 3:
+
+            reaction_number = '-'.join(splitted_encryption[-2:])                    # Some boundary conditions represent two species and hence the third part of the encoding includes two codes split by a dash
+                                                                                    # In this case, we need to consider this and sombine the split parts other than the first part
 
         # Now we will get the row in the stoichiometric matrix for this virtual compound
         try:

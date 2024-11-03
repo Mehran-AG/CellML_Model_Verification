@@ -33,14 +33,15 @@ import sympy_ode_solver as sos
 import equations_from_text as eft
 import external_concentrations as ec
 import conservation_check as cc
+import reversibility_check as rs
 
 
 command = 'cls' if os.name == 'nt' else 'clear'
 os.system(command)
 
-file_path = './docs/aguda_tang_1999.cellml'
+#file_path = './docs/aguda_tang_1999.cellml'
 #file_path = './docs/aguda_b_1999.cellml'
-#file_path = './docs/huang_ferrell_1996.cellml'
+file_path = './docs/huang_ferrell_1996.cellml'
 #file_path ='./docs/NitrosylBromide.cellml'
 cellml_file_dir = file_path
 cellml_file = file_path
@@ -48,9 +49,9 @@ cellml_strict_mode = False
 
 
 
-#bc_file_path = None
+bc_file_path = None
 #bc_file_path = './docs/boundary_conditions.txt'
-bc_file_path = './docs/boundary_conditions_AT.txt'
+#bc_file_path = './docs/boundary_conditions_AT.txt'
 #bc_file_path = './docs/boundary_conditions_NB.txt'
 
 #eq_file_path = './docs/equations.txt'
@@ -107,10 +108,12 @@ if solve_equations == True:
 
     solution, time, x, sympy_to_CellML = sos.sympy_ode_solver( components, concentration_rate_equations, general_equations, t_f, delta_t, 'on' )
 
-    variables_to_plot = [ 'E2F', 'p27', 'a_CyclinE_Cdk2' ]
+    variables_to_plot = []
 
     sos.plotter(  solution, time, variables_to_plot, x, sympy_to_CellML, show_legends = 'on' ) # Show Legends
 
+
+rs.reversibility_check( components )
 
 
 

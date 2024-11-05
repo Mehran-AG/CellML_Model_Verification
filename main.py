@@ -34,6 +34,7 @@ import equations_from_text as eft
 import external_concentrations as ec
 import conservation_check as cc
 import reversibility_check as rs
+import kinetic_thermo_conversion_matrix as ktcm
 
 
 command = 'cls' if os.name == 'nt' else 'clear'
@@ -58,7 +59,7 @@ bc_file_path = None
 eq_file_path = None
 
 read_eqs_from_file = False
-solve_equations = True
+solve_equations = False
 delta_t = 0.1
 t_f = 500
 
@@ -114,6 +115,8 @@ if solve_equations == True:
 
 
 rs.reversibility_check( components )
+
+ktcm.kietic_thermo_convertor( components, reaction_indices, compound_indices, coefficients )
 
 
 

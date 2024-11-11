@@ -54,32 +54,34 @@ def kietic_thermo_convertor( components, reaction_indices, compound_indices, coe
 
         direction = reaction_id.split('_')[1]
 
+        if reaction_name not in reaction_rates_constants:
+
+            reaction_rates_constants[reaction_name] = {}
+
         if direction == 'f':
 
-            reaction_rates_constants[reaction_name] = {"forward": reaction_rate_constant.initialValue()}
+            reaction_rates_constants[reaction_name]["forward"] = float( reaction_rate_constant.initialValue() )
 
         elif direction == 'r':
 
-            reaction_rates_constants[reaction_name]= {"reverse": reaction_rate_constant.initialValue()}
+            reaction_rates_constants[reaction_name]["reverse"]= float( reaction_rate_constant.initialValue() )
 
     
     reactions_no = len( reaction_indices )
 
     identity_array = np.eye( reactions_no )
 
-    zero_vector = np.zeros( reactions_no )
+    vector_length = reactions_no * 2
 
-    vector_length = (reactions_no * 2) + 1
-
-    kinetic_rates = np.zeros( vector_length )
-
-    kinetic_rates[-1] = 1
+    kinetic_constants = np.zeros( vector_length )
 
     for reaction_name, reaction_index in reaction_indices.items():
 
         try:
         
             k_plus = reaction_rates_constants[reaction_name]["forward"]
+
+            kinetic_constants[reaction_index] = k_plus
 
         except:
 
@@ -89,14 +91,11 @@ def kietic_thermo_convertor( components, reaction_indices, compound_indices, coe
 
             k_minus = reaction_rates_constants[reaction_name]["reverse"]
 
+            kinetic_constants[ (reaction_index + reactions_no ) ] = k_minus
+
         except:
 
-            k_minus = 0
-            #sys.exit( "The reverse reaction rate constant was not found for reaction {r}".format( r = reaction_name ) )
-
-        kinetic_rates[reaction_index] = k_plus
-
-        kinetic_rates[ (reaction_index + reactions_no ) ] = k_minus
+            sys.exit( "The reverse reaction rate constant was not found for reaction {r}".format( r = reaction_name ) )
 
 
 
@@ -173,8 +172,6 @@ def kietic_thermo_convertor( components, reaction_indices, compound_indices, coe
 
     transposed_reverse_stoichiometric_matrix = np.transpose( reverse_stoichiometric_matrix )
 
-    thermo_consts_check_matrix = np.sum( transposed_forward_stoichiometric_matrix, axis=0 ) - np.sum( transposed_reverse_stoichiometric_matrix, axis = 0 )
+    conversion_matrix = np.block( [ [ identity_array, transposed_forward_stoichiometric_matrix ], [ identity_array, transposed_reverse_stoichiometric_matrix ] ] )
 
-    conversion_matrix = np.block( [ [ identity_array, transposed_forward_stoichiometric_matrix ], [ identity_array, transposed_reverse_stoichiometric_matrix ], [ zero_vector, thermo_consts_check_matrix ] ] )
-
-    return conversion_matrix
+    return conversion_matrix, kinetic_constants

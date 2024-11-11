@@ -35,6 +35,7 @@ import external_concentrations as ec
 import conservation_check as cc
 import reversibility_check as rs
 import kinetic_thermo_conversion_matrix as ktcm
+import kinetic_thermo_consts_convertor as ktcc
 
 
 command = 'cls' if os.name == 'nt' else 'clear'
@@ -42,7 +43,8 @@ os.system(command)
 
 #file_path = './docs/aguda_tang_1999.cellml'
 #file_path = './docs/aguda_b_1999.cellml'
-file_path = './docs/huang_ferrell_1996.cellml'
+#file_path = './docs/huang_ferrell_1996.cellml'
+file_path = './docs/modified_huang_ferrell_1996.cellml'
 #file_path ='./docs/NitrosylBromide.cellml'
 cellml_file_dir = file_path
 cellml_file = file_path
@@ -116,7 +118,11 @@ if solve_equations == True:
 
 rs.reversibility_check( components )
 
-ktcm.kietic_thermo_convertor( components, reaction_indices, compound_indices, coefficients )
+conversion_matrix, kinetic_constants = ktcm.kietic_thermo_convertor( components, reaction_indices, compound_indices, coefficients )
+
+ktcc.kienetic_thermo_consts_convertor( conversion_matrix, kinetic_constants )
+
+
 
 
 

@@ -25,164 +25,72 @@ http://www.CellML.org/
         <variable cmeta:id="environment_time" name="time" public_interface="out" units="second"/>
     </component>
     <component name="total_concs">
-        <variable cmeta:id="ev_eq29.l" initial_value="0.003" name="mostot" public_interface="out" units="micromolar"/>
-        <variable cmeta:id="ev_eq30.l" initial_value="0.0003" name="e1tot" public_interface="out" units="micromolar"/>
-        <variable cmeta:id="ev_eq31.l" initial_value="0.0003" name="e2tot" public_interface="out" units="micromolar"/>
-        <variable cmeta:id="ev_eq32.l" initial_value="1.2" name="mektot" public_interface="out" units="micromolar"/>
-        <variable cmeta:id="ev_eq33.l" initial_value="0.0003" name="mekpasetot" public_interface="out" units="micromolar"/>
-        <variable cmeta:id="ev_eq34.l" initial_value="1.2" name="mapktot" public_interface="out" units="micromolar"/>
-        <variable cmeta:id="ev_eq35.l" initial_value="0.12" name="mapkpasetot" public_interface="out" units="micromolar"/>
+        <variable initial_value="0.003" name="mostot" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="total_concs_e1tot" initial_value="0.0003" name="e1tot" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="total_concs_e2tot" initial_value="0.0003" name="e2tot" public_interface="out" units="micromolar"/>
+        <variable initial_value="1.2" name="mektot" public_interface="out" units="micromolar"/>
+        <variable initial_value="0.0003" name="mekpasetot" public_interface="out" units="micromolar"/>
+        <variable initial_value="1.2" name="mapktot" public_interface="out" units="micromolar"/>
+        <variable initial_value="0.12" name="mapkpasetot" public_interface="out" units="micromolar"/>
     </component>
     <component name="rate_constants">
-        <variable cmeta:id="rc_f_1" initial_value="1000" name="a1" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_3" initial_value="1000" name="a2" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_5" initial_value="1000" name="a3" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_7" initial_value="1000" name="a4" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_9" initial_value="1000" name="a5" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_11" initial_value="1000" name="a6" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_13" initial_value="1000" name="a7" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_15" initial_value="1000" name="a8" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_17" initial_value="1000" name="a9" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_19" initial_value="1000" name="a10" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_1" initial_value="150" name="d1" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_3" initial_value="150" name="d2" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_5" initial_value="150" name="d3" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_7" initial_value="150" name="d4" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_9" initial_value="150" name="d5" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_11" initial_value="150" name="d6" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_13" initial_value="150" name="d7" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_15" initial_value="150" name="d8" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_17" initial_value="150" name="d9" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_19" initial_value="150" name="d10" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_2" initial_value="150" name="k1" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_4" initial_value="150" name="k2" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_6" initial_value="150" name="k3" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_8" initial_value="150" name="k4" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_10" initial_value="150" name="k5" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_12" initial_value="150" name="k6" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_14" initial_value="150" name="k7" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_16" initial_value="150" name="k8" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_18" initial_value="150" name="k9" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_f_20" initial_value="150" name="k10" public_interface="out" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_2" initial_value="0.0613" name="l1" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_4" initial_value="0.0613" name="l2" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_6" initial_value="0.0613" name="l3" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_8" initial_value="0.0613" name="l4" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_10" initial_value="0.0613" name="l5" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_12" initial_value="0.0613" name="l6" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_14" initial_value="0.0613" name="l7" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_16" initial_value="0.0613" name="l8" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_18" initial_value="0.0613" name="l9" public_interface="out" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="rc_r_20" initial_value="0.0613" name="l10" public_interface="out" units="second_order_rate_constant_units"/>
-    </component>
-    <component name="coefficients">
-        <variable cmeta:id="co_mos_1" initial_value="-1" name="mos_1" units="dimensionless"/>
-        <variable cmeta:id="co_e1_1" initial_value="-1" name="e1_1" units="dimensionless"/>
-        <variable cmeta:id="co_mose1_1" initial_value="1" name="mose1_1" units="dimensionless"/>
-        <variable cmeta:id="co_mose1_2" initial_value="-1" name="mose1_2" units="dimensionless"/>
-        <variable cmeta:id="co_mosstar_2" initial_value="1" name="mosstar_2" units="dimensionless"/>
-        <variable cmeta:id="co_e1_2" initial_value="1" name="e1_2" units="dimensionless"/>
-        <variable cmeta:id="co_mosstar_3" initial_value="-1" name="mosstar_3" units="dimensionless"/>
-        <variable cmeta:id="co_e2_3" initial_value="-1" name="e2_3" units="dimensionless"/>
-        <variable cmeta:id="co_mosstare2_3" initial_value="1" name="mose2_3" units="dimensionless"/>
-        <variable cmeta:id="co_mosstare2_4" initial_value="-1" name="mosstare2_4" units="dimensionless"/>
-        <variable cmeta:id="co_mos_4" initial_value="1" name="mos_4" units="dimensionless"/>
-        <variable cmeta:id="co_e2_4" initial_value="1" name="e2_4" units="dimensionless"/>
-        <variable cmeta:id="co_mek_5" initial_value="-1" name="mek_5" units="dimensionless"/>
-        <variable cmeta:id="co_mosstar_5" initial_value="-1" name="mosstar_5" units="dimensionless"/>
-        <variable cmeta:id="co_mekmosstar_5" initial_value="1" name="mekmosstar_5" units="dimensionless"/>
-        <variable cmeta:id="co_mekmosstar_6" initial_value="-1" name="mekmosstar_6" units="dimensionless"/>
-        <variable cmeta:id="co_mekp_6" initial_value="1" name="mekp_6" units="dimensionless"/>
-        <variable cmeta:id="co_mosstar_6" initial_value="1" name="mosstar_6" units="dimensionless"/>
-        <variable cmeta:id="co_mekp_7" initial_value="-1" name="mekp_7" units="dimensionless"/>
-        <variable cmeta:id="co_mekpase_7" initial_value="-1" name="mekpase_7" units="dimensionless"/>
-        <variable cmeta:id="co_mekpmekpase_7" initial_value="1" name="mekpmekpase_7" units="dimensionless"/>
-        <variable cmeta:id="co_mekpmekpase_8" initial_value="-1" name="mekpmekpase_8" units="dimensionless"/>
-        <variable cmeta:id="co_mek_8" initial_value="1" name="mek_8" units="dimensionless"/>
-        <variable cmeta:id="co_mekpase_8" initial_value="1" name="mekpase_8" units="dimensionless"/>
-        <variable cmeta:id="co_mekp_9" initial_value="-1" name="mekp_9" units="dimensionless"/>
-        <variable cmeta:id="co_mosstar_9" initial_value="-1" name="mosstar_9" units="dimensionless"/>
-        <variable cmeta:id="co_mekpmosstar_9" initial_value="1" name="mekpmosstar_9" units="dimensionless"/>
-        <variable cmeta:id="co_mekpmosstar_10" initial_value="-1" name="mekpmosstar_10" units="dimensionless"/>
-        <variable cmeta:id="co_mekpp_10" initial_value="1" name="mekpp_10" units="dimensionless"/>
-        <variable cmeta:id="co_mosstar_10" initial_value="1" name="mosstar_10" units="dimensionless"/>
-        <variable cmeta:id="co_mekpp_11" initial_value="-1" name="mekpp_11" units="dimensionless"/>
-        <variable cmeta:id="co_mekpase_11" initial_value="-1" name="mekpase_11" units="dimensionless"/>
-        <variable cmeta:id="co_mekppmekpase_11" initial_value="1" name="mekppmekpase_11" units="dimensionless"/>
-        <variable cmeta:id="co_mekppmekpase_12" initial_value="-1" name="mekppmekpase_12" units="dimensionless"/>
-        <variable cmeta:id="co_mekp_12" initial_value="1" name="mekp_12" units="dimensionless"/>
-        <variable cmeta:id="co_mekpase_12" initial_value="1" name="mekpase_12" units="dimensionless"/>
-        <variable cmeta:id="co_mekpp_13" initial_value="-1" name="mekpp_13" units="dimensionless"/>
-        <variable cmeta:id="co_mapk_13" initial_value="-1" name="mapk_13" units="dimensionless"/>
-        <variable cmeta:id="co_mekppmapk_13" initial_value="1" name="mekppmapk_13" units="dimensionless"/>
-        <variable cmeta:id="co_mekppmapk_14" initial_value="-1" name="mekppmapk_14" units="dimensionless"/>
-        <variable cmeta:id="co_mekpp_14" initial_value="1" name="mekpp_14" units="dimensionless"/>
-        <variable cmeta:id="co_mapkp_14" initial_value="1" name="makp_14" units="dimensionless"/>
-        <variable cmeta:id="co_mapkp_15" initial_value="-1" name="mapkp_15" units="dimensionless"/>
-        <variable cmeta:id="co_mapkpase_15" initial_value="-1" name="mapkpase_15" units="dimensionless"/>
-        <variable cmeta:id="co_mapkpmapkpase_15" initial_value="1" name="mapkpmapkpase_15" units="dimensionless"/>
-        <variable cmeta:id="co_mapkpmapkpase_16" initial_value="-1" name="mapkpmapkpase_16" units="dimensionless"/>
-        <variable cmeta:id="co_mapk_16" initial_value="1" name="mapk_16" units="dimensionless"/>
-        <variable cmeta:id="co_mapkpase_16" initial_value="1" name="mapkpase_16" units="dimensionless"/>
-        <variable cmeta:id="co_mapkp_17" initial_value="-1" name="mapkp_17" units="dimensionless"/>
-        <variable cmeta:id="co_mekpp_17" initial_value="-1" name="mekpp_17" units="dimensionless"/>
-        <variable cmeta:id="co_mapkpmekpp_17" initial_value="1" name="mapkpmekpp_17" units="dimensionless"/>
-        <variable cmeta:id="co_mapkpmekpp_18" initial_value="-1" name="mapkpmekpp_18" units="dimensionless"/>
-        <variable cmeta:id="co_mapkpp_18" initial_value="1" name="mapkpp_18" units="dimensionless"/>
-        <variable cmeta:id="co_mekpp_18" initial_value="1" name="mekpp_18" units="dimensionless"/>
-        <variable cmeta:id="co_mapkpp_19" initial_value="-1" name="mapkpp_19" units="dimensionless"/>
-        <variable cmeta:id="co_mapkpase_19" initial_value="-1" name="mapkpase_19" units="dimensionless"/>
-        <variable cmeta:id="co_mapkppmapkpase_19" initial_value="1" name="mekppmapkpase_19" units="dimensionless"/>
-        <variable cmeta:id="co_mapkppmapkpase_20" initial_value="-1" name="mekppmapkpase_20" units="dimensionless"/>
-        <variable cmeta:id="co_mapkp_20" initial_value="1" name="mapkp_20" units="dimensionless"/>
-        <variable cmeta:id="co_mapkpase_20" initial_value="1" name="mapkpase_20" units="dimensionless"/>
-    </component>
-    <component name="reaction_rates">
-        <variable cmeta:id="ra_1" name="v_1" units="micromolar"/>
-        <variable cmeta:id="ra_2" name="v_2" units="micromolar"/>
-        <variable cmeta:id="ra_3" name="v_3" units="micromolar"/>
-        <variable cmeta:id="ra_4" name="v_4" units="micromolar"/>
-        <variable cmeta:id="ra_5" name="v_5" units="micromolar"/>
-        <variable cmeta:id="ra_6" name="v_6" units="micromolar"/>
-        <variable cmeta:id="ra_7" name="v_7" units="micromolar"/>
-        <variable cmeta:id="ra_8" name="v_8" units="micromolar"/>
-        <variable cmeta:id="ra_9" name="v_9" units="micromolar"/>
-        <variable cmeta:id="ra_10" name="v_10" units="micromolar"/>
-        <variable cmeta:id="ra_11" name="v_11" units="micromolar"/>
-        <variable cmeta:id="ra_12" name="v_12" units="micromolar"/>
-        <variable cmeta:id="ra_13" name="v_13" units="micromolar"/>
-        <variable cmeta:id="ra_14" name="v_14" units="micromolar"/>
-        <variable cmeta:id="ra_15" name="v_15" units="micromolar"/>
-        <variable cmeta:id="ra_16" name="v_16" units="micromolar"/>
-        <variable cmeta:id="ra_17" name="v_17" units="micromolar"/>
-        <variable cmeta:id="ra_18" name="v_18" units="micromolar"/>
-        <variable cmeta:id="ra_19" name="v_19" units="micromolar"/>
-        <variable cmeta:id="ra_20" name="v_20" units="micromolar"/>
+        <variable initial_value="1000" name="a1" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="1000" name="a2" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="1000" name="a3" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="1000" name="a4" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="1000" name="a5" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="1000" name="a6" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="1000" name="a7" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="1000" name="a8" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="1000" name="a9" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="1000" name="a10" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="150" name="d1" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="d2" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="d3" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="d4" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="d5" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="d6" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="d7" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="d8" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="d9" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="d10" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="k1" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="k2" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="k3" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="k4" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="k5" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="k6" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="k7" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="k8" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="k9" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="150" name="k10" public_interface="out" units="first_order_rate_constant_units"/>
+        <variable initial_value="990" name="l1" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="990" name="l2" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="990" name="l3" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="990" name="l4" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="990" name="l5" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="990" name="l6" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="990" name="l7" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="990" name="l8" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="990" name="l9" public_interface="out" units="second_order_rate_constant_units"/>
+        <variable initial_value="990" name="l10" public_interface="out" units="second_order_rate_constant_units"/>
     </component>
     <component cmeta:id="mos" name="mos">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mos_eq29.r" initial_value="0.003" name="mos" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="mos_mos" initial_value="0.003" name="mos" public_interface="out" units="micromolar"/>
         <variable name="mostot" public_interface="in" units="micromolar"/>
-        <variable name="a1" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mosstar" public_interface="in" units="micromolar"/>
         <variable name="mose1" public_interface="in" units="micromolar"/>
         <variable name="mosstare2" public_interface="in" units="micromolar"/>
+        <variable name="mekmosstar" public_interface="in" units="micromolar"/>
         <variable name="mekstarmosstar" public_interface="in" units="micromolar"/>
         <variable name="e1tot" public_interface="in" units="micromolar"/>
+        <variable name="a1" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="d1" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="k2" public_interface="in" units="first_order_rate_constant_units"/>
-        <variable name="mekmosstar" public_interface="in" units="micromolar"/>
-        <variable cmeta:id="va_e1_eq30.r" name="e_1" units="micromolar"/>
+        <variable name="e2tot" public_interface="in" units="micromolar"/>
+        <variable name="l2" public_interface="in" units="second_order_rate_constant_units"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-                <eq/>
-                <ci>e_1</ci>
-                <apply>
-                    <minus/>
-                    <ci>e1tot</ci>
-                    <ci>mose1</ci>
-                </apply>
-            </apply>
             <apply>
                 <eq/>
                 <apply>
@@ -193,13 +101,56 @@ http://www.CellML.org/
                     <ci>mos</ci>
                 </apply>
                 <apply>
-                    <plus/>
+                    <minus/>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <times/>
+                            <apply>
+                                <minus/>
+                                <ci>a1</ci>
+                            </apply>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <minus/>
+                                            <apply>
+                                                <minus/>
+                                                <ci>mostot</ci>
+                                                <ci>mosstar</ci>
+                                            </apply>
+                                            <ci>mose1</ci>
+                                        </apply>
+                                        <ci>mosstare2</ci>
+                                    </apply>
+                                    <ci>mekmosstar</ci>
+                                </apply>
+                                <ci>mekstarmosstar</ci>
+                            </apply>
+                            <apply>
+                                <minus/>
+                                <ci>e1tot</ci>
+                                <ci>mose1</ci>
+                            </apply>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>d1</ci>
+                            <ci>mose1</ci>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>k2</ci>
+                            <ci>mosstare2</ci>
+                        </apply>
+                    </apply>
                     <apply>
                         <times/>
-                        <apply>
-                            <minus/>
-                            <ci>a1</ci>
-                        </apply>
+                        <ci>l2</ci>
                         <apply>
                             <minus/>
                             <apply>
@@ -221,17 +172,11 @@ http://www.CellML.org/
                             </apply>
                             <ci>mekstarmosstar</ci>
                         </apply>
-                        <ci>e_1</ci>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <ci>d1</ci>
-                        <ci>mose1</ci>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <ci>k2</ci>
-                        <ci>mosstare2</ci>
+                        <apply>
+                            <minus/>
+                            <ci>e2tot</ci>
+                            <ci>mosstare2</ci>
+                        </apply>
                     </apply>
                 </apply>
             </apply>
@@ -239,7 +184,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mose1" name="mose1">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mose1-mos.e1_eq30.r-eq29.r" initial_value="0" name="mose1" public_interface="out" units="micromolar"/>
+        <variable initial_value="0" name="mose1" public_interface="out" units="micromolar"/>
         <variable name="a1" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mostot" public_interface="in" units="micromolar"/>
         <variable name="mosstar" public_interface="in" units="micromolar"/>
@@ -249,7 +194,7 @@ http://www.CellML.org/
         <variable name="e1tot" public_interface="in" units="micromolar"/>
         <variable name="d1" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="k1" public_interface="in" units="first_order_rate_constant_units"/>
-        <!-- #2-->
+        <variable name="l1" public_interface="in" units="second_order_rate_constant_units"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -261,12 +206,12 @@ http://www.CellML.org/
                     <ci>mose1</ci>
                 </apply>
                 <apply>
-                    <minus/>
+                    <plus/>
                     <apply>
-                        <times/>
-                        <ci>a1</ci>
+                        <minus/>
                         <apply>
-                            <minus/>
+                            <times/>
+                            <ci>a1</ci>
                             <apply>
                                 <minus/>
                                 <apply>
@@ -275,31 +220,44 @@ http://www.CellML.org/
                                         <minus/>
                                         <apply>
                                             <minus/>
-                                            <ci>mostot</ci>
-                                            <ci>mosstar</ci>
+                                            <apply>
+                                                <minus/>
+                                                <ci>mostot</ci>
+                                                <ci>mosstar</ci>
+                                            </apply>
+                                            <ci>mose1</ci>
                                         </apply>
-                                        <ci>mose1</ci>
+                                        <ci>mosstare2</ci>
                                     </apply>
-                                    <ci>mosstare2</ci>
+                                    <ci>mekmosstar</ci>
                                 </apply>
-                                <ci>mekmosstar</ci>
+                                <ci>mekstarmosstar</ci>
                             </apply>
-                            <ci>mekstarmosstar</ci>
+                            <apply>
+                                <minus/>
+                                <ci>e1tot</ci>
+                                <ci>mose1</ci>
+                            </apply>
                         </apply>
                         <apply>
-                            <minus/>
-                            <ci>e1tot</ci>
+                            <times/>
+                            <apply>
+                                <plus/>
+                                <ci>d1</ci>
+                                <ci>k1</ci>
+                            </apply>
                             <ci>mose1</ci>
                         </apply>
                     </apply>
                     <apply>
                         <times/>
+                        <ci>l1</ci>
+                        <ci>mosstar</ci>
                         <apply>
-                            <plus/>
-                            <ci>d1</ci>
-                            <ci>k1</ci>
+                            <minus/>
+                            <ci>e1tot</ci>
+                            <ci>mose1</ci>
                         </apply>
-                        <ci>mose1</ci>
                     </apply>
                 </apply>
             </apply>
@@ -307,7 +265,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mosstar" name="mosstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mosstar-mos_eq29.r" initial_value="0" name="mosstar" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="mosstar_mosstar" initial_value="0" name="mosstar" public_interface="out" units="micromolar"/>
         <variable name="a2" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="e2tot" public_interface="in" units="micromolar"/>
         <variable name="mosstare2" public_interface="in" units="micromolar"/>
@@ -329,55 +287,11 @@ http://www.CellML.org/
         <variable name="k5" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="d5" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="a5" public_interface="in" units="second_order_rate_constant_units"/>
-        <variable cmeta:id="va_e2_eq31.r" name="e_2" units="micromolar"/>
-        <variable name="mek" units="micromolar"/>
+        <variable name="e1tot" public_interface="in" units="micromolar"/>
+        <variable name="l1" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="l3" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="l5" public_interface="in" units="second_order_rate_constant_units"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-                <eq/>
-                <ci>e_2</ci>
-                <apply>
-                    <minus/>
-                    <ci>e2tot</ci>
-                    <ci>mosstare2</ci>
-                </apply>
-            </apply>
-            <apply>
-                <eq/>
-                <ci>mek</ci>
-                <apply>
-                    <minus/>
-                    <apply>
-                        <minus/>
-                        <apply>
-                            <minus/>
-                            <apply>
-                                <minus/>
-                                <apply>
-                                    <minus/>
-                                    <apply>
-                                        <minus/>
-                                        <apply>
-                                            <minus/>
-                                            <apply>
-                                                <minus/>
-                                                <ci>mektot</ci>
-                                                <ci>mekstar</ci>
-                                            </apply>
-                                            <ci>mekstarstar</ci>
-                                        </apply>
-                                        <ci>mekstarmekpase</ci>
-                                    </apply>
-                                    <ci>mekstarstarmekpase</ci>
-                                </apply>
-                                <ci>mekmosstar</ci>
-                            </apply>
-                            <ci>mekstarmosstar</ci>
-                        </apply>
-                        <ci>mapkmekstarstar</ci>
-                    </apply>
-                    <ci>mapkstarmekstarstar</ci>
-                </apply>
-            </apply>
             <apply>
                 <eq/>
                 <apply>
@@ -390,61 +304,128 @@ http://www.CellML.org/
                 <apply>
                     <minus/>
                     <apply>
-                        <plus/>
+                        <minus/>
                         <apply>
                             <minus/>
                             <apply>
-                                <plus/>
+                                <minus/>
                                 <apply>
-                                    <times/>
+                                    <plus/>
                                     <apply>
                                         <minus/>
-                                        <ci>a2</ci>
+                                        <apply>
+                                            <plus/>
+                                            <apply>
+                                                <times/>
+                                                <apply>
+                                                    <minus/>
+                                                    <ci>a2</ci>
+                                                </apply>
+                                                <ci>mosstar</ci>
+                                                <apply>
+                                                    <minus/>
+                                                    <ci>e2tot</ci>
+                                                    <ci>mosstare2</ci>
+                                                </apply>
+                                            </apply>
+                                            <apply>
+                                                <times/>
+                                                <ci>d2</ci>
+                                                <ci>mosstare2</ci>
+                                            </apply>
+                                            <apply>
+                                                <times/>
+                                                <ci>k1</ci>
+                                                <ci>mose1</ci>
+                                            </apply>
+                                            <apply>
+                                                <times/>
+                                                <apply>
+                                                    <plus/>
+                                                    <ci>k3</ci>
+                                                    <ci>d3</ci>
+                                                </apply>
+                                                <ci>mekmosstar</ci>
+                                            </apply>
+                                        </apply>
+                                        <apply>
+                                            <times/>
+                                            <ci>a3</ci>
+                                            <ci>mosstar</ci>
+                                            <apply>
+                                                <minus/>
+                                                <apply>
+                                                    <minus/>
+                                                    <apply>
+                                                        <minus/>
+                                                        <apply>
+                                                            <minus/>
+                                                            <apply>
+                                                                <minus/>
+                                                                <apply>
+                                                                    <minus/>
+                                                                    <apply>
+                                                                        <minus/>
+                                                                        <apply>
+                                                                            <minus/>
+                                                                            <ci>mektot</ci>
+                                                                            <ci>mekstar</ci>
+                                                                        </apply>
+                                                                        <ci>mekstarstar</ci>
+                                                                    </apply>
+                                                                    <ci>mekstarmekpase</ci>
+                                                                </apply>
+                                                                <ci>mekstarstarmekpase</ci>
+                                                            </apply>
+                                                            <ci>mekmosstar</ci>
+                                                        </apply>
+                                                        <ci>mekstarmosstar</ci>
+                                                    </apply>
+                                                    <ci>mapkmekstarstar</ci>
+                                                </apply>
+                                                <ci>mapkstarmekstarstar</ci>
+                                            </apply>
+                                        </apply>
                                     </apply>
-                                    <ci>mosstar</ci>
-                                    <ci>e_2</ci>
-                                </apply>
-                                <apply>
-                                    <times/>
-                                    <ci>d2</ci>
-                                    <ci>mosstare2</ci>
-                                </apply>
-                                <apply>
-                                    <times/>
-                                    <ci>k1</ci>
-                                    <ci>mose1</ci>
-                                </apply>
-                                <apply>
-                                    <times/>
                                     <apply>
-                                        <plus/>
-                                        <ci>k3</ci>
-                                        <ci>d3</ci>
+                                        <times/>
+                                        <apply>
+                                            <plus/>
+                                            <ci>k5</ci>
+                                            <ci>d5</ci>
+                                        </apply>
+                                        <ci>mekstarmosstar</ci>
                                     </apply>
-                                    <ci>mekmosstar</ci>
+                                </apply>
+                                <apply>
+                                    <times/>
+                                    <ci>a5</ci>
+                                    <ci>mekstar</ci>
+                                    <ci>mosstar</ci>
                                 </apply>
                             </apply>
                             <apply>
                                 <times/>
-                                <ci>a3</ci>
+                                <ci>l1</ci>
                                 <ci>mosstar</ci>
-                                <ci>mek</ci>
+                                <apply>
+                                    <minus/>
+                                    <ci>e1tot</ci>
+                                    <ci>mose1</ci>
+                                </apply>
                             </apply>
                         </apply>
                         <apply>
                             <times/>
-                            <apply>
-                                <plus/>
-                                <ci>k5</ci>
-                                <ci>d5</ci>
-                            </apply>
-                            <ci>mekstarmosstar</ci>
+                            <ci>l3</ci>
+                            <ci>mekstar</ci>
+                            <ci>mosstar</ci>
                         </apply>
                     </apply>
                     <apply>
                         <times/>
-                        <ci>a5</ci>
-                        <ci>mekstar</ci>
+                        <ci>l5</ci>
+                        <ci>mekstarstar</ci>
                         <ci>mosstar</ci>
                     </apply>
                 </apply>
@@ -453,13 +434,18 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mosstare2" name="mosstare2">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mosstare2-mos.e2_eq31.r-eq29.r" initial_value="0" name="mosstare2" public_interface="out" units="micromolar"/>
+        <variable initial_value="0" name="mosstare2" public_interface="out" units="micromolar"/>
         <variable name="a2" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mosstar" public_interface="in" units="micromolar"/>
         <variable name="e2tot" public_interface="in" units="micromolar"/>
         <variable name="d2" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="k2" public_interface="in" units="first_order_rate_constant_units"/>
-        <!-- #4-->
+        <variable name="mos" public_interface="in" units="micromolar"/>
+        <variable name="mostot" public_interface="in" units="micromolar"/>
+        <variable name="mose1" public_interface="in" units="micromolar"/>
+        <variable name="mekstarmosstar" public_interface="in" units="micromolar"/>
+        <variable name="mekmosstar" public_interface="in" units="micromolar"/>
+        <variable name="l2" public_interface="in" units="second_order_rate_constant_units"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -471,25 +457,58 @@ http://www.CellML.org/
                     <ci>mosstare2</ci>
                 </apply>
                 <apply>
-                    <minus/>
+                    <plus/>
                     <apply>
-                        <times/>
-                        <ci>a2</ci>
-                        <ci>mosstar</ci>
+                        <minus/>
                         <apply>
-                            <minus/>
-                            <ci>e2tot</ci>
+                            <times/>
+                            <ci>a2</ci>
+                            <ci>mosstar</ci>
+                            <apply>
+                                <minus/>
+                                <ci>e2tot</ci>
+                                <ci>mosstare2</ci>
+                            </apply>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <apply>
+                                <plus/>
+                                <ci>d2</ci>
+                                <ci>k2</ci>
+                            </apply>
                             <ci>mosstare2</ci>
                         </apply>
                     </apply>
                     <apply>
                         <times/>
+                        <ci>l2</ci>
                         <apply>
-                            <plus/>
-                            <ci>d2</ci>
-                            <ci>k2</ci>
+                            <minus/>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <minus/>
+                                            <ci>mostot</ci>
+                                            <ci>mosstar</ci>
+                                        </apply>
+                                        <ci>mose1</ci>
+                                    </apply>
+                                    <ci>mosstare2</ci>
+                                </apply>
+                                <ci>mekmosstar</ci>
+                            </apply>
+                            <ci>mekstarmosstar</ci>
                         </apply>
-                        <ci>mosstare2</ci>
+                        <apply>
+                            <minus/>
+                            <ci>e2tot</ci>
+                            <ci>mosstare2</ci>
+                        </apply>
                     </apply>
                 </apply>
             </apply>
@@ -497,21 +516,22 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mek" name="mek">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mek_eq32.r" initial_value="1.2" name="mek" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="mek_mek" initial_value="1.2" name="mek" public_interface="out" units="micromolar"/>
         <variable name="a3" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mektot" public_interface="in" units="micromolar"/>
         <variable name="mekstar" public_interface="in" units="micromolar"/>
         <variable name="mekstarstar" public_interface="in" units="micromolar"/>
-        <variable name="mapkstarmekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mekstarmekpase" public_interface="in" units="micromolar"/>
         <variable name="mekstarstarmekpase" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarmekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mapkmekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mekpasetot" public_interface="in" units="micromolar"/>
         <variable name="mekmosstar" public_interface="in" units="micromolar"/>
         <variable name="mekstarmosstar" public_interface="in" units="micromolar"/>
-        <variable name="mapkmekstarstar" public_interface="in" units="micromolar"/>
         <variable name="mosstar" public_interface="in" units="micromolar"/>
         <variable name="d3" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="k4" public_interface="in" units="first_order_rate_constant_units"/>
-        <variable name="mekstarmekpase" public_interface="in" units="micromolar"/>
-        <!-- #5-->
+        <variable name="l4" public_interface="in" units="second_order_rate_constant_units"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -523,13 +543,64 @@ http://www.CellML.org/
                     <ci>mek</ci>
                 </apply>
                 <apply>
-                    <plus/>
+                    <minus/>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <times/>
+                            <apply>
+                                <minus/>
+                                <ci>a3</ci>
+                            </apply>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <minus/>
+                                            <apply>
+                                                <minus/>
+                                                <apply>
+                                                    <minus/>
+                                                    <apply>
+                                                        <minus/>
+                                                        <apply>
+                                                            <minus/>
+                                                            <ci>mektot</ci>
+                                                            <ci>mekstar</ci>
+                                                        </apply>
+                                                        <ci>mekstarstar</ci>
+                                                    </apply>
+                                                    <ci>mekstarmekpase</ci>
+                                                </apply>
+                                                <ci>mekstarstarmekpase</ci>
+                                            </apply>
+                                            <ci>mekmosstar</ci>
+                                        </apply>
+                                        <ci>mekstarmosstar</ci>
+                                    </apply>
+                                    <ci>mapkmekstarstar</ci>
+                                </apply>
+                                <ci>mapkstarmekstarstar</ci>
+                            </apply>
+                            <ci>mosstar</ci>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>d3</ci>
+                            <ci>mekmosstar</ci>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>k4</ci>
+                            <ci>mekstarmekpase</ci>
+                        </apply>
+                    </apply>
                     <apply>
                         <times/>
-                        <apply>
-                            <minus/>
-                            <ci>a3</ci>
-                        </apply>
+                        <ci>l4</ci>
                         <apply>
                             <minus/>
                             <apply>
@@ -563,17 +634,15 @@ http://www.CellML.org/
                             </apply>
                             <ci>mapkstarmekstarstar</ci>
                         </apply>
-                        <ci>mosstar</ci>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <ci>d3</ci>
-                        <ci>mekmosstar</ci>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <ci>k4</ci>
-                        <ci>mekstarmekpase</ci>
+                        <apply>
+                            <minus/>
+                            <apply>
+                                <minus/>
+                                <ci>mekpasetot</ci>
+                                <ci>mekstarmekpase</ci>
+                            </apply>
+                            <ci>mekstarstarmekpase</ci>
+                        </apply>
                     </apply>
                 </apply>
             </apply>
@@ -581,7 +650,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mekmosstar" name="mekmosstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mekmosstar-mek.mos_eq29.r-eq32.r" initial_value="0" name="mekmosstar" public_interface="out" units="micromolar"/>
+        <variable initial_value="0" name="mekmosstar" public_interface="out" units="micromolar"/>
         <variable name="a3" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mektot" public_interface="in" units="micromolar"/>
         <variable name="mekstar" public_interface="in" units="micromolar"/>
@@ -594,7 +663,7 @@ http://www.CellML.org/
         <variable name="mosstar" public_interface="in" units="micromolar"/>
         <variable name="d3" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="k3" public_interface="in" units="first_order_rate_constant_units"/>
-        <!-- #6-->
+        <variable name="l3" public_interface="in" units="second_order_rate_constant_units"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -606,12 +675,12 @@ http://www.CellML.org/
                     <ci>mekmosstar</ci>
                 </apply>
                 <apply>
-                    <minus/>
+                    <plus/>
                     <apply>
-                        <times/>
-                        <ci>a3</ci>
+                        <minus/>
                         <apply>
-                            <minus/>
+                            <times/>
+                            <ci>a3</ci>
                             <apply>
                                 <minus/>
                                 <apply>
@@ -626,33 +695,42 @@ http://www.CellML.org/
                                                     <minus/>
                                                     <apply>
                                                         <minus/>
-                                                        <ci>mektot</ci>
-                                                        <ci>mekstar</ci>
+                                                        <apply>
+                                                            <minus/>
+                                                            <ci>mektot</ci>
+                                                            <ci>mekstar</ci>
+                                                        </apply>
+                                                        <ci>mekstarstar</ci>
                                                     </apply>
-                                                    <ci>mekstarstar</ci>
+                                                    <ci>mekstarmekpase</ci>
                                                 </apply>
-                                                <ci>mekstarmekpase</ci>
+                                                <ci>mekstarstarmekpase</ci>
                                             </apply>
-                                            <ci>mekstarstarmekpase</ci>
+                                            <ci>mekmosstar</ci>
                                         </apply>
-                                        <ci>mekmosstar</ci>
+                                        <ci>mekstarmosstar</ci>
                                     </apply>
-                                    <ci>mekstarmosstar</ci>
+                                    <ci>mapkmekstarstar</ci>
                                 </apply>
-                                <ci>mapkmekstarstar</ci>
+                                <ci>mapkstarmekstarstar</ci>
                             </apply>
-                            <ci>mapkstarmekstarstar</ci>
+                            <ci>mosstar</ci>
                         </apply>
-                        <ci>mosstar</ci>
+                        <apply>
+                            <times/>
+                            <apply>
+                                <plus/>
+                                <ci>d3</ci>
+                                <ci>k3</ci>
+                            </apply>
+                            <ci>mekmosstar</ci>
+                        </apply>
                     </apply>
                     <apply>
                         <times/>
-                        <apply>
-                            <plus/>
-                            <ci>d3</ci>
-                            <ci>k3</ci>
-                        </apply>
-                        <ci>mekmosstar</ci>
+                        <ci>l3</ci>
+                        <ci>mekstar</ci>
+                        <ci>mosstar</ci>
                     </apply>
                 </apply>
             </apply>
@@ -660,7 +738,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mekstar" name="mekstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mekp-mek_eq32.r" initial_value="0" name="mekstar" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="mekstar_mekstar" initial_value="0" name="mekstar" public_interface="out" units="micromolar"/>
         <variable name="a4" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mekpasetot" public_interface="in" units="micromolar"/>
         <variable name="mekstarmekpase" public_interface="in" units="micromolar"/>
@@ -673,23 +751,8 @@ http://www.CellML.org/
         <variable name="mekstarmosstar" public_interface="in" units="micromolar"/>
         <variable name="a5" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mosstar" public_interface="in" units="micromolar"/>
-        <variable cmeta:id="va_mekpase_eq33.r" name="mekpase" units="micromolar"/>
-        <!--*-->
-        <!-- #7-->
+        <variable name="l3" public_interface="in" units="second_order_rate_constant_units"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-                <eq/>
-                <ci>mekpase</ci>
-                <apply>
-                    <minus/>
-                    <apply>
-                        <minus/>
-                        <ci>mekpasetot</ci>
-                        <ci>mekstarmekpase</ci>
-                    </apply>
-                    <ci>mekstarstarmekpase</ci>
-                </apply>
-            </apply>
             <apply>
                 <eq/>
                 <apply>
@@ -710,7 +773,15 @@ http://www.CellML.org/
                                 <ci>a4</ci>
                             </apply>
                             <ci>mekstar</ci>
-                            <ci>mekpase</ci>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <ci>mekpasetot</ci>
+                                    <ci>mekstarmekpase</ci>
+                                </apply>
+                                <ci>mekstarstarmekpase</ci>
+                            </apply>
                         </apply>
                         <apply>
                             <times/>
@@ -735,7 +806,11 @@ http://www.CellML.org/
                     </apply>
                     <apply>
                         <times/>
-                        <ci>a5</ci>
+                        <apply>
+                            <plus/>
+                            <ci>a5</ci>
+                            <ci>l3</ci>
+                        </apply>
                         <ci>mekstar</ci>
                         <ci>mosstar</ci>
                     </apply>
@@ -744,7 +819,7 @@ http://www.CellML.org/
         </math>
     </component>
     <component cmeta:id="mekstarmekpase" name="mekstarmekpase">
-        <variable cmeta:id="va_mekpmekpase-mek.mekpase_eq32.r-eq33.r" initial_value="0" name="mekstarmekpase" public_interface="out" units="micromolar"/>
+        <variable initial_value="0" name="mekstarmekpase" public_interface="out" units="micromolar"/>
         <variable name="time" public_interface="in" units="second"/>
         <variable name="a4" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="d4" public_interface="in" units="first_order_rate_constant_units"/>
@@ -752,7 +827,14 @@ http://www.CellML.org/
         <variable name="mekstar" public_interface="in" units="micromolar"/>
         <variable name="mekpasetot" public_interface="in" units="micromolar"/>
         <variable name="mekstarstarmekpase" public_interface="in" units="micromolar"/>
-        <!-- #8-->
+        <!--*-->
+        <variable name="mektot" public_interface="in" units="micromolar"/>
+        <variable name="mekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mekmosstar" public_interface="in" units="micromolar"/>
+        <variable name="mekstarmosstar" public_interface="in" units="micromolar"/>
+        <variable name="mapkmekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarmekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="l4" public_interface="in" units="second_order_rate_constant_units"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -764,11 +846,69 @@ http://www.CellML.org/
                     <ci>mekstarmekpase</ci>
                 </apply>
                 <apply>
-                    <minus/>
+                    <plus/>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <times/>
+                            <ci>a4</ci>
+                            <ci>mekstar</ci>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <ci>mekpasetot</ci>
+                                    <ci>mekstarmekpase</ci>
+                                </apply>
+                                <ci>mekstarstarmekpase</ci>
+                            </apply>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <apply>
+                                <plus/>
+                                <ci>d4</ci>
+                                <ci>k4</ci>
+                            </apply>
+                            <ci>mekstarmekpase</ci>
+                        </apply>
+                    </apply>
                     <apply>
                         <times/>
-                        <ci>a4</ci>
-                        <ci>mekstar</ci>
+                        <ci>l4</ci>
+                        <apply>
+                            <minus/>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <minus/>
+                                            <apply>
+                                                <minus/>
+                                                <apply>
+                                                    <minus/>
+                                                    <apply>
+                                                        <minus/>
+                                                        <ci>mektot</ci>
+                                                        <ci>mekstar</ci>
+                                                    </apply>
+                                                    <ci>mekstarstar</ci>
+                                                </apply>
+                                                <ci>mekstarmekpase</ci>
+                                            </apply>
+                                            <ci>mekstarstarmekpase</ci>
+                                        </apply>
+                                        <ci>mekmosstar</ci>
+                                    </apply>
+                                    <ci>mekstarmosstar</ci>
+                                </apply>
+                                <ci>mapkmekstarstar</ci>
+                            </apply>
+                            <ci>mapkstarmekstarstar</ci>
+                        </apply>
                         <apply>
                             <minus/>
                             <apply>
@@ -779,28 +919,20 @@ http://www.CellML.org/
                             <ci>mekstarstarmekpase</ci>
                         </apply>
                     </apply>
-                    <apply>
-                        <times/>
-                        <apply>
-                            <plus/>
-                            <ci>d4</ci>
-                            <ci>k4</ci>
-                        </apply>
-                        <ci>mekstarmekpase</ci>
-                    </apply>
                 </apply>
             </apply>
         </math>
     </component>
     <component cmeta:id="mekstarmosstar" name="mekstarmosstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mekpmosstar-mek.mos_eq29.r-eq32.r" initial_value="0" name="mekstarmosstar" public_interface="out" units="micromolar"/>
+        <variable initial_value="0" name="mekstarmosstar" public_interface="out" units="micromolar"/>
         <variable name="a5" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="d5" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="k5" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="mekstar" public_interface="in" units="micromolar"/>
         <variable name="mosstar" public_interface="in" units="micromolar"/>
-        <!-- #9-->
+        <variable name="l5" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="mekstarstar" public_interface="in" units="micromolar"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -812,21 +944,30 @@ http://www.CellML.org/
                     <ci>mekstarmosstar</ci>
                 </apply>
                 <apply>
-                    <minus/>
+                    <plus/>
                     <apply>
-                        <times/>
-                        <ci>a5</ci>
-                        <ci>mekstar</ci>
-                        <ci>mosstar</ci>
+                        <minus/>
+                        <apply>
+                            <times/>
+                            <ci>a5</ci>
+                            <ci>mekstar</ci>
+                            <ci>mosstar</ci>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <apply>
+                                <plus/>
+                                <ci>d5</ci>
+                                <ci>k5</ci>
+                            </apply>
+                            <ci>mekstarmosstar</ci>
+                        </apply>
                     </apply>
                     <apply>
                         <times/>
-                        <apply>
-                            <plus/>
-                            <ci>d5</ci>
-                            <ci>k5</ci>
-                        </apply>
-                        <ci>mekstarmosstar</ci>
+                        <ci>l5</ci>
+                        <ci>mekstarstar</ci>
+                        <ci>mosstar</ci>
                     </apply>
                 </apply>
             </apply>
@@ -834,7 +975,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mekstarstar" name="mekstarstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mekpp-mek-eq32.r" initial_value="0" name="mekstarstar" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="mekstarstar_mekstarstar" initial_value="0" name="mekstarstar" public_interface="out" units="micromolar"/>
         <variable name="k5" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="mekstarmosstar" public_interface="in" units="micromolar"/>
         <variable name="a6" public_interface="in" units="second_order_rate_constant_units"/>
@@ -855,39 +996,10 @@ http://www.CellML.org/
         <variable name="d9" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="k9" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="a9" public_interface="in" units="second_order_rate_constant_units"/>
-        <variable name="mapk" units="micromolar"/>
-        <!--*-->
-        <!-- #10-->
+        <variable name="l5" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="l7" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="mosstar" public_interface="in" units="micromolar"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-                <eq/>
-                <ci>mapk</ci>
-                <apply>
-                    <minus/>
-                    <apply>
-                        <minus/>
-                        <apply>
-                            <minus/>
-                            <apply>
-                                <minus/>
-                                <apply>
-                                    <minus/>
-                                    <apply>
-                                        <minus/>
-                                        <ci>mapktot</ci>
-                                        <ci>mapkstar</ci>
-                                    </apply>
-                                    <ci>mapkstarstar</ci>
-                                </apply>
-                                <ci>mapkstarmapkpase</ci>
-                            </apply>
-                            <ci>mapkstarstarmapkpase</ci>
-                        </apply>
-                        <ci>mapkmekstarstar</ci>
-                    </apply>
-                    <ci>mapkstarmekstarstar</ci>
-                </apply>
-            </apply>
             <apply>
                 <eq/>
                 <apply>
@@ -908,37 +1020,325 @@ http://www.CellML.org/
                                 <apply>
                                     <minus/>
                                     <apply>
-                                        <times/>
-                                        <ci>k5</ci>
-                                        <ci>mekstarmosstar</ci>
+                                        <plus/>
+                                        <apply>
+                                            <minus/>
+                                            <apply>
+                                                <times/>
+                                                <ci>k5</ci>
+                                                <ci>mekstarmosstar</ci>
+                                            </apply>
+                                            <apply>
+                                                <times/>
+                                                <ci>a6</ci>
+                                                <ci>mekstarstar</ci>
+                                                <apply>
+                                                    <minus/>
+                                                    <apply>
+                                                        <minus/>
+                                                        <ci>mekpasetot</ci>
+                                                        <ci>mekstarmekpase</ci>
+                                                    </apply>
+                                                    <ci>mekstarstarmekpase</ci>
+                                                </apply>
+                                            </apply>
+                                        </apply>
+                                        <apply>
+                                            <times/>
+                                            <ci>d6</ci>
+                                            <ci>mekstarstarmekpase</ci>
+                                        </apply>
                                     </apply>
                                     <apply>
                                         <times/>
-                                        <ci>a6</ci>
+                                        <ci>a7</ci>
                                         <ci>mekstarstar</ci>
                                         <apply>
                                             <minus/>
                                             <apply>
                                                 <minus/>
-                                                <ci>mekpasetot</ci>
-                                                <ci>mekstarmekpase</ci>
+                                                <apply>
+                                                    <minus/>
+                                                    <apply>
+                                                        <minus/>
+                                                        <apply>
+                                                            <minus/>
+                                                            <apply>
+                                                                <minus/>
+                                                                <ci>mapktot</ci>
+                                                                <ci>mapkstar</ci>
+                                                            </apply>
+                                                            <ci>mapkstarstar</ci>
+                                                        </apply>
+                                                        <ci>mapkstarmapkpase</ci>
+                                                    </apply>
+                                                    <ci>mapkstarstarmapkpase</ci>
+                                                </apply>
+                                                <ci>mapkmekstarstar</ci>
                                             </apply>
-                                            <ci>mekstarstarmekpase</ci>
+                                            <ci>mapkstarmekstarstar</ci>
                                         </apply>
                                     </apply>
                                 </apply>
                                 <apply>
                                     <times/>
-                                    <ci>d6</ci>
-                                    <ci>mekstarstarmekpase</ci>
+                                    <apply>
+                                        <plus/>
+                                        <ci>d7</ci>
+                                        <ci>k7</ci>
+                                    </apply>
+                                    <ci>mapkmekstarstar</ci>
+                                </apply>
+                                <apply>
+                                    <times/>
+                                    <apply>
+                                        <plus/>
+                                        <ci>d9</ci>
+                                        <ci>k9</ci>
+                                    </apply>
+                                    <ci>mapkstarmekstarstar</ci>
                                 </apply>
                             </apply>
                             <apply>
                                 <times/>
-                                <ci>a7</ci>
+                                <ci>a9</ci>
+                                <ci>mapkstar</ci>
                                 <ci>mekstarstar</ci>
-                                <ci>mapk</ci>
                             </apply>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>l5</ci>
+                            <ci>mekstarstar</ci>
+                            <ci>mosstar</ci>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>l7</ci>
+                        <ci>mekstarstar</ci>
+                        <ci>mapkstar</ci>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component cmeta:id="mekstarstarmekpase" name="mekstarstarmekpase">
+        <variable name="time" public_interface="in" units="second"/>
+        <variable initial_value="0" name="mekstarstarmekpase" public_interface="out" units="micromolar"/>
+        <variable name="a6" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="mekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mekpasetot" public_interface="in" units="micromolar"/>
+        <variable name="mekstarmekpase" public_interface="in" units="micromolar"/>
+        <variable name="d6" public_interface="in" units="first_order_rate_constant_units"/>
+        <variable name="k6" public_interface="in" units="first_order_rate_constant_units"/>
+        <variable name="l6" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="mekstar" public_interface="in" units="micromolar"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>mekstarstarmekpase</ci>
+                </apply>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <times/>
+                            <ci>a6</ci>
+                            <ci>mekstarstar</ci>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <ci>mekpasetot</ci>
+                                    <ci>mekstarmekpase</ci>
+                                </apply>
+                                <ci>mekstarstarmekpase</ci>
+                            </apply>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <apply>
+                                <plus/>
+                                <ci>d6</ci>
+                                <ci>k6</ci>
+                            </apply>
+                            <ci>mekstarstarmekpase</ci>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>l6</ci>
+                        <ci>mekstar</ci>
+                        <apply>
+                            <minus/>
+                            <apply>
+                                <minus/>
+                                <ci>mekpasetot</ci>
+                                <ci>mekstarmekpase</ci>
+                            </apply>
+                            <ci>mekstarstarmekpase</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component cmeta:id="mapk" name="mapk">
+        <variable name="time" public_interface="in" units="second"/>
+        <variable cmeta:id="mapk_mapk" initial_value="1.2" name="mapk" public_interface="out" units="micromolar"/>
+        <variable name="a7" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="mapktot" public_interface="in" units="micromolar"/>
+        <variable name="mapkstar" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarmapkpase" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarstarmapkpase" public_interface="in" units="micromolar"/>
+        <variable name="mapkmekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarmekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="d7" public_interface="in" units="first_order_rate_constant_units"/>
+        <variable name="k8" public_interface="in" units="first_order_rate_constant_units"/>
+        <variable name="mapkpasetot" public_interface="in" units="micromolar"/>
+        <variable name="l8" public_interface="in" units="second_order_rate_constant_units"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>mapk</ci>
+                </apply>
+                <apply>
+                    <minus/>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <times/>
+                            <apply>
+                                <minus/>
+                                <ci>a7</ci>
+                            </apply>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <minus/>
+                                            <apply>
+                                                <minus/>
+                                                <apply>
+                                                    <minus/>
+                                                    <ci>mapktot</ci>
+                                                    <ci>mapkstar</ci>
+                                                </apply>
+                                                <ci>mapkstarstar</ci>
+                                            </apply>
+                                            <ci>mapkstarmapkpase</ci>
+                                        </apply>
+                                        <ci>mapkstarstarmapkpase</ci>
+                                    </apply>
+                                    <ci>mapkmekstarstar</ci>
+                                </apply>
+                                <ci>mapkstarmekstarstar</ci>
+                            </apply>
+                            <ci>mekstarstar</ci>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>d7</ci>
+                            <ci>mapkmekstarstar</ci>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>k8</ci>
+                            <ci>mapkstarmapkpase</ci>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>l8</ci>
+                        <ci>mapk</ci>
+                        <apply>
+                            <minus/>
+                            <apply>
+                                <minus/>
+                                <ci>mapkpasetot</ci>
+                                <ci>mapkstarmapkpase</ci>
+                            </apply>
+                            <ci>mapkstarstarmapkpase</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component cmeta:id="mapkmekstarstar" name="mapkmekstarstar">
+        <variable name="time" public_interface="in" units="second"/>
+        <variable initial_value="0" name="mapkmekstarstar" public_interface="out" units="micromolar"/>
+        <variable name="mapktot" public_interface="in" units="micromolar"/>
+        <variable name="mapkstar" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarmapkpase" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarstarmapkpase" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarmekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="d7" public_interface="in" units="first_order_rate_constant_units"/>
+        <variable name="k7" public_interface="in" units="first_order_rate_constant_units"/>
+        <variable name="a7" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="l7" public_interface="in" units="second_order_rate_constant_units"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>mapkmekstarstar</ci>
+                </apply>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <times/>
+                            <ci>a7</ci>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <minus/>
+                                            <apply>
+                                                <minus/>
+                                                <apply>
+                                                    <minus/>
+                                                    <ci>mapktot</ci>
+                                                    <ci>mapkstar</ci>
+                                                </apply>
+                                                <ci>mapkstarstar</ci>
+                                            </apply>
+                                            <ci>mapkstarmapkpase</ci>
+                                        </apply>
+                                        <ci>mapkstarstarmapkpase</ci>
+                                    </apply>
+                                    <ci>mapkmekstarstar</ci>
+                                </apply>
+                                <ci>mapkstarmekstarstar</ci>
+                            </apply>
+                            <ci>mekstarstar</ci>
                         </apply>
                         <apply>
                             <times/>
@@ -948,6 +1348,155 @@ http://www.CellML.org/
                                 <ci>k7</ci>
                             </apply>
                             <ci>mapkmekstarstar</ci>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>l7</ci>
+                        <ci>mekstarstar</ci>
+                        <ci>mapkstar</ci>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component cmeta:id="mapkstar" name="mapkstar">
+        <variable name="time" public_interface="in" units="second"/>
+        <variable cmeta:id="mapkstar_mapkstar" initial_value="0" name="mapkstar" public_interface="out" units="micromolar"/>
+        <variable name="k7" public_interface="in" units="first_order_rate_constant_units"/>
+        <variable name="mapkmekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="a8" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="mapkpasetot" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarmapkpase" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarstarmapkpase" public_interface="in" units="micromolar"/>
+        <variable name="d8" public_interface="in" units="first_order_rate_constant_units"/>
+        <variable name="a9" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="mekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="d9" public_interface="in" units="first_order_rate_constant_units"/>
+        <variable name="mapkstarmekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="k10" public_interface="in" units="first_order_rate_constant_units"/>
+        <variable name="l7" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="l10" public_interface="in" units="second_order_rate_constant_units"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>mapkstar</ci>
+                </apply>
+                <apply>
+                    <minus/>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <plus/>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <plus/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <times/>
+                                            <ci>k7</ci>
+                                            <ci>mapkmekstarstar</ci>
+                                        </apply>
+                                        <apply>
+                                            <times/>
+                                            <ci>a8</ci>
+                                            <ci>mapkstar</ci>
+                                            <apply>
+                                                <minus/>
+                                                <apply>
+                                                    <minus/>
+                                                    <ci>mapkpasetot</ci>
+                                                    <ci>mapkstarmapkpase</ci>
+                                                </apply>
+                                                <ci>mapkstarstarmapkpase</ci>
+                                            </apply>
+                                        </apply>
+                                    </apply>
+                                    <apply>
+                                        <times/>
+                                        <ci>d8</ci>
+                                        <ci>mapkstarmapkpase</ci>
+                                    </apply>
+                                </apply>
+                                <apply>
+                                    <times/>
+                                    <ci>a9</ci>
+                                    <ci>mapkstar</ci>
+                                    <ci>mekstarstar</ci>
+                                </apply>
+                            </apply>
+                            <apply>
+                                <times/>
+                                <ci>d9</ci>
+                                <ci>mapkstarmekstarstar</ci>
+                            </apply>
+                            <apply>
+                                <times/>
+                                <ci>k10</ci>
+                                <ci>mapkstarstarmapkpase</ci>
+                            </apply>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>l7</ci>
+                            <ci>mekstarstar</ci>
+                            <ci>mapkstar</ci>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>l10</ci>
+                        <ci>mapkstar</ci>
+                        <apply>
+                            <minus/>
+                            <apply>
+                                <minus/>
+                                <ci>mapkpasetot</ci>
+                                <ci>mapkstarmapkpase</ci>
+                            </apply>
+                            <ci>mapkstarstarmapkpase</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component cmeta:id="mapkstarmekstarstar" name="mapkstarmekstarstar">
+        <variable name="time" public_interface="in" units="second"/>
+        <variable initial_value="0" name="mapkstarmekstarstar" public_interface="out" units="micromolar"/>
+        <variable name="a9" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="d9" public_interface="in" units="first_order_rate_constant_units"/>
+        <variable name="k9" public_interface="in" units="first_order_rate_constant_units"/>
+        <variable name="mapkstar" public_interface="in" units="micromolar"/>
+        <variable name="mekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="l9" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="mapkstarstar" public_interface="in" units="micromolar"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>mapkstarmekstarstar</ci>
+                </apply>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <times/>
+                            <ci>a9</ci>
+                            <ci>mapkstar</ci>
+                            <ci>mekstarstar</ci>
                         </apply>
                         <apply>
                             <times/>
@@ -961,329 +1510,9 @@ http://www.CellML.org/
                     </apply>
                     <apply>
                         <times/>
-                        <ci>a9</ci>
-                        <ci>mapkstar</ci>
+                        <ci>l9</ci>
+                        <ci>mapkstarstar</ci>
                         <ci>mekstarstar</ci>
-                    </apply>
-                </apply>
-            </apply>
-        </math>
-    </component>
-    <component cmeta:id="mekstarstarmekpase" name="mekstarstarmekpase">
-        <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mekppmekpase-mek.mekpase_eq32.r-eq33.r" initial_value="0" name="mekstarstarmekpase" public_interface="out" units="micromolar"/>
-        <variable name="a6" public_interface="in" units="second_order_rate_constant_units"/>
-        <variable name="mekstarstar" public_interface="in" units="micromolar"/>
-        <variable name="mekpasetot" public_interface="in" units="micromolar"/>
-        <variable name="mekstarmekpase" public_interface="in" units="micromolar"/>
-        <variable name="d6" public_interface="in" units="first_order_rate_constant_units"/>
-        <variable name="k6" public_interface="in" units="first_order_rate_constant_units"/>
-        <!-- #11-->
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-                <eq/>
-                <apply>
-                    <diff/>
-                    <bvar>
-                        <ci>time</ci>
-                    </bvar>
-                    <ci>mekstarstarmekpase</ci>
-                </apply>
-                <apply>
-                    <minus/>
-                    <apply>
-                        <times/>
-                        <ci>a6</ci>
-                        <ci>mekstarstar</ci>
-                        <apply>
-                            <minus/>
-                            <apply>
-                                <minus/>
-                                <ci>mekpasetot</ci>
-                                <ci>mekstarmekpase</ci>
-                            </apply>
-                            <ci>mekstarstarmekpase</ci>
-                        </apply>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <apply>
-                            <plus/>
-                            <ci>d6</ci>
-                            <ci>k6</ci>
-                        </apply>
-                        <ci>mekstarstarmekpase</ci>
-                    </apply>
-                </apply>
-            </apply>
-        </math>
-    </component>
-    <component cmeta:id="mapk" name="mapk">
-        <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mapk_eq34.r" initial_value="1.2" name="mapk" public_interface="out" units="micromolar"/>
-        <variable name="a7" public_interface="in" units="second_order_rate_constant_units"/>
-        <variable name="mapktot" public_interface="in" units="micromolar"/>
-        <variable name="mapkstar" public_interface="in" units="micromolar"/>
-        <variable name="mapkstarstar" public_interface="in" units="micromolar"/>
-        <variable name="mapkstarmapkpase" public_interface="in" units="micromolar"/>
-        <variable name="mapkstarstarmapkpase" public_interface="in" units="micromolar"/>
-        <variable name="mapkmekstarstar" public_interface="in" units="micromolar"/>
-        <variable name="mapkstarmekstarstar" public_interface="in" units="micromolar"/>
-        <variable name="mekstarstar" public_interface="in" units="micromolar"/>
-        <variable name="d7" public_interface="in" units="first_order_rate_constant_units"/>
-        <variable name="k8" public_interface="in" units="first_order_rate_constant_units"/>
-        <!-- #12-->
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-                <eq/>
-                <apply>
-                    <diff/>
-                    <bvar>
-                        <ci>time</ci>
-                    </bvar>
-                    <ci>mapk</ci>
-                </apply>
-                <apply>
-                    <plus/>
-                    <apply>
-                        <times/>
-                        <apply>
-                            <minus/>
-                            <ci>a7</ci>
-                        </apply>
-                        <apply>
-                            <minus/>
-                            <apply>
-                                <minus/>
-                                <apply>
-                                    <minus/>
-                                    <apply>
-                                        <minus/>
-                                        <apply>
-                                            <minus/>
-                                            <apply>
-                                                <minus/>
-                                                <ci>mapktot</ci>
-                                                <ci>mapkstar</ci>
-                                            </apply>
-                                            <ci>mapkstarstar</ci>
-                                        </apply>
-                                        <ci>mapkstarmapkpase</ci>
-                                    </apply>
-                                    <ci>mapkstarstarmapkpase</ci>
-                                </apply>
-                                <ci>mapkmekstarstar</ci>
-                            </apply>
-                            <ci>mapkstarmekstarstar</ci>
-                        </apply>
-                        <ci>mekstarstar</ci>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <ci>d7</ci>
-                        <ci>mapkmekstarstar</ci>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <ci>k8</ci>
-                        <ci>mapkstarmapkpase</ci>
-                    </apply>
-                </apply>
-            </apply>
-        </math>
-    </component>
-    <component cmeta:id="mapkmekstarstar" name="mapkmekstarstar">
-        <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mekppmapk-mek.mapk_eq32.r-eq34.r" initial_value="0" name="mapkmekstarstar" public_interface="out" units="micromolar"/>
-        <variable name="mapktot" public_interface="in" units="micromolar"/>
-        <variable name="mapkstar" public_interface="in" units="micromolar"/>
-        <variable name="mapkstarstar" public_interface="in" units="micromolar"/>
-        <variable name="mapkstarmapkpase" public_interface="in" units="micromolar"/>
-        <variable name="mapkstarstarmapkpase" public_interface="in" units="micromolar"/>
-        <variable name="mapkstarmekstarstar" public_interface="in" units="micromolar"/>
-        <variable name="mekstarstar" public_interface="in" units="micromolar"/>
-        <variable name="d7" public_interface="in" units="first_order_rate_constant_units"/>
-        <variable name="k7" public_interface="in" units="first_order_rate_constant_units"/>
-        <variable name="a7" public_interface="in" units="second_order_rate_constant_units"/>
-        <!-- #13-->
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-                <eq/>
-                <apply>
-                    <diff/>
-                    <bvar>
-                        <ci>time</ci>
-                    </bvar>
-                    <ci>mapkmekstarstar</ci>
-                </apply>
-                <apply>
-                    <minus/>
-                    <apply>
-                        <times/>
-                        <ci>a7</ci>
-                        <apply>
-                            <minus/>
-                            <apply>
-                                <minus/>
-                                <apply>
-                                    <minus/>
-                                    <apply>
-                                        <minus/>
-                                        <apply>
-                                            <minus/>
-                                            <apply>
-                                                <minus/>
-                                                <ci>mapktot</ci>
-                                                <ci>mapkstar</ci>
-                                            </apply>
-                                            <ci>mapkstarstar</ci>
-                                        </apply>
-                                        <ci>mapkstarmapkpase</ci>
-                                    </apply>
-                                    <ci>mapkstarstarmapkpase</ci>
-                                </apply>
-                                <ci>mapkmekstarstar</ci>
-                            </apply>
-                            <ci>mapkstarmekstarstar</ci>
-                        </apply>
-                        <ci>mekstarstar</ci>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <apply>
-                            <plus/>
-                            <ci>d7</ci>
-                            <ci>k7</ci>
-                        </apply>
-                        <ci>mapkmekstarstar</ci>
-                    </apply>
-                </apply>
-            </apply>
-        </math>
-    </component>
-    <component cmeta:id="mapkstar" name="mapkstar">
-        <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mapkp-mapk_eq34.r" initial_value="0" name="mapkstar" public_interface="out" units="micromolar"/>
-        <variable name="k7" public_interface="in" units="first_order_rate_constant_units"/>
-        <variable name="mapkmekstarstar" public_interface="in" units="micromolar"/>
-        <variable name="a8" public_interface="in" units="second_order_rate_constant_units"/>
-        <variable name="mapkpasetot" public_interface="in" units="micromolar"/>
-        <variable name="mapkstarmapkpase" public_interface="in" units="micromolar"/>
-        <variable name="mapkstarstarmapkpase" public_interface="in" units="micromolar"/>
-        <variable name="d8" public_interface="in" units="first_order_rate_constant_units"/>
-        <variable name="a9" public_interface="in" units="second_order_rate_constant_units"/>
-        <variable name="mekstarstar" public_interface="in" units="micromolar"/>
-        <variable name="d9" public_interface="in" units="first_order_rate_constant_units"/>
-        <variable name="mapkstarmekstarstar" public_interface="in" units="micromolar"/>
-        <variable name="k10" public_interface="in" units="first_order_rate_constant_units"/>
-        <variable cmeta:id="va_mapkpase_eq35.r" name="mapkpase" units="micromolar"/>
-        <!--*-->
-        <!-- #14-->
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-                <eq/>
-                <ci>mapkpase</ci>
-                <apply>
-                    <minus/>
-                    <apply>
-                        <minus/>
-                        <ci>mapkpasetot</ci>
-                        <ci>mapkstarmapkpase</ci>
-                    </apply>
-                    <ci>mapkstarstarmapkpase</ci>
-                </apply>
-            </apply>
-            <apply>
-                <eq/>
-                <apply>
-                    <diff/>
-                    <bvar>
-                        <ci>time</ci>
-                    </bvar>
-                    <ci>mapkstar</ci>
-                </apply>
-                <apply>
-                    <plus/>
-                    <apply>
-                        <minus/>
-                        <apply>
-                            <plus/>
-                            <apply>
-                                <minus/>
-                                <apply>
-                                    <times/>
-                                    <ci>k7</ci>
-                                    <ci>mapkmekstarstar</ci>
-                                </apply>
-                                <apply>
-                                    <times/>
-                                    <ci>a8</ci>
-                                    <ci>mapkstar</ci>
-                                    <ci>mapkpase</ci>
-                                </apply>
-                            </apply>
-                            <apply>
-                                <times/>
-                                <ci>d8</ci>
-                                <ci>mapkstarmapkpase</ci>
-                            </apply>
-                        </apply>
-                        <apply>
-                            <times/>
-                            <ci>a9</ci>
-                            <ci>mapkstar</ci>
-                            <ci>mekstarstar</ci>
-                        </apply>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <ci>d9</ci>
-                        <ci>mapkstarmekstarstar</ci>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <ci>k10</ci>
-                        <ci>mapkstarstarmapkpase</ci>
-                    </apply>
-                </apply>
-            </apply>
-        </math>
-    </component>
-    <component cmeta:id="mapkstarmekstarstar" name="mapkstarmekstarstar">
-        <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mapkpmekpp-mapk.mek_eq32.r-eq34.r" initial_value="0" name="mapkstarmekstarstar" public_interface="out" units="micromolar"/>
-        <variable name="a9" public_interface="in" units="second_order_rate_constant_units"/>
-        <variable name="d9" public_interface="in" units="first_order_rate_constant_units"/>
-        <variable name="k9" public_interface="in" units="first_order_rate_constant_units"/>
-        <variable name="mapkstar" public_interface="in" units="micromolar"/>
-        <variable name="mekstarstar" public_interface="in" units="micromolar"/>
-        <!-- #15-->
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-                <eq/>
-                <apply>
-                    <diff/>
-                    <bvar>
-                        <ci>time</ci>
-                    </bvar>
-                    <ci>mapkstarmekstarstar</ci>
-                </apply>
-                <apply>
-                    <minus/>
-                    <apply>
-                        <times/>
-                        <ci>a9</ci>
-                        <ci>mapkstar</ci>
-                        <ci>mekstarstar</ci>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <apply>
-                            <plus/>
-                            <ci>d9</ci>
-                            <ci>k9</ci>
-                        </apply>
-                        <ci>mapkstarmekstarstar</ci>
                     </apply>
                 </apply>
             </apply>
@@ -1291,7 +1520,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mapkstarstar" name="mapkstarstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mapkpp-mapk_eq34.r" initial_value="0" name="mapkstarstar" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="mapkstarstar_mapkstarstar" initial_value="0" name="mapkstarstar" public_interface="out" units="micromolar"/>
         <variable name="a10" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mapkpasetot" public_interface="in" units="micromolar"/>
         <variable name="mapkstarmapkpase" public_interface="in" units="micromolar"/>
@@ -1301,7 +1530,7 @@ http://www.CellML.org/
         <variable name="mapkstar" public_interface="in" units="micromolar"/>
         <variable name="mekstarstar" public_interface="in" units="micromolar"/>
         <variable name="mapkstarmekstarstar" public_interface="in" units="micromolar"/>
-        <!-- #16-->
+        <variable name="l9" public_interface="in" units="second_order_rate_constant_units"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -1313,33 +1542,42 @@ http://www.CellML.org/
                     <ci>mapkstarstar</ci>
                 </apply>
                 <apply>
-                    <plus/>
+                    <minus/>
                     <apply>
-                        <times/>
+                        <plus/>
                         <apply>
-                            <minus/>
-                            <ci>a10</ci>
-                        </apply>
-                        <ci>mapkstarstar</ci>
-                        <apply>
-                            <minus/>
+                            <times/>
                             <apply>
                                 <minus/>
-                                <ci>mapkpasetot</ci>
-                                <ci>mapkstarmapkpase</ci>
+                                <ci>a10</ci>
                             </apply>
+                            <ci>mapkstarstar</ci>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <ci>mapkpasetot</ci>
+                                    <ci>mapkstarmapkpase</ci>
+                                </apply>
+                                <ci>mapkstarstarmapkpase</ci>
+                            </apply>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>d10</ci>
                             <ci>mapkstarstarmapkpase</ci>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>k9</ci>
+                            <ci>mapkstarmekstarstar</ci>
                         </apply>
                     </apply>
                     <apply>
                         <times/>
-                        <ci>d10</ci>
-                        <ci>mapkstarstarmapkpase</ci>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <ci>k9</ci>
-                        <ci>mapkstarmekstarstar</ci>
+                        <ci>l9</ci>
+                        <ci>mapkstarstar</ci>
+                        <ci>mekstarstar</ci>
                     </apply>
                 </apply>
             </apply>
@@ -1347,14 +1585,18 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mapkstarmapkpase" name="mapkstarmapkpase">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mapkpmapkpase-mapk.mapkpase_eq34.r-eq35.r" initial_value="0" name="mapkstarmapkpase" public_interface="out" units="micromolar"/>
+        <variable initial_value="0" name="mapkstarmapkpase" public_interface="out" units="micromolar"/>
         <variable name="a8" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mapkstar" public_interface="in" units="micromolar"/>
         <variable name="mapkpasetot" public_interface="in" units="micromolar"/>
         <variable name="mapkstarstarmapkpase" public_interface="in" units="micromolar"/>
         <variable name="d8" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="k8" public_interface="in" units="first_order_rate_constant_units"/>
-        <!-- # 17-->
+        <variable name="l8" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="mapktot" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mapkmekstarstar" public_interface="in" units="micromolar"/>
+        <variable name="mapkstarmekstarstar" public_interface="in" units="micromolar"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -1366,11 +1608,61 @@ http://www.CellML.org/
                     <ci>mapkstarmapkpase</ci>
                 </apply>
                 <apply>
-                    <minus/>
+                    <plus/>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <times/>
+                            <ci>a8</ci>
+                            <ci>mapkstar</ci>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <ci>mapkpasetot</ci>
+                                    <ci>mapkstarmapkpase</ci>
+                                </apply>
+                                <ci>mapkstarstarmapkpase</ci>
+                            </apply>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <apply>
+                                <plus/>
+                                <ci>d8</ci>
+                                <ci>k8</ci>
+                            </apply>
+                            <ci>mapkstarmapkpase</ci>
+                        </apply>
+                    </apply>
                     <apply>
                         <times/>
-                        <ci>a8</ci>
-                        <ci>mapkstar</ci>
+                        <ci>l8</ci>
+                        <apply>
+                            <minus/>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <minus/>
+                                            <apply>
+                                                <minus/>
+                                                <ci>mapktot</ci>
+                                                <ci>mapkstar</ci>
+                                            </apply>
+                                            <ci>mapkstarstar</ci>
+                                        </apply>
+                                        <ci>mapkstarmapkpase</ci>
+                                    </apply>
+                                    <ci>mapkstarstarmapkpase</ci>
+                                </apply>
+                                <ci>mapkmekstarstar</ci>
+                            </apply>
+                            <ci>mapkstarmekstarstar</ci>
+                        </apply>
                         <apply>
                             <minus/>
                             <apply>
@@ -1381,29 +1673,21 @@ http://www.CellML.org/
                             <ci>mapkstarstarmapkpase</ci>
                         </apply>
                     </apply>
-                    <apply>
-                        <times/>
-                        <apply>
-                            <plus/>
-                            <ci>d8</ci>
-                            <ci>k8</ci>
-                        </apply>
-                        <ci>mapkstarmapkpase</ci>
-                    </apply>
                 </apply>
             </apply>
         </math>
     </component>
     <component cmeta:id="mapkstarstarmapkpase" name="mapkstarstarmapkpase">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mapkppmapkpase-mapk.mapkpase_eq34.r-eq35.r" initial_value="0" name="mapkstarstarmapkpase" public_interface="out" units="micromolar"/>
+        <variable initial_value="0" name="mapkstarstarmapkpase" public_interface="out" units="micromolar"/>
         <variable name="a10" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mapkstarstar" public_interface="in" units="micromolar"/>
         <variable name="mapkpasetot" public_interface="in" units="micromolar"/>
         <variable name="mapkstarmapkpase" public_interface="in" units="micromolar"/>
         <variable name="d10" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="k10" public_interface="in" units="first_order_rate_constant_units"/>
-        <!-- #18-->
+        <variable name="l10" public_interface="in" units="second_order_rate_constant_units"/>
+        <variable name="mapkstar" public_interface="in" units="micromolar"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -1415,11 +1699,37 @@ http://www.CellML.org/
                     <ci>mapkstarstarmapkpase</ci>
                 </apply>
                 <apply>
-                    <minus/>
+                    <plus/>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <times/>
+                            <ci>a10</ci>
+                            <ci>mapkstarstar</ci>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <ci>mapkpasetot</ci>
+                                    <ci>mapkstarmapkpase</ci>
+                                </apply>
+                                <ci>mapkstarstarmapkpase</ci>
+                            </apply>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <apply>
+                                <plus/>
+                                <ci>d10</ci>
+                                <ci>k10</ci>
+                            </apply>
+                            <ci>mapkstarstarmapkpase</ci>
+                        </apply>
+                    </apply>
                     <apply>
                         <times/>
-                        <ci>a10</ci>
-                        <ci>mapkstarstar</ci>
+                        <ci>l10</ci>
+                        <ci>mapkstar</ci>
                         <apply>
                             <minus/>
                             <apply>
@@ -1429,15 +1739,6 @@ http://www.CellML.org/
                             </apply>
                             <ci>mapkstarstarmapkpase</ci>
                         </apply>
-                    </apply>
-                    <apply>
-                        <times/>
-                        <apply>
-                            <plus/>
-                            <ci>d10</ci>
-                            <ci>k10</ci>
-                        </apply>
-                        <ci>mapkstarstarmapkpase</ci>
                     </apply>
                 </apply>
             </apply>
@@ -1452,11 +1753,13 @@ http://www.CellML.org/
         <map_variables variable_1="a1" variable_2="a1"/>
         <map_variables variable_1="d1" variable_2="d1"/>
         <map_variables variable_1="k2" variable_2="k2"/>
+        <map_variables variable_1="l2" variable_2="l2"/>
     </connection>
     <connection>
         <map_components component_1="total_concs" component_2="mos"/>
         <map_variables variable_1="mostot" variable_2="mostot"/>
         <map_variables variable_1="e1tot" variable_2="e1tot"/>
+        <map_variables variable_1="e2tot" variable_2="e2tot"/>
     </connection>
     <connection>
         <map_components component_1="mosstar" component_2="mos"/>
@@ -1469,6 +1772,7 @@ http://www.CellML.org/
     <connection>
         <map_components component_1="mosstare2" component_2="mos"/>
         <map_variables variable_1="mosstare2" variable_2="mosstare2"/>
+        <map_variables variable_1="mos" variable_2="mos"/>
     </connection>
     <connection>
         <map_components component_1="mekmosstar" component_2="mos"/>
@@ -1487,6 +1791,7 @@ http://www.CellML.org/
         <map_variables variable_1="a1" variable_2="a1"/>
         <map_variables variable_1="d1" variable_2="d1"/>
         <map_variables variable_1="k1" variable_2="k1"/>
+        <map_variables variable_1="l1" variable_2="l1"/>
     </connection>
     <connection>
         <map_components component_1="total_concs" component_2="mose1"/>
@@ -1501,6 +1806,15 @@ http://www.CellML.org/
     <connection>
         <map_components component_1="mosstare2" component_2="mose1"/>
         <map_variables variable_1="mosstare2" variable_2="mosstare2"/>
+        <map_variables variable_1="mose1" variable_2="mose1"/>
+    </connection>
+    <connection>
+        <map_components component_1="mekstarmosstar" component_2="mosstare2"/>
+        <map_variables variable_1="mekstarmosstar" variable_2="mekstarmosstar"/>
+    </connection>
+    <connection>
+        <map_components component_1="mekmosstar" component_2="mosstare2"/>
+        <map_variables variable_1="mekmosstar" variable_2="mekmosstar"/>
     </connection>
     <connection>
         <map_components component_1="mekmosstar" component_2="mose1"/>
@@ -1525,11 +1839,15 @@ http://www.CellML.org/
         <map_variables variable_1="a5" variable_2="a5"/>
         <map_variables variable_1="d5" variable_2="d5"/>
         <map_variables variable_1="k5" variable_2="k5"/>
+        <map_variables variable_1="l1" variable_2="l1"/>
+        <map_variables variable_1="l3" variable_2="l3"/>
+        <map_variables variable_1="l5" variable_2="l5"/>
     </connection>
     <connection>
         <map_components component_1="total_concs" component_2="mosstar"/>
         <map_variables variable_1="mektot" variable_2="mektot"/>
         <map_variables variable_1="e2tot" variable_2="e2tot"/>
+        <map_variables variable_1="e1tot" variable_2="e1tot"/>
     </connection>
     <connection>
         <map_components component_1="mosstare2" component_2="mosstar"/>
@@ -1580,10 +1898,12 @@ http://www.CellML.org/
         <map_variables variable_1="a2" variable_2="a2"/>
         <map_variables variable_1="d2" variable_2="d2"/>
         <map_variables variable_1="k2" variable_2="k2"/>
+        <map_variables variable_1="l2" variable_2="l2"/>
     </connection>
     <connection>
         <map_components component_1="total_concs" component_2="mosstare2"/>
         <map_variables variable_1="e2tot" variable_2="e2tot"/>
+        <map_variables variable_1="mostot" variable_2="mostot"/>
     </connection>
     <connection>
         <map_components component_1="environment" component_2="mek"/>
@@ -1594,10 +1914,12 @@ http://www.CellML.org/
         <map_variables variable_1="a3" variable_2="a3"/>
         <map_variables variable_1="d3" variable_2="d3"/>
         <map_variables variable_1="k4" variable_2="k4"/>
+        <map_variables variable_1="l4" variable_2="l4"/>
     </connection>
     <connection>
         <map_components component_1="total_concs" component_2="mek"/>
         <map_variables variable_1="mektot" variable_2="mektot"/>
+        <map_variables variable_1="mekpasetot" variable_2="mekpasetot"/>
     </connection>
     <connection>
         <map_components component_1="mekstar" component_2="mek"/>
@@ -1644,6 +1966,7 @@ http://www.CellML.org/
         <map_variables variable_1="a3" variable_2="a3"/>
         <map_variables variable_1="d3" variable_2="d3"/>
         <map_variables variable_1="k3" variable_2="k3"/>
+        <map_variables variable_1="l3" variable_2="l3"/>
     </connection>
     <connection>
         <map_components component_1="total_concs" component_2="mekmosstar"/>
@@ -1690,6 +2013,7 @@ http://www.CellML.org/
         <map_variables variable_1="a5" variable_2="a5"/>
         <map_variables variable_1="d5" variable_2="d5"/>
         <map_variables variable_1="k6" variable_2="k6"/>
+        <map_variables variable_1="l3" variable_2="l3"/>
     </connection>
     <connection>
         <map_components component_1="total_concs" component_2="mekstar"/>
@@ -1699,6 +2023,26 @@ http://www.CellML.org/
         <map_components component_1="mekstarmekpase" component_2="mekstar"/>
         <map_variables variable_1="mekstarmekpase" variable_2="mekstarmekpase"/>
         <map_variables variable_1="mekstar" variable_2="mekstar"/>
+    </connection>
+    <connection>
+        <map_components component_1="mekstarmekpase" component_2="mekstarstar"/>
+        <map_variables variable_1="mekstarstar" variable_2="mekstarstar"/>
+    </connection>
+    <connection>
+        <map_components component_1="mekstarmekpase" component_2="mekmosstar"/>
+        <map_variables variable_1="mekmosstar" variable_2="mekmosstar"/>
+    </connection>
+    <connection>
+        <map_components component_1="mekstarmosstar" component_2="mekstarmekpase"/>
+        <map_variables variable_1="mekstarmosstar" variable_2="mekstarmosstar"/>
+    </connection>
+    <connection>
+        <map_components component_1="mapkmekstarstar" component_2="mekstarmekpase"/>
+        <map_variables variable_1="mapkmekstarstar" variable_2="mapkmekstarstar"/>
+    </connection>
+    <connection>
+        <map_components component_1="mapkstarmekstarstar" component_2="mekstarmekpase"/>
+        <map_variables variable_1="mapkstarmekstarstar" variable_2="mapkstarmekstarstar"/>
     </connection>
     <connection>
         <map_components component_1="mekstarstarmekpase" component_2="mekstar"/>
@@ -1718,6 +2062,7 @@ http://www.CellML.org/
         <map_variables variable_1="a4" variable_2="a4"/>
         <map_variables variable_1="d4" variable_2="d4"/>
         <map_variables variable_1="k4" variable_2="k4"/>
+        <map_variables variable_1="l4" variable_2="l4"/>
     </connection>
     <connection>
         <map_components component_1="mekstarstarmekpase" component_2="mekstarmekpase"/>
@@ -1727,6 +2072,7 @@ http://www.CellML.org/
     <connection>
         <map_components component_1="total_concs" component_2="mekstarmekpase"/>
         <map_variables variable_1="mekpasetot" variable_2="mekpasetot"/>
+        <map_variables variable_1="mektot" variable_2="mektot"/>
     </connection>
     <connection>
         <map_components component_1="environment" component_2="mekstarmosstar"/>
@@ -1737,6 +2083,7 @@ http://www.CellML.org/
         <map_variables variable_1="a5" variable_2="a5"/>
         <map_variables variable_1="d5" variable_2="d5"/>
         <map_variables variable_1="k5" variable_2="k5"/>
+        <map_variables variable_1="l5" variable_2="l5"/>
     </connection>
     <connection>
         <map_components component_1="environment" component_2="mekstarstar"/>
@@ -1753,6 +2100,8 @@ http://www.CellML.org/
         <map_variables variable_1="a9" variable_2="a9"/>
         <map_variables variable_1="d9" variable_2="d9"/>
         <map_variables variable_1="k9" variable_2="k9"/>
+        <map_variables variable_1="l5" variable_2="l5"/>
+        <map_variables variable_1="l7" variable_2="l7"/>
     </connection>
     <connection>
         <map_components component_1="total_concs" component_2="mekstarstar"/>
@@ -1762,6 +2111,11 @@ http://www.CellML.org/
     <connection>
         <map_components component_1="mekstarmosstar" component_2="mekstarstar"/>
         <map_variables variable_1="mekstarmosstar" variable_2="mekstarmosstar"/>
+        <map_variables variable_1="mekstarstar" variable_2="mekstarstar"/>
+    </connection>
+    <connection>
+        <map_components component_1="mosstar" component_2="mekstarstar"/>
+        <map_variables variable_1="mosstar" variable_2="mosstar"/>
     </connection>
     <connection>
         <map_components component_1="mekstarmekpase" component_2="mekstarstar"/>
@@ -1780,6 +2134,10 @@ http://www.CellML.org/
     <connection>
         <map_components component_1="mapkstarmapkpase" component_2="mekstarstar"/>
         <map_variables variable_1="mapkstarmapkpase" variable_2="mapkstarmapkpase"/>
+    </connection>
+    <connection>
+        <map_components component_1="mekstar" component_2="mekstarstarmekpase"/>
+        <map_variables variable_1="mekstar" variable_2="mekstar"/>
     </connection>
     <connection>
         <map_components component_1="mapkstarstarmapkpase" component_2="mekstarstar"/>
@@ -1804,6 +2162,7 @@ http://www.CellML.org/
         <map_variables variable_1="a6" variable_2="a6"/>
         <map_variables variable_1="d6" variable_2="d6"/>
         <map_variables variable_1="k6" variable_2="k6"/>
+        <map_variables variable_1="l6" variable_2="l6"/>
     </connection>
     <connection>
         <map_components component_1="total_concs" component_2="mekstarstarmekpase"/>

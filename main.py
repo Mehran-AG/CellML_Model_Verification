@@ -36,6 +36,7 @@ import conservation_check as cc
 import reversibility_check as rs
 import kinetic_thermo_conversion_matrix as ktcm
 import kinetic_thermo_consts_convertor as ktcc
+import stoichiometic_matrix_modifier as smm
 
 
 command = 'cls' if os.name == 'nt' else 'clear'
@@ -44,7 +45,7 @@ os.system(command)
 #file_path = './docs/aguda_tang_1999.cellml'
 #file_path = './docs/aguda_b_1999.cellml'
 #file_path = './docs/huang_ferrell_1996.cellml'
-file_path = './docs/modified_huang_ferrell_1996.cellml'
+file_path = './docs/ATP_modified_huang_ferrell_1996.cellml'
 #file_path ='./docs/NitrosylBromide.cellml'
 cellml_file_dir = file_path
 cellml_file = file_path
@@ -61,9 +62,9 @@ bc_file_path = None
 eq_file_path = None
 
 read_eqs_from_file = False
-solve_equations = False
+solve_equations = True
 delta_t = 0.1
-t_f = 500
+t_f = 40
 
 
 components = cmlr.CellML_reader( cellml_file, cellml_file_dir, cellml_strict_mode )
@@ -105,22 +106,42 @@ if solve_equations == True:
 rate_matrix = rmb.rate_matrix_builder ( symbols_list )
 
 # Calling the function
-equations_array = vf.verification( stoichiometric_matrix, element_matrix, element_indices, compound_indices, reaction_indices, rate_matrix )
+respons_dic = vf.verification( stoichiometric_matrix, element_matrix, element_indices, compound_indices, reaction_indices, rate_matrix )
 
-if solve_equations == True:
+print( respons_dic["Pass"] )
 
-    solution, time, x, sympy_to_CellML = sos.sympy_ode_solver( components, concentration_rate_equations, general_equations, t_f, delta_t, 'on' )
+if not respons_dic["Pass"]:
 
-    variables_to_plot = []
+    species_index, reaction_index, compound_stoichio_coefficient = respons_dic["items"]
 
-    sos.plotter(  solution, time, variables_to_plot, x, sympy_to_CellML, show_legends = 'on' ) # Show Legends
+    modified_stoichiometric_matrix = stoichiometric_matrix
+
+    modified_elemental_matrix = element_matrix
+
+    modified_compound_indices = compound_indices
+
+    modified_element_indices = element_indices
+
+    while not respons_dic["Pass"]:
+
+        smm.stoichiometric_matrix_modifier( modified_stoichiometric_matrix, modified_elemental_matrix, modified_compound_indices, modified_element_indices, reaction_indices, species_index, reaction_index, compound_stoichio_coefficient )
+
+else:
+
+    if solve_equations == True:
+
+        solution, time, x, sympy_to_CellML = sos.sympy_ode_solver( components, concentration_rate_equations, general_equations, t_f, delta_t, 'on' )
+
+        variables_to_plot = [ 'mapk', 'mapkstar', 'mapkstarstar']
+
+        sos.plotter(  solution, time, variables_to_plot, x, sympy_to_CellML, show_legends = 'on' ) # Show Legends
 
 
-rs.reversibility_check( components )
+    rs.reversibility_check( components )
 
-conversion_matrix, kinetic_constants = ktcm.kietic_thermo_convertor( components, reaction_indices, compound_indices, coefficients )
+    conversion_matrix, kinetic_constants = ktcm.kietic_thermo_convertor( components, reaction_indices, compound_indices, coefficients )
 
-ktcc.kienetic_thermo_consts_convertor( conversion_matrix, kinetic_constants )
+    ktcc.kienetic_thermo_consts_convertor( conversion_matrix, kinetic_constants, 'on' )
 
 
 

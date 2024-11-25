@@ -43,7 +43,7 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
                 conservation_equations_array = nullspace * rate_array
                 print( Style.BRIGHT + Fore.GREEN + "\nCONGRATULATIONS!!! >>>> Your model passed the mass conservation verification test <<<<")
                 print('\nConservation equations are:\n', conservation_equations_array[0], ' = 0\n', conservation_equations_array[1], ' = 0\n' )
-                return conservation_equations_array
+                return { "Pass": "Yes", "items": [conservation_equations_array] }
             else:
                 n_t = np.array(nullspace_transposed[0])
                 counter = 1
@@ -61,7 +61,7 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
                     print( conservation_equations_array[count], ' = 0')
                     count += 1
                 print("\n\n")
-                return conservation_equations_array
+                return { "Pass": "Yes", "items": [conservation_equations_array] }
 
         else:
             print( Style.BRIGHT + Fore.RED + "\nConservation of Mass is violated" )
@@ -76,21 +76,41 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
 
                         if value == i:
                             reaction = key
+                            reaction_index = value
                             break
 
                     column = conservation_array[:, i]
 
                     non_zero_indices = np.nonzero(column)[0]
 
+                    non_zero_values = {}
+
+                    for non_zero_index in non_zero_indices:
+
+                        non_zero_values[non_zero_index] = column[non_zero_index]
+
                     for species_index in non_zero_indices:
 
                         for key, value in element_indices.items():
 
                             if value == species_index:
-                                print( Style.BRIGHT + Fore.CYAN + "\nSpecies", end='' )
-                                print( Style.NORMAL + Fore.YELLOW + f" {key} ", end='')
-                                print( Style.BRIGHT + Fore.CYAN + f"is not conserved in reaction {reaction}" )
-                                break
+
+                                if key == "Pi" or key == "ATP" or key == "ADP":
+                                
+                                    print( "It is ralted to a Phosphate")
+
+                                    compound_stoichio_coefficient = non_zero_values[species_index]
+
+                                    return { "Pass": False, "items": [species_index, reaction_index, compound_stoichio_coefficient] } 
+
+                                else:
+
+                                    print( Style.BRIGHT + Fore.CYAN + "\nSpecies", end='' )
+                                    print( Style.NORMAL + Fore.YELLOW + f" {key} ", end='')
+                                    print( Style.BRIGHT + Fore.CYAN + f"is not conserved in reaction {reaction}" )
+                                    break
+
+                    
 
                     coefficients = stoichiometric_matrix.T [i,:]
 
@@ -143,7 +163,9 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
                 nullspace = np.transpose(np.array(nullspace_transposed[0]))
                 print('\nThe Left Null Sapce is:\n', nullspace)
                 conservation_equations_array = nullspace * rate_array
-                return conservation_equations_array
+
+                return { "Pass": "Yes", "items": [conservation_equations_array] } 
+            
             else:
                 n_t = np.array(nullspace_transposed[0])
                 counter = 1
@@ -154,14 +176,49 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
                 print('\nThe Left Null Space is:\n', nullspace)
                 conservation_equations_array = nullspace * rate_array
 
-                return conservation_equations_array
+                return { "Pass": "Yes", "items": [conservation_equations_array] } 
 
         else:
-            print('Conservation of Mass is violated\n')
             
             length = conservation_array.shape[1]
             for i in  range(0,length):
                 if np.all(conservation_array[:, i] == 0):
+                    pass
+                
+                else:
+
+                    for key, value in reaction_indices.items():
+
+                        if value == i:
+                            reaction = key
+                            reaction_index = value
+                            break
+
+                    column = conservation_array[:, i]
+
+                    non_zero_indices = np.nonzero(column)[0]
+
+                    non_zero_values = {}
+
+                    for non_zero_index in non_zero_indices:
+
+                        non_zero_values[non_zero_index] = column[non_zero_index]
+
+                    for species_index in non_zero_indices:
+
+                        for key, value in element_indices.items():
+
+                            if value == species_index:
+
+                                if key == "Pi" or key == "ATP" or key == "ADP":
+                                
+                                    print( "It is related to a Phosphate")
+
+                                    compound_stoichio_coefficient = non_zero_values[species_index]
+
+                                    return { "Pass": "No", "items": [species_index, reaction_index, compound_stoichio_coefficient] } 
+
+                    print('Conservation of Mass is violated\n')
                     print ('Reaction number %i is not correctly defined' %i)
                     break
 

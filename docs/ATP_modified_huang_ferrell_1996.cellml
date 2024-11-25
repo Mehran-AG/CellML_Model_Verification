@@ -660,7 +660,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mekstar" name="mekstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mekp-mek_eq32.r" initial_value="0" name="mekstar" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="va_mekp-mek.Pi_eq32.r" initial_value="0" name="mekstar" public_interface="out" units="micromolar"/>
         <variable name="a4" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mekpasetot" public_interface="in" units="micromolar"/>
         <variable name="mekstarmekpase" public_interface="in" units="micromolar"/>
@@ -744,7 +744,7 @@ http://www.CellML.org/
         </math>
     </component>
     <component cmeta:id="mekstarmekpase" name="mekstarmekpase">
-        <variable cmeta:id="va_mekpmekpase-mek.mekpase_eq32.r-eq33.r" initial_value="0" name="mekstarmekpase" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="va_mekpmekpase-mek.Pi.mekpase_eq32.r-eq33.r" initial_value="0" name="mekstarmekpase" public_interface="out" units="micromolar"/>
         <variable name="time" public_interface="in" units="second"/>
         <variable name="a4" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="d4" public_interface="in" units="first_order_rate_constant_units"/>
@@ -794,7 +794,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mekstarmosstar" name="mekstarmosstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mekpmosstar-mek.mos_eq29.r-eq32.r" initial_value="0" name="mekstarmosstar" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="va_mekpmosstar-mek.Pi.mos_eq29.r-eq32.r" initial_value="0" name="mekstarmosstar" public_interface="out" units="micromolar"/>
         <variable name="a5" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="d5" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="k5" public_interface="in" units="first_order_rate_constant_units"/>
@@ -834,7 +834,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mekstarstar" name="mekstarstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mekpp-mek-eq32.r" initial_value="0" name="mekstarstar" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="va_mekpp-mek.Pi.Pi-eq32.r" initial_value="0" name="mekstarstar" public_interface="out" units="micromolar"/>
         <variable name="k5" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="mekstarmosstar" public_interface="in" units="micromolar"/>
         <variable name="a6" public_interface="in" units="second_order_rate_constant_units"/>
@@ -856,8 +856,6 @@ http://www.CellML.org/
         <variable name="k9" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="a9" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mapk" units="micromolar"/>
-        <!--*-->
-        <!-- #10-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -971,7 +969,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mekstarstarmekpase" name="mekstarstarmekpase">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mekppmekpase-mek.mekpase_eq32.r-eq33.r" initial_value="0" name="mekstarstarmekpase" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="va_mekppmekpase-mek.Pi.Pi.mekpase_eq32.r-eq33.r" initial_value="0" name="mekstarstarmekpase" public_interface="out" units="micromolar"/>
         <variable name="a6" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mekstarstar" public_interface="in" units="micromolar"/>
         <variable name="mekpasetot" public_interface="in" units="micromolar"/>
@@ -1094,7 +1092,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mapkmekstarstar" name="mapkmekstarstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mekppmapk-mek.mapk_eq32.r-eq34.r" initial_value="0" name="mapkmekstarstar" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="va_mekppmapk-mek.Pi.Pi.mapk_eq32.r-eq34.r" initial_value="0" name="mapkmekstarstar" public_interface="out" units="micromolar"/>
         <variable name="mapktot" public_interface="in" units="micromolar"/>
         <variable name="mapkstar" public_interface="in" units="micromolar"/>
         <variable name="mapkstarstar" public_interface="in" units="micromolar"/>
@@ -1163,7 +1161,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mapkstar" name="mapkstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mapkp-mapk_eq34.r" initial_value="0" name="mapkstar" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="va_mapkp-mapk.Pi_eq34.r" initial_value="0" name="mapkstar" public_interface="out" units="micromolar"/>
         <variable name="k7" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="mapkmekstarstar" public_interface="in" units="micromolar"/>
         <variable name="a8" public_interface="in" units="second_order_rate_constant_units"/>
@@ -1251,7 +1249,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mapkstarmekstarstar" name="mapkstarmekstarstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mapkpmekpp-mapk.mek_eq32.r-eq34.r" initial_value="0" name="mapkstarmekstarstar" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="va_mapkpmekpp-mapk.Pi.mek.Pi.Pi_eq32.r-eq34.r" initial_value="0" name="mapkstarmekstarstar" public_interface="out" units="micromolar"/>
         <variable name="a9" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="d9" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="k9" public_interface="in" units="first_order_rate_constant_units"/>
@@ -1291,7 +1289,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mapkstarstar" name="mapkstarstar">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mapkpp-mapk_eq34.r" initial_value="0" name="mapkstarstar" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="va_mapkpp-mapk.Pi.Pi_eq34.r" initial_value="0" name="mapkstarstar" public_interface="out" units="micromolar"/>
         <variable name="a10" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mapkpasetot" public_interface="in" units="micromolar"/>
         <variable name="mapkstarmapkpase" public_interface="in" units="micromolar"/>
@@ -1347,7 +1345,7 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mapkstarmapkpase" name="mapkstarmapkpase">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mapkpmapkpase-mapk.mapkpase_eq34.r-eq35.r" initial_value="0" name="mapkstarmapkpase" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="va_mapkpmapkpase-mapk.Pi.mapkpase_eq34.r-eq35.r" initial_value="0" name="mapkstarmapkpase" public_interface="out" units="micromolar"/>
         <variable name="a8" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mapkstar" public_interface="in" units="micromolar"/>
         <variable name="mapkpasetot" public_interface="in" units="micromolar"/>
@@ -1396,14 +1394,13 @@ http://www.CellML.org/
     </component>
     <component cmeta:id="mapkstarstarmapkpase" name="mapkstarstarmapkpase">
         <variable name="time" public_interface="in" units="second"/>
-        <variable cmeta:id="va_mapkppmapkpase-mapk.mapkpase_eq34.r-eq35.r" initial_value="0" name="mapkstarstarmapkpase" public_interface="out" units="micromolar"/>
+        <variable cmeta:id="va_mapkppmapkpase-mapk.Pi.Pi.mapkpase_eq34.r-eq35.r" initial_value="0" name="mapkstarstarmapkpase" public_interface="out" units="micromolar"/>
         <variable name="a10" public_interface="in" units="second_order_rate_constant_units"/>
         <variable name="mapkstarstar" public_interface="in" units="micromolar"/>
         <variable name="mapkpasetot" public_interface="in" units="micromolar"/>
         <variable name="mapkstarmapkpase" public_interface="in" units="micromolar"/>
         <variable name="d10" public_interface="in" units="first_order_rate_constant_units"/>
         <variable name="k10" public_interface="in" units="first_order_rate_constant_units"/>
-        <!-- #18-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>

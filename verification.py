@@ -6,7 +6,7 @@ import sys
 from colorama import Fore, Back, Style, init
 from pprint import pprint
 
-def verification( stoichiometric_array, elemental_array, element_indices, compound_indices, reaction_indices, rate_array = 0 ):
+def verification( stoichiometric_array, elemental_array, element_indices, compound_indices, reaction_indices, rate_array = 0, modified = False ):
 
     """
     This function receives stoichiometric matrix (numpy array), elemental matrix (numpy array), and symbolic parameters as a rates array (sympy array)
@@ -17,8 +17,9 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
 
     #np.set_printoptions(threshold=np.inf)
     np.set_printoptions(threshold=np.inf)
-    print( Fore.RED + "\nElemental matrix is:\n", elemental_array )
-    print( Fore.YELLOW + "\nStoichiometric matrix is:\n", stoichiometric_array )
+
+    elemental_array = elemental_array.astype(int)
+    stoichiometric_array = stoichiometric_array.astype(int)
 
     elemental_matrix = sp.Matrix(elemental_array)
     stoichiometric_matrix = sp.Matrix(stoichiometric_array)
@@ -31,6 +32,20 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
 
         if np.all( ( conservation_array == 0 ) ) == True:
 
+            if modified:
+
+                print( Style.BRIGHT + Fore.YELLOW + "\nThere are Phosphates in the reactions which are not linked to any ATP. So, we have added ATP and ADP to the reactions to satisfy mass balance for the reactions\n", )
+
+                input("\nPress Enter to continue...")
+
+                print( Fore.RED + "\nElemental matrix (modified) is:\n", elemental_array )
+                print( Fore.YELLOW + "\nStoichiometric matrix (modified) is:\n", stoichiometric_array )
+
+            else:
+
+                print( Fore.RED + "\nElemental matrix is:\n", elemental_array )
+                print( Fore.YELLOW + "\nStoichiometric matrix is:\n", stoichiometric_array )
+
             stoichiometric_matrix_transposed =stoichiometric_matrix.transpose()
             nullspace_transposed = stoichiometric_matrix_transposed.nullspace()
             l = len(nullspace_transposed)
@@ -39,10 +54,23 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
                 print(Fore.CYAN + "There is no Left Null Space for this matrix")
             elif l == 1:
                 nullspace = np.transpose(np.array(nullspace_transposed[0]))
-                print( Fore.CYAN + "\nThe Left Null Sapce is:\n", nullspace )
+
                 conservation_equations_array = nullspace * rate_array
-                print( Style.BRIGHT + Fore.GREEN + "\nCONGRATULATIONS!!! >>>> Your model passed the mass conservation verification test <<<<")
-                print('\nConservation equations are:\n', conservation_equations_array[0], ' = 0\n', conservation_equations_array[1], ' = 0\n' )
+
+                if modified:
+
+                    print( Fore.CYAN + "\nThe Left Null Sapce (for modified equations) is:\n", nullspace )
+                    
+                    print( Style.BRIGHT + Fore.GREEN + "\nCONGRATULATIONS!!! >>>> Your MODIFIED model passed the mass conservation verification test <<<<")
+                    print('\nConservation equations (for the modified reactions) are:\n', conservation_equations_array[0], ' = 0\n', conservation_equations_array[1], ' = 0\n' )
+
+                else:
+                    
+                    print( Fore.CYAN + "\nThe Left Null Sapce is:\n", nullspace )
+                    
+                    print( Style.BRIGHT + Fore.GREEN + "\nCONGRATULATIONS!!! >>>> Your model passed the mass conservation verification test <<<<")
+                    print('\nConservation equations are:\n', conservation_equations_array[0], ' = 0\n', conservation_equations_array[1], ' = 0\n' )
+                    
                 return { "Pass": "Yes", "items": [conservation_equations_array] }
             else:
                 n_t = np.array(nullspace_transposed[0])
@@ -51,10 +79,22 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
                     n_t = np.concatenate( ( n_t, nullspace_transposed[counter] ), axis=1 )
                     counter+=1
                 nullspace = np.transpose(n_t)
-                print( Fore.CYAN + "\nThe Left Null Space is:\n", nullspace)
+
                 conservation_equations_array = nullspace * rate_array
-                print( Style.BRIGHT + Fore.GREEN + "\nCONGRATULATIONS!!! >>>> Your model passed the mass conservation verification test <<<<")
-                print( Fore.MAGENTA + "\nRate of conservation equations are:")
+
+                if modified:
+
+                    print( Fore.CYAN + "\nThe Left Null Space (for modified reactions) is:\n", nullspace)
+                    
+                    print( Style.BRIGHT + Fore.GREEN + "\nCONGRATULATIONS!!! >>>> Your MODIFIED model passed the mass conservation verification test <<<<")
+                    print( Fore.MAGENTA + "\nRate of conservation equations (for modified reactions) are:")
+
+                else:
+
+                    print( Fore.CYAN + "\nThe Left Null Space is:\n", nullspace)
+                    
+                    print( Style.BRIGHT + Fore.GREEN + "\nCONGRATULATIONS!!! >>>> Your model passed the mass conservation verification test <<<<")
+                    print( Fore.MAGENTA + "\nRate of conservation equations are:")
                 
                 count = 0
                 while count < l:
@@ -64,7 +104,7 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
                 return { "Pass": "Yes", "items": [conservation_equations_array] }
 
         else:
-            print( Style.BRIGHT + Fore.RED + "\nConservation of Mass is violated" )
+            
             
             length = conservation_array.shape[1]
             for i in  range(0,length):
@@ -97,13 +137,15 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
 
                                 if key == "Pi" or key == "ATP" or key == "ADP":
                                 
-                                    print( "It is ralted to a Phosphate")
+                                    #print( f"It is ralted to a Phosphate in reaction {reaction}")
 
                                     compound_stoichio_coefficient = non_zero_values[species_index]
 
                                     return { "Pass": False, "items": [species_index, reaction_index, compound_stoichio_coefficient] } 
 
                                 else:
+
+                                    print( Style.BRIGHT + Fore.RED + "\nConservation of Mass is violated" )
 
                                     print( Style.BRIGHT + Fore.CYAN + "\nSpecies", end='' )
                                     print( Style.NORMAL + Fore.YELLOW + f" {key} ", end='')
@@ -152,6 +194,9 @@ def verification( stoichiometric_array, elemental_array, element_indices, compou
         conservation_array = np.array( conservation_matrix )
 
         if np.all( ( conservation_array == 0 ) ) == True:
+
+            print( Fore.RED + "\nElemental matrix is:\n", elemental_array )
+            print( Fore.YELLOW + "\nStoichiometric matrix is:\n", stoichiometric_array )
         
             stoichiometric_matrix_transposed=stoichiometric_matrix.transpose()
             nullspace_transposed= stoichiometric_matrix_transposed.nullspace()

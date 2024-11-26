@@ -108,7 +108,7 @@ rate_matrix = rmb.rate_matrix_builder ( symbols_list )
 # Calling the function
 respons_dic = vf.verification( stoichiometric_matrix, element_matrix, element_indices, compound_indices, reaction_indices, rate_matrix )
 
-print( respons_dic["Pass"] )
+#print( respons_dic["Pass"] )
 
 if not respons_dic["Pass"]:
 
@@ -122,11 +122,20 @@ if not respons_dic["Pass"]:
 
     modified_element_indices = element_indices
 
+    modified_rate_matrix = rate_matrix
+
     while not respons_dic["Pass"]:
 
-        smm.stoichiometric_matrix_modifier( modified_stoichiometric_matrix, modified_elemental_matrix, modified_compound_indices, modified_element_indices, reaction_indices, species_index, reaction_index, compound_stoichio_coefficient )
+        species_index, reaction_index, compound_stoichio_coefficient = respons_dic["items"]
 
-else:
+        modified_stoichiometric_matrix, modified_elemental_matrix, modified_compound_indices, modified_element_indices, modified_rate_matrix = smm.stoichiometric_matrix_modifier( modified_stoichiometric_matrix, modified_elemental_matrix, modified_compound_indices, modified_element_indices, reaction_indices, species_index, reaction_index, compound_stoichio_coefficient, modified_rate_matrix )
+
+        modified = True
+
+        respons_dic = vf.verification( modified_stoichiometric_matrix, modified_elemental_matrix, modified_element_indices, modified_compound_indices, reaction_indices, modified_rate_matrix, modified )
+
+        #print(respons_dic["Pass"])
+
 
     if solve_equations == True:
 
@@ -142,6 +151,8 @@ else:
     conversion_matrix, kinetic_constants = ktcm.kietic_thermo_convertor( components, reaction_indices, compound_indices, coefficients )
 
     ktcc.kienetic_thermo_consts_convertor( conversion_matrix, kinetic_constants, 'on' )
+
+    print("\n\n\n")
 
 
 

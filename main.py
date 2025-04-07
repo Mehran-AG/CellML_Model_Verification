@@ -108,7 +108,6 @@ rate_matrix = rmb.rate_matrix_builder ( symbols_list )
 # Calling the function
 respons_dic = vf.verification( stoichiometric_matrix, element_matrix, element_indices, compound_indices, reaction_indices, rate_matrix )
 
-#print( respons_dic["Pass"] )
 
 if not respons_dic["Pass"]:
 
@@ -133,8 +132,6 @@ if not respons_dic["Pass"]:
         modified = True
 
         respons_dic = vf.verification( modified_stoichiometric_matrix, modified_elemental_matrix, modified_element_indices, modified_compound_indices, reaction_indices, modified_rate_matrix, modified )
-
-        #print(respons_dic["Pass"])
 
 
     if solve_equations == True:
